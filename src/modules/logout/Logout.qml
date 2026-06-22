@@ -1,12 +1,10 @@
 pragma ComponentBehavior: Bound
 
-import Qt5Compat.GraphicalEffects
 import QtQuick
-import QtQuick.Controls
 import Quickshell
-import Quickshell.Io
 import Quickshell.Wayland
 
+import qs.lib.layout
 import qs.lib.service
 import qs.modules.logout
 import qs.styles
@@ -144,7 +142,7 @@ Scope {
             }
         }
 
-        //  Outside click dismiss
+        // Outside click dismiss
         MouseArea {
             acceptedButtons: Qt.LeftButton
             anchors.fill: parent
@@ -166,14 +164,11 @@ Scope {
 
                 property int currentIndex: 0
                 property bool highlightEnabled: true
-                property int size: LogoutConfig.buttonSize
-                property real start: LogoutConfig.buttonsStartAngle
-                property real step: LogoutConfig.buttonsStepAngle
 
                 function containsMouse() {
-                    for (var i = 0; i < children.length; ++i) {
-                        var c = children[i];
-                        if (c && c.click && c.click.containsMouse)
+                    for (var i = 0; i < count; ++i) {
+                        var c = itemAt(i);
+                        if (c && c.isMouseHovered)
                             return true;
                     }
                     return false;
@@ -182,7 +177,7 @@ Scope {
                     controller.exec(i);
                 }
                 function move(i) {
-                    currentIndex = (currentIndex + i + model) % model;
+                    currentIndex = (currentIndex + i + LogoutConfig.buttonsCount) % LogoutConfig.buttonsCount;
                 }
                 function setIndex(i) {
                     currentIndex = i;
@@ -191,133 +186,28 @@ Scope {
                 model: LogoutConfig.buttonsCount
                 z: 1
 
-                delegate: Button {
-                    property bool isHighlighted: buttons.highlightEnabled && (highlighted || click.containsMouse)
-                    property int radius: 0
+                delegate: LogoutButton {
+                    chars: controller.chars
+                    currentIndex: buttons.currentIndex
+                    highlightEnabled: buttons.highlightEnabled
+                    keyInputActive: keyHandler.acceptInput
 
-                    function button(show) {
-                        opacity = show ? 1 : 0;
-                        radius = show ? LogoutConfig.buttonsExpandedRadius : 0;
-                    }
-
-                    height: buttons.size
-                    highlighted: buttons.highlightEnabled && (index == buttons.currentIndex)
-                    opacity: 0
-                    scale: isHighlighted ? LogoutConfig.buttonHighlightScale : 1
-                    width: buttons.size
-                    x: radius * Math.cos(buttons.start + buttons.step * index) - buttons.size / 2
-                    y: radius * Math.sin(buttons.start + buttons.step * index) - buttons.size / 2
-
-                    background: Rectangle {
-                        border.color: parent.isHighlighted ? GlobalConfig.accentAlt : GlobalConfig.accent
-                        border.width: LogoutConfig.buttonBorderWidth
-                        color: GlobalConfig.fieldBg
-                        radius: buttons.size / LogoutConfig.buttonCornerRadiusDiv
-
-                        Behavior on border.color {
-                            ColorAnimation {
-                                duration: LogoutConfig.buttonBorderAnimMs
-                                easing.type: Easing.OutCubic
-                            }
-                        }
-                    }
-                    Behavior on opacity {
-                        NumberAnimation {
-                            duration: LogoutConfig.buttonOpacityAnimMs
-                        }
-                    }
-                    Behavior on radius {
-                        NumberAnimation {
-                            duration: LogoutConfig.buttonRadiusAnimMs
-                        }
-                    }
-                    Behavior on scale {
-                        NumberAnimation {
-                            duration: LogoutConfig.buttonScaleAnimMs
-                            easing.type: Easing.OutCubic
-                        }
-                    }
-
-                    MouseArea {
-                        id: click
-
-                        acceptedButtons: Qt.LeftButton | Qt.RightButton
-                        anchors.fill: parent
-                        hoverEnabled: true
-
-                        onClicked: mouse => {
-                            if (mouse.button == Qt.LeftButton && keyHandler.acceptInput)
-                                buttons.exec(index);
-                        }
-                    }
-                    Text {
-                        color: GlobalConfig.text
-                        font.family: LogoutConfig.buttonCharFont
-                        font.pixelSize: buttons.size / 2
-                        text: controller.chars[index]
-                        x: (parent.width - width) / 2
-                        y: (parent.height - height) / 2
-                    }
+                    onExecRequested: idx => controller.exec(idx)
                 }
             }
-            Item {
+
+            RoundImage {
                 id: logo
 
-                property real logoRadius: logoSize / 2
-                property int logoSize: LogoutConfig.logoSize
-                property url path: window.visible ? GlobalConfig.logoutLogo : ""
-                property bool playing: true
-
-                function reset() {
-                    animImage.currentFrame = 0;
-                    playing = true;
-                }
-                function stop() {
-                    playing = false;
-                }
-
                 anchors.centerIn: parent
-                height: logoSize
+                bgColor: GlobalConfig.fieldBg
+                borderColor: GlobalConfig.accent
+                borderWidth: LogoutConfig.buttonBorderWidth
+                height: LogoutConfig.logoSize
+                imageMargin: 4
                 scale: 0
-                width: logoSize
-
-                Rectangle {
-                    anchors.fill: parent
-                    border.color: GlobalConfig.accent
-                    border.width: LogoutConfig.buttonBorderWidth
-                    color: GlobalConfig.fieldBg
-                    radius: logo.logoRadius
-                }
-                Item {
-                    id: logoContent
-
-                    anchors.fill: parent
-                    anchors.margins: 4
-                    visible: false
-
-                    AnimatedImage {
-                        id: animImage
-
-                        anchors.fill: parent
-                        cache: false
-                        fillMode: Image.PreserveAspectCrop
-                        playing: logo.playing
-                        source: logo.path
-                    }
-                }
-                Rectangle {
-                    id: logoMask
-
-                    anchors.fill: logoContent
-                    antialiasing: true
-                    radius: width / 2
-                    visible: false
-                }
-                OpacityMask {
-                    anchors.fill: logoContent
-                    maskSource: logoMask
-                    source: logoContent
-                }
+                source: window.visible ? GlobalConfig.logoutLogo : ""
+                width: LogoutConfig.logoSize
             }
         }
 
@@ -338,7 +228,7 @@ Scope {
             }
             function resetButtons(toVisible) {
                 for (let j = 0; j < buttons.count; ++j) {
-                    buttons.itemAt(j).button(toVisible);
+                    buttons.itemAt(j).setExpanded(toVisible);
                 }
             }
             function start(state) {
@@ -393,7 +283,7 @@ Scope {
 
                 onTriggered: {
                     if (i < buttons.count) {
-                        buttons.itemAt(i).button(true);
+                        buttons.itemAt(i).setExpanded(true);
                         i++;
                     } else {
                         stop();
@@ -411,7 +301,7 @@ Scope {
 
                 onTriggered: {
                     if (i >= 0) {
-                        buttons.itemAt(i).button(false);
+                        buttons.itemAt(i).setExpanded(false);
                         i--;
                     } else {
                         stop();

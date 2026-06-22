@@ -1,6 +1,5 @@
 pragma ComponentBehavior: Bound
 
-import Qt5Compat.GraphicalEffects
 import QtQuick
 
 import qs.lib.layout
@@ -87,52 +86,15 @@ Rectangle {
         }
 
         // Avatar
-        Item {
-            id: pfp
-
-            property real pfpRadius: LockConfig.profileSize / 2
-
+        RoundImage {
             anchors.horizontalCenter: parent.horizontalCenter
+            bgColor: GlobalConfig.fieldBg
+            borderColor: GlobalConfig.accent
+            borderWidth: LockConfig.profileBorderWidth
+            imageMargin: 4
             implicitHeight: LockConfig.profileSize
             implicitWidth: LockConfig.profileSize
-
-            Rectangle {
-                anchors.fill: parent
-                border.color: GlobalConfig.accent
-                border.width: LockConfig.profileBorderWidth
-                color: GlobalConfig.fieldBg
-                radius: pfp.pfpRadius
-            }
-            Item {
-                id: pfpContent
-
-                anchors.fill: parent
-                anchors.margins: 4
-                visible: false
-
-                AnimatedImage {
-                    anchors.fill: parent
-                    cache: false
-                    fillMode: Image.PreserveAspectCrop
-                    playing: true
-                    source: GlobalConfig.userPfp
-
-                    Component.onCompleted: currentFrame = 0
-                }
-            }
-            Rectangle {
-                id: pfpMask
-
-                anchors.fill: pfpContent
-                antialiasing: true
-                radius: width / 2
-                visible: false
-            }
-            OpacityMask {
-                anchors.fill: pfpContent
-                maskSource: pfpMask
-                source: pfpContent
-            }
+            source: GlobalConfig.userPfp
         }
         Space {
             height: 10

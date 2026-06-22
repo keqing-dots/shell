@@ -1,9 +1,9 @@
 pragma ComponentBehavior: Bound
 
-import Qt5Compat.GraphicalEffects
 import QtQuick
 import Quickshell.Io
 
+import qs.lib.layout
 import qs.modules.bar
 import qs.styles
 
@@ -50,43 +50,14 @@ Rectangle {
             width: parent.width
 
             // avatar
-            Item {
+            RoundImage {
                 id: avatar
 
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: parent.top
                 height: 80
+                source: GlobalConfig.userPfp
                 width: 80
-
-                Item {
-                    id: pfpSource
-
-                    anchors.fill: parent
-                    visible: false
-
-                    AnimatedImage {
-                        anchors.fill: parent
-                        cache: false
-                        fillMode: Image.PreserveAspectCrop
-                        playing: true
-                        source: GlobalConfig.userPfp
-
-                        Component.onCompleted: currentFrame = 0
-                    }
-                }
-                Rectangle {
-                    id: pfpMask
-
-                    anchors.fill: pfpSource
-                    antialiasing: true
-                    radius: width / 2
-                    visible: false
-                }
-                OpacityMask {
-                    anchors.fill: pfpSource
-                    maskSource: pfpMask
-                    source: pfpSource
-                }
             }
 
             // info
