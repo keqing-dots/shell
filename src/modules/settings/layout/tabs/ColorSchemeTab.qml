@@ -1,0 +1,46 @@
+pragma ComponentBehavior: Bound
+
+import QtQuick
+import QtQuick.Layouts
+
+import qs.lib.service
+import qs.modules.settings.layout.components
+import qs.modules.settings.layout.tabs
+
+Item {
+    ColumnLayout {
+        anchors.fill: parent
+        spacing: 14
+
+        DropdownMenu {
+            activeValue: ColorSchemeService.mode
+            model: [
+                {
+                    label: "Default",
+                    value: "default"
+                },
+                {
+                    label: "Display Capture",
+                    value: "capture"
+                },
+                {
+                    label: "Custom",
+                    value: "custom"
+                }
+            ]
+
+            onItemSelected: value => ColorSchemeService.mode = value
+        }
+        CaptureSubtab {
+            Layout.fillWidth: true
+            visible: ColorSchemeService.mode === "capture"
+        }
+        CustomSubtab {
+            Layout.fillWidth: true
+            visible: ColorSchemeService.mode === "custom"
+        }
+        Item {
+            Layout.fillHeight: true
+        }
+    }
+}

@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
+
+cmake -B "$ROOT/plugins/build" -DCMAKE_INSTALL_PREFIX=/usr "$ROOT/plugins"
+cmake --build "$ROOT/plugins/build"
+sudo cmake --install "$ROOT/plugins/build"
+rm -rf "$ROOT/plugins/build"
+
+sudo mkdir -p /etc/xdg/quickshell
+sudo rm -f /etc/xdg/quickshell/keqing-shell
+sudo ln -s "$ROOT/src" /etc/xdg/quickshell/keqing-shell
+sudo ln -sf "$ROOT/keqing-shell" /usr/bin/keqing-shell

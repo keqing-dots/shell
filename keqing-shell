@@ -1,0 +1,129 @@
+#!/usr/bin/env bash
+set -euo pipefail
+trap '_die "Script failed unexpectedly"' ERR
+
+_die() {
+    local message="$1"
+    echo "ERROR: $message" >&2
+    command -v notify-send >/dev/null 2>&1 && notify-send "Keqing Error" "$message" 2>/dev/null || true
+    exit 1
+}
+
+_help() {
+cat <<'EOF'
+    Keqing Shell Manager
+    Usage: keqing-shell [--]<command> [args]
+
+    Setup:
+        [--]link            Symlink src/ into /etc/xdg/quickshell/ and script into /usr/local/bin/
+        [--]unlink          Remove both symlinks
+
+    Shell operations:
+        [--]debug           Run keqing-shell in debug mode
+        [--]kill            Kill keqing-shell
+        [--]restart [debug] Kill and relaunch keqing-shell (debug: show output)
+        [--]reset           Kill, clear all cache/config, and relaunch
+        [--]start_locked    Start shell (daemonized) and lock screen
+        [--]track           Run quickshell under heaptrack
+        [--]help            Show this help message
+
+    IPC:
+        [--]launcher        Toggle launcher
+        [--]lock            Toggle lock screen
+        [--]logout          Toggle logout screen
+        [--]overview        Toggle windows overview
+        [--]settings        Toggle settings panel
+EOF
+}
+
+_here() { cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd; }
+
+_qs()  { quickshell -c keqing-shell "$@"; }
+_ipc() { _qs ipc call "$1" toggle >/dev/null 2>&1; }
+
+_check_installed() {
+    [[ -e /etc/xdg/quickshell/keqing-shell ]] \
+        || _die "keqing-shell not installed (missing /etc/xdg/quickshell/keqing-shell)"
+}
+
+debug() { _qs; }
+
+kill() { _qs kill >/dev/null 2>&1; }
+
+restart() {
+    _qs kill >/dev/null 2>&1 || true
+    sleep 1
+    local _mode="${1:-}"
+    [[ "${_mode##--}" == "debug" ]] && _qs || _qs -d >/dev/null 2>&1
+}
+
+reset() {
+    printf "This will delete all keqing-shell cache and config. Continue? [y/N] "
+    read -r _reply
+    [[ "${_reply,,}" == "y" ]] || { echo "Aborted."; return 0; }
+    _qs kill >/dev/null 2>&1 || true
+    sleep 1
+    rm -rf \
+        "${XDG_CACHE_HOME:-$HOME/.cache}/quickshell" \
+        "${XDG_CACHE_HOME:-$HOME/.cache}/keqing-shell" \
+        "${XDG_CONFIG_HOME:-$HOME/.config}/keqing-shell"
+    _qs -d >/dev/null 2>&1
+}
+
+link() {
+    local _src; _src="$(_here)/src"
+    local _bin; _bin="$(_here)/keqing-shell"
+    sudo mkdir -p /etc/xdg/quickshell
+    sudo rm -f /etc/xdg/quickshell/keqing-shell
+    sudo ln -s "$_src" /etc/xdg/quickshell/keqing-shell
+    sudo ln -sf "$_bin" /usr/local/bin/keqing-shell
+}
+
+unlink() {
+    sudo rm -f /etc/xdg/quickshell/keqing-shell
+    sudo rm -f /usr/local/bin/keqing-shell
+}
+
+track() {
+    command -v heaptrack >/dev/null 2>&1 || _die "heaptrack is not installed"
+    heaptrack quickshell -c keqing-shell
+}
+
+launcher()    { _ipc launcher; }
+lock()        { _ipc lock; }
+logout()      { _ipc logout; }
+overview()    { _ipc overview; }
+settings()    { _ipc settings; }
+
+start_locked() {
+    _qs -d >/dev/null 2>&1
+    local _sentinel="/tmp/keqing-shell-started"
+    if [[ ! -f "$_sentinel" ]]; then
+        touch "$_sentinel"
+        _ipc lock
+    fi
+}
+
+[[ $# -eq 0 ]] && {
+    _check_installed
+    _qs -d >/dev/null 2>&1
+    exit 0
+}
+
+_cmd=""
+case "${1:-}" in
+    --help|help) _help; exit 0 ;;
+    --*) _cmd="${1#--}"; shift ;;
+    *) _cmd="$1"; shift ;;
+esac
+
+[[ -n "$_cmd" ]] || _die "expected: keqing-shell [--]<command> [args]"
+declare -f "$_cmd" >/dev/null 2>&1 || _die "command not found: $_cmd"
+[[ "$_cmd" != _* ]] || _die "command not permitted: $_cmd"
+
+case "$_cmd" in
+    link|unlink) ;;
+    *) _check_installed ;;
+esac
+
+"$_cmd" "$@"

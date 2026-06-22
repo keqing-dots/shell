@@ -1,0 +1,137 @@
+pragma ComponentBehavior: Bound
+
+import QtQuick
+
+import qs.lib.service
+import qs.modules.bar
+import qs.modules.bar.layout.components
+import qs.styles
+
+ControlCenterCard {
+    id: root
+
+    property int _coreCount: 0
+    readonly property bool _hasCores: _coreCount > 0
+    readonly property int _rows: Math.ceil(_coreCount / 2)
+
+    cardKey: "cpuTemp"
+    contentHeight: 26 + (_hasCores ? 8 + _rows * 24 + Math.max(0, _rows - 1) * 6 : 0)
+    title: "CPU Temperature"
+
+    Component.onCompleted: {
+        var vals = SystemStatService.intelTempValues;
+        if (vals && vals.length > 0) {
+            _coreCount = vals.length;
+            for (var i = 0; i < vals.length; i++)
+                coreModel.append({
+                    temp: vals[i]
+                });
+        }
+    }
+
+    ListModel {
+        id: coreModel
+    }
+    Connections {
+        function onIntelTempValuesChanged() {
+            var vals = SystemStatService.intelTempValues;
+            if (!vals || vals.length === 0)
+                return;
+            if (coreModel.count === 0) {
+                root._coreCount = vals.length;
+                for (var i = 0; i < vals.length; i++)
+                    coreModel.append({
+                        temp: vals[i]
+                    });
+            } else {
+                for (var i = 0; i < Math.min(vals.length, coreModel.count); i++)
+                    coreModel.setProperty(i, "temp", vals[i]);
+            }
+        }
+
+        target: SystemStatService
+    }
+    Text {
+        id: avgTemp
+
+        color: {
+            var t = SystemStatService.cpuTempC;
+            if (t >= 85)
+                return "#ef4444";
+            if (t >= 70)
+                return "#f97316";
+            return GlobalConfig.text;
+        }
+        font.bold: true
+        font.family: GlobalConfig.fontFamily
+        font.pixelSize: 22
+        text: SystemStatService.cpuTempC + " °C"
+
+        anchors {
+            left: parent.left
+            right: parent.right
+        }
+    }
+    Grid {
+        id: coreGrid
+
+        columnSpacing: 8
+        columns: 2
+        rowSpacing: 6
+        visible: root._hasCores
+
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: avgTemp.bottom
+            topMargin: 8
+        }
+        Repeater {
+            model: coreModel
+
+            Rectangle {
+                id: coreItem
+
+                required property int index
+                required property real temp
+
+                color: GlobalConfig.textAlpha08
+                height: 24
+                radius: 6
+                width: (coreGrid.width - coreGrid.columnSpacing) / 2
+
+                Text {
+                    color: GlobalConfig.textDim
+                    font.family: GlobalConfig.fontFamily
+                    font.pixelSize: BarConfig.fontSize - 1
+                    text: "Core " + coreItem.index
+
+                    anchors {
+                        left: parent.left
+                        leftMargin: 8
+                        verticalCenter: parent.verticalCenter
+                    }
+                }
+                Text {
+                    color: {
+                        if (coreItem.temp >= 85)
+                            return "#ef4444";
+                        if (coreItem.temp >= 70)
+                            return "#f97316";
+                        return GlobalConfig.text;
+                    }
+                    font.bold: true
+                    font.family: GlobalConfig.fontFamily
+                    font.pixelSize: BarConfig.fontSize - 1
+                    text: Math.round(coreItem.temp) + " °C"
+
+                    anchors {
+                        right: parent.right
+                        rightMargin: 8
+                        verticalCenter: parent.verticalCenter
+                    }
+                }
+            }
+        }
+    }
+}

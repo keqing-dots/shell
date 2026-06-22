@@ -1,0 +1,19 @@
+pragma ComponentBehavior: Bound
+pragma Singleton
+
+import QtQuick
+
+import qs.styles
+
+QtObject {
+    // Bar
+    readonly property real barOpacity: 0.6
+    readonly property list<color> barGradient: [GlobalConfig.accent]
+    readonly property int barMaxHeight: 350
+    readonly property int barRadius: 3
+    readonly property int barSpacing: 7
+    readonly property int barWidth: 10
+
+    // Spectrum
+    readonly property int barCount: 100
+}

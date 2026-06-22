@@ -1,0 +1,582 @@
+pragma ComponentBehavior: Bound
+
+import QtQuick
+import Quickshell
+
+import qs.lib.layout
+import qs.lib.service
+import qs.modules.bar
+import qs.modules.bar.layout.components
+import qs.modules.bar.service
+import qs.styles
+
+WidgetPanel {
+    id: root
+
+    clip: true
+    implicitHeight: Math.min(500, flickable.contentHeight + BarConfig.panelPadding * 2)
+    implicitWidth: 300
+
+    MouseArea {
+        anchors.fill: parent
+    }
+    Flickable {
+        id: flickable
+
+        clip: true
+        contentHeight: col.implicitHeight
+
+        anchors {
+            fill: parent
+            margins: BarConfig.panelPadding
+        }
+        Column {
+            id: col
+
+            spacing: 0
+            width: flickable.width
+
+            Item {
+                height: 32
+                width: parent.width
+
+                Text {
+                    anchors.verticalCenter: parent.verticalCenter
+                    color: GlobalConfig.text
+                    font.bold: true
+                    font.family: GlobalConfig.fontFamily
+                    font.pixelSize: BarConfig.fontSize + 1
+                    text: "Volume"
+                }
+                Rectangle {
+                    id: closeBtn
+
+                    color: closeMa.containsMouse ? BarConfig.capsuleBgHover : BarConfig.capsuleBg
+                    height: 20
+                    radius: 10
+                    width: 20
+
+                    anchors {
+                        right: parent.right
+                        verticalCenter: parent.verticalCenter
+                    }
+                    Text {
+                        anchors.centerIn: parent
+                        color: GlobalConfig.text
+                        font.family: Icons.fontFamily
+                        font.pixelSize: 14
+                        text: Icons.close
+                    }
+                    MouseArea {
+                        id: closeMa
+
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        hoverEnabled: true
+
+                        onClicked: PanelService.closePanel()
+                    }
+                }
+            }
+            Divider {
+                width: parent.width
+            }
+            Item {
+                height: 10
+                width: parent.width
+            }
+            Row {
+                spacing: 4
+                width: parent.width
+
+                Text {
+                    anchors.verticalCenter: parent.verticalCenter
+                    color: GlobalConfig.text
+                    font.bold: true
+                    font.family: GlobalConfig.fontFamily
+                    font.pixelSize: BarConfig.fontSize
+                    text: "Output"
+                }
+                Text {
+                    anchors.verticalCenter: parent.verticalCenter
+                    color: GlobalConfig.textDim
+                    elide: Text.ElideRight
+                    font.family: GlobalConfig.fontFamily
+                    font.pixelSize: BarConfig.fontSize
+                    text: VolumeService.sink ? " — " + (VolumeService.sink.description || VolumeService.sink.name || "") : ""
+                    width: Math.min(implicitWidth, 180)
+                }
+            }
+            Item {
+                height: 6
+                width: parent.width
+            }
+            Item {
+                id: outputRow
+
+                height: 24
+                width: parent.width
+
+                SliderBar {
+                    id: outSlider
+
+                    dimmed: VolumeService.sinkMuted
+                    height: 20
+                    maxValue: 100
+                    value: VolumeService.sinkMuted ? 0 : VolumeService.sinkVolume * 100
+
+                    onScrubbed: v => VolumeService.setSinkVolume(v / 100)
+
+                    anchors {
+                        left: parent.left
+                        right: outPct.left
+                        rightMargin: 8
+                        verticalCenter: parent.verticalCenter
+                    }
+                }
+                Text {
+                    id: outPct
+
+                    color: GlobalConfig.textDim
+                    font.family: GlobalConfig.fontFamily
+                    font.pixelSize: BarConfig.fontSize
+                    horizontalAlignment: Text.AlignRight
+                    text: VolumeService.sinkMuted ? "muted" : Math.round(VolumeService.sinkVolume * 100) + "%"
+                    width: 40
+
+                    anchors {
+                        right: outMuteBtn.left
+                        rightMargin: 6
+                        verticalCenter: parent.verticalCenter
+                    }
+                }
+                Rectangle {
+                    id: outMuteBtn
+
+                    color: outMuteMa.containsMouse ? BarConfig.capsuleBgHover : BarConfig.capsuleBg
+                    height: 22
+                    radius: 11
+                    width: 22
+
+                    anchors {
+                        right: parent.right
+                        verticalCenter: parent.verticalCenter
+                    }
+                    Text {
+                        anchors.centerIn: parent
+                        color: GlobalConfig.text
+                        font.family: Icons.fontFamily
+                        font.pixelSize: 14
+                        text: VolumeService.sinkMuted ? Icons.volumeMute : VolumeService.sinkVolume === 0 ? Icons.volumeEmpty : VolumeService.sinkVolume < 0.5 ? Icons.volumeLow : Icons.volumeHigh
+                    }
+                    MouseArea {
+                        id: outMuteMa
+
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        hoverEnabled: true
+
+                        onClicked: VolumeService.setSinkMuted(!VolumeService.sinkMuted)
+                    }
+                }
+            }
+            Item {
+                height: 10
+                width: parent.width
+            }
+            Row {
+                spacing: 4
+                width: parent.width
+
+                Text {
+                    anchors.verticalCenter: parent.verticalCenter
+                    color: GlobalConfig.text
+                    font.bold: true
+                    font.family: GlobalConfig.fontFamily
+                    font.pixelSize: BarConfig.fontSize
+                    text: "Input"
+                }
+                Text {
+                    anchors.verticalCenter: parent.verticalCenter
+                    color: GlobalConfig.textDim
+                    elide: Text.ElideRight
+                    font.family: GlobalConfig.fontFamily
+                    font.pixelSize: BarConfig.fontSize
+                    text: VolumeService.source ? " — " + (VolumeService.source.description || VolumeService.source.name || "") : ""
+                    width: Math.min(implicitWidth, 180)
+                }
+            }
+            Item {
+                height: 6
+                width: parent.width
+            }
+            Item {
+                id: inputRow
+
+                height: 24
+                width: parent.width
+
+                SliderBar {
+                    dimmed: VolumeService.sourceMuted
+                    height: 20
+                    maxValue: 100
+                    value: VolumeService.sourceMuted ? 0 : VolumeService.sourceVolume * 100
+
+                    onScrubbed: v => VolumeService.setSourceVolume(v / 100)
+
+                    anchors {
+                        left: parent.left
+                        right: inPct.left
+                        rightMargin: 8
+                        verticalCenter: parent.verticalCenter
+                    }
+                }
+                Text {
+                    id: inPct
+
+                    color: GlobalConfig.textDim
+                    font.family: GlobalConfig.fontFamily
+                    font.pixelSize: BarConfig.fontSize
+                    horizontalAlignment: Text.AlignRight
+                    text: VolumeService.sourceMuted ? "muted" : Math.round(VolumeService.sourceVolume * 100) + "%"
+                    width: 40
+
+                    anchors {
+                        right: inMuteBtn.left
+                        rightMargin: 6
+                        verticalCenter: parent.verticalCenter
+                    }
+                }
+                Rectangle {
+                    id: inMuteBtn
+
+                    color: inMuteMa.containsMouse ? BarConfig.capsuleBgHover : BarConfig.capsuleBg
+                    height: 22
+                    radius: 11
+                    width: 22
+
+                    anchors {
+                        right: parent.right
+                        verticalCenter: parent.verticalCenter
+                    }
+                    Text {
+                        anchors.centerIn: parent
+                        color: GlobalConfig.text
+                        font.family: Icons.fontFamily
+                        font.pixelSize: 14
+                        text: VolumeService.sourceMuted ? Icons.volumeMute : VolumeService.sourceVolume === 0 ? Icons.volumeEmpty : VolumeService.sourceVolume < 0.5 ? Icons.volumeLow : Icons.volumeHigh
+                    }
+                    MouseArea {
+                        id: inMuteMa
+
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        hoverEnabled: true
+
+                        onClicked: VolumeService.setSourceMuted(!VolumeService.sourceMuted)
+                    }
+                }
+            }
+            Item {
+                height: 10
+                width: parent.width
+            }
+            Divider {
+                width: parent.width
+            }
+            Item {
+                height: 8
+                width: parent.width
+            }
+            Text {
+                color: GlobalConfig.text
+                font.bold: true
+                font.family: GlobalConfig.fontFamily
+                font.pixelSize: BarConfig.fontSize
+                height: implicitHeight + 6
+                text: "Applications"
+            }
+            Repeater {
+                model: VolumeService.nodes
+
+                Item {
+                    id: appItem
+
+                    readonly property bool isPlayback: {
+                        var props = modelData?.properties;
+                        if (!props)
+                            return false;
+                        if ((props["media.class"] || "") !== "Stream/Output/Audio")
+                            return false;
+                        if (props["stream.capture.sink"] !== undefined)
+                            return false;
+                        return true;
+                    }
+                    required property var modelData
+
+                    height: visible ? appRowItem.implicitHeight + 8 : 0
+                    visible: isPlayback
+                    width: col.width
+
+                    Item {
+                        id: appRowItem
+
+                        implicitHeight: appNameTxt.implicitHeight + appSlider.implicitHeight + 4
+
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                            verticalCenter: parent.verticalCenter
+                        }
+                        Text {
+                            id: appNameTxt
+
+                            color: GlobalConfig.text
+                            elide: Text.ElideRight
+                            font.family: GlobalConfig.fontFamily
+                            font.pixelSize: BarConfig.fontSize
+                            text: {
+                                var props = appItem.modelData?.properties;
+                                if (props) {
+                                    var n = props["application.name"] || "";
+                                    if (n)
+                                        return n;
+                                }
+                                return appItem.modelData?.description || appItem.modelData?.name || "Unknown";
+                            }
+
+                            anchors {
+                                left: parent.left
+                                right: appPctTxt.left
+                                rightMargin: 6
+                            }
+                        }
+                        Text {
+                            id: appPctTxt
+
+                            color: GlobalConfig.textDim
+                            font.family: GlobalConfig.fontFamily
+                            font.pixelSize: BarConfig.fontSize
+                            horizontalAlignment: Text.AlignRight
+                            text: {
+                                var a = appItem.modelData?.audio;
+                                if (!a)
+                                    return "—";
+                                return a.muted ? "muted" : Math.round(a.volume * 100) + "%";
+                            }
+                            width: 40
+
+                            anchors {
+                                right: appMuteRect.left
+                                rightMargin: 6
+                                top: appNameTxt.top
+                            }
+                        }
+                        Rectangle {
+                            id: appMuteRect
+
+                            color: appMuteMa.containsMouse ? BarConfig.capsuleBgHover : BarConfig.capsuleBg
+                            height: 22
+                            radius: 11
+                            width: 22
+
+                            anchors {
+                                right: parent.right
+                                top: appNameTxt.top
+                            }
+                            Text {
+                                anchors.centerIn: parent
+                                color: GlobalConfig.text
+                                font.family: Icons.fontFamily
+                                font.pixelSize: 14
+                                text: {
+                                    var a = appItem.modelData?.audio;
+                                    var m = a?.muted ?? false;
+                                    var v = a?.volume ?? 0;
+                                    return m ? Icons.volumeMute : v === 0 ? Icons.volumeEmpty : v < 0.5 ? Icons.volumeLow : Icons.volumeHigh;
+                                }
+                            }
+                            MouseArea {
+                                id: appMuteMa
+
+                                anchors.fill: parent
+                                cursorShape: Qt.PointingHandCursor
+                                hoverEnabled: true
+
+                                onClicked: {
+                                    var a = appItem.modelData?.audio;
+                                    if (a)
+                                        a.muted = !a.muted;
+                                }
+                            }
+                        }
+                        SliderBar {
+                            id: appSlider
+
+                            dimmed: appItem.modelData?.audio?.muted ?? false
+                            height: 16
+                            maxValue: 100
+                            value: (appItem.modelData?.audio?.volume ?? 0) * 100
+
+                            onScrubbed: v => {
+                                var a = appItem.modelData?.audio;
+                                if (a) {
+                                    a.volume = v / 100;
+                                    if (v > 0)
+                                        a.muted = false;
+                                }
+                            }
+
+                            anchors {
+                                left: parent.left
+                                right: appPctTxt.left
+                                rightMargin: 6
+                                top: appNameTxt.bottom
+                                topMargin: 4
+                            }
+                        }
+                    }
+                }
+            }
+            Item {
+                height: 8
+                width: parent.width
+            }
+            Divider {
+                width: parent.width
+            }
+            Item {
+                height: 8
+                width: parent.width
+            }
+            Text {
+                color: GlobalConfig.text
+                font.bold: true
+                font.family: GlobalConfig.fontFamily
+                font.pixelSize: BarConfig.fontSize
+                height: implicitHeight + 6
+                text: "Output Device"
+            }
+            Repeater {
+                model: VolumeService.outputSinks
+
+                Item {
+                    id: sinkItem
+
+                    readonly property bool isDefault: VolumeService.sink?.id === modelData.id
+                    required property var modelData
+
+                    height: sinkRow.implicitHeight + 6
+                    width: col.width
+
+                    Row {
+                        id: sinkRow
+
+                        anchors.verticalCenter: parent.verticalCenter
+                        spacing: 8
+
+                        Rectangle {
+                            anchors.verticalCenter: parent.verticalCenter
+                            color: sinkItem.isDefault ? GlobalConfig.accent : GlobalConfig.textAlpha20
+                            height: 14
+                            radius: 7
+                            width: 14
+
+                            Rectangle {
+                                anchors.centerIn: parent
+                                color: "white"
+                                height: 6
+                                radius: 3
+                                visible: sinkItem.isDefault
+                                width: 6
+                            }
+                        }
+                        Text {
+                            anchors.verticalCenter: parent.verticalCenter
+                            color: sinkItem.isDefault ? GlobalConfig.accent : GlobalConfig.text
+                            elide: Text.ElideRight
+                            font.family: GlobalConfig.fontFamily
+                            font.pixelSize: BarConfig.fontSize
+                            text: sinkItem.modelData.description || sinkItem.modelData.name || "Unknown"
+                            width: col.width - 22 - 8
+                        }
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+
+                        onClicked: Quickshell.execDetached(["wpctl", "set-default", sinkItem.modelData.id.toString()])
+                    }
+                }
+            }
+            Item {
+                height: 8
+                width: parent.width
+            }
+            Text {
+                color: GlobalConfig.text
+                font.bold: true
+                font.family: GlobalConfig.fontFamily
+                font.pixelSize: BarConfig.fontSize
+                height: implicitHeight + 6
+                text: "Input Device"
+            }
+            Repeater {
+                model: VolumeService.inputSources
+
+                Item {
+                    id: sourceItem
+
+                    readonly property bool isDefault: VolumeService.source?.id === modelData.id
+                    required property var modelData
+
+                    height: sourceRow.implicitHeight + 6
+                    width: col.width
+
+                    Row {
+                        id: sourceRow
+
+                        anchors.verticalCenter: parent.verticalCenter
+                        spacing: 8
+
+                        Rectangle {
+                            anchors.verticalCenter: parent.verticalCenter
+                            color: sourceItem.isDefault ? GlobalConfig.accent : GlobalConfig.textAlpha20
+                            height: 14
+                            radius: 7
+                            width: 14
+
+                            Rectangle {
+                                anchors.centerIn: parent
+                                color: "white"
+                                height: 6
+                                radius: 3
+                                visible: sourceItem.isDefault
+                                width: 6
+                            }
+                        }
+                        Text {
+                            anchors.verticalCenter: parent.verticalCenter
+                            color: sourceItem.isDefault ? GlobalConfig.accent : GlobalConfig.text
+                            elide: Text.ElideRight
+                            font.family: GlobalConfig.fontFamily
+                            font.pixelSize: BarConfig.fontSize
+                            text: sourceItem.modelData.description || sourceItem.modelData.name || "Unknown"
+                            width: col.width - 22 - 8
+                        }
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+
+                        onClicked: Quickshell.execDetached(["wpctl", "set-default", sourceItem.modelData.id.toString()])
+                    }
+                }
+            }
+            Item {
+                height: 10
+                width: parent.width
+            }
+        }
+    }
+}

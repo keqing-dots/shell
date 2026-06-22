@@ -1,0 +1,489 @@
+pragma ComponentBehavior: Bound
+
+import QtQuick
+import Quickshell
+
+import qs.lib.layout
+import qs.lib.service
+import qs.modules.bar
+import qs.modules.bar.layout.components
+import qs.modules.bar.service
+import qs.styles
+
+WidgetPanel {
+    id: panelRoot
+
+    readonly property var _nets: Object.values(NetworkService.networks)
+    readonly property var availableNetworks: _nets.filter(n => !n.connected && !n.existing).sort((a, b) => b.signal - a.signal)
+    readonly property var connectedNetworks: _nets.filter(n => n.connected).sort((a, b) => b.signal - a.signal)
+    readonly property var savedNetworks: _nets.filter(n => !n.connected && n.existing && n.inRange).sort((a, b) => b.signal - a.signal)
+    readonly property int visibleCount: connectedNetworks.length + savedNetworks.length + availableNetworks.length
+
+    function _signalIcon(pct) {
+        if (pct > 75)
+            return Icons.wifi;
+        if (pct > 50)
+            return Icons.wifi2;
+        if (pct > 25)
+            return Icons.wifi1;
+        return Icons.wifi0;
+    }
+
+    clip: true
+    implicitHeight: Math.min(520, BarConfig.panelPadding + header.height + 4 + topDiv.height + 8 + content.contentHeight + BarConfig.panelPadding)
+    implicitWidth: 320
+
+    Component.onCompleted: NetworkService.scan()
+
+    MouseArea {
+        anchors.fill: parent
+    }
+    Item {
+        id: header
+
+        anchors.margins: BarConfig.panelPadding
+        height: 32
+
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: parent.top
+        }
+        Text {
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            color: GlobalConfig.text
+            font.bold: true
+            font.family: GlobalConfig.fontFamily
+            font.pixelSize: BarConfig.fontSize + 1
+            text: "Network"
+        }
+        Row {
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
+            spacing: 6
+
+            Rectangle {
+                color: scanMa.containsMouse ? BarConfig.capsuleBgHover : BarConfig.capsuleBg
+                height: 22
+                radius: 11
+                visible: NetworkService.wifiAvailable
+                width: 22
+
+                Text {
+                    anchors.centerIn: parent
+                    color: NetworkService.scanning ? GlobalConfig.accent : GlobalConfig.text
+                    font.family: Icons.fontFamily
+                    font.pixelSize: 14
+                    text: Icons.refresh
+                }
+                MouseArea {
+                    id: scanMa
+
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                    hoverEnabled: true
+
+                    onClicked: NetworkService.scan()
+                }
+            }
+            Toggle {
+                active: NetworkService.wifiEnabled
+                anchors.verticalCenter: parent.verticalCenter
+                visible: NetworkService.wifiAvailable
+
+                onToggled: NetworkService.setWifiEnabled(!NetworkService.wifiEnabled)
+            }
+            Rectangle {
+                color: closeMa.containsMouse ? BarConfig.capsuleBgHover : BarConfig.capsuleBg
+                height: 22
+                radius: 11
+                width: 22
+
+                Text {
+                    anchors.centerIn: parent
+                    color: GlobalConfig.text
+                    font.family: Icons.fontFamily
+                    font.pixelSize: 14
+                    text: Icons.close
+                }
+                MouseArea {
+                    id: closeMa
+
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                    hoverEnabled: true
+
+                    onClicked: PanelService.closePanel()
+                }
+            }
+        }
+    }
+    Divider {
+        id: topDiv
+
+        anchors.topMargin: 4
+
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: header.bottom
+        }
+    }
+    Flickable {
+        id: content
+
+        anchors.margins: BarConfig.panelPadding
+        anchors.topMargin: 8
+        clip: true
+        contentHeight: col.implicitHeight
+
+        anchors {
+            bottom: parent.bottom
+            left: parent.left
+            right: parent.right
+            top: topDiv.bottom
+        }
+        Column {
+            id: col
+
+            spacing: 5
+            width: content.width
+
+            Rectangle {
+                clip: true
+                color: Qt.rgba(1, 0.27, 0.27, 0.15)
+                height: visible ? errTxt.implicitHeight + 16 : 0
+                radius: 8
+                visible: NetworkService.lastError !== ""
+                width: parent.width
+
+                Row {
+                    anchors.margins: 8
+                    spacing: 6
+
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        verticalCenter: parent.verticalCenter
+                    }
+                    Text {
+                        anchors.verticalCenter: parent.verticalCenter
+                        color: "#F44747"
+                        font.family: Icons.fontFamily
+                        font.pixelSize: BarConfig.fontSize
+                        text: Icons.alertTriangle + " "
+                    }
+                    Text {
+                        id: errTxt
+
+                        anchors.verticalCenter: parent.verticalCenter
+                        color: "#F44747"
+                        font.family: GlobalConfig.fontFamily
+                        font.pixelSize: BarConfig.fontSize
+                        text: NetworkService.lastError
+                        width: col.width - 60
+                        wrapMode: Text.WordWrap
+                    }
+                    Rectangle {
+                        anchors.verticalCenter: parent.verticalCenter
+                        color: "transparent"
+                        height: 18
+                        radius: 9
+                        width: 18
+
+                        Text {
+                            anchors.centerIn: parent
+                            color: "#F44747"
+                            font.family: Icons.fontFamily
+                            font.pixelSize: 12
+                            text: Icons.close
+                        }
+                        MouseArea {
+                            anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
+
+                            onClicked: NetworkService.lastError = ""
+                        }
+                    }
+                }
+            }
+            Rectangle {
+                clip: true
+                color: GlobalConfig.accentAlpha18
+                height: visible ? 40 : 0
+                radius: 8
+                visible: NetworkService.ethernetConnected
+                width: parent.width
+
+                Text {
+                    anchors.centerIn: parent
+                    color: GlobalConfig.text
+                    font.family: GlobalConfig.fontFamily
+                    font.pixelSize: BarConfig.fontSize
+                    text: "Ethernet"
+                }
+            }
+            Item {
+                height: visible ? 72 : 0
+                visible: !NetworkService.wifiAvailable
+                width: parent.width
+
+                Text {
+                    anchors.centerIn: parent
+                    color: GlobalConfig.textDim
+                    font.family: GlobalConfig.fontFamily
+                    font.pixelSize: BarConfig.fontSize
+                    text: "No Wi-Fi adapter found"
+                }
+            }
+            Item {
+                height: visible ? 72 : 0
+                visible: NetworkService.wifiAvailable && !NetworkService.wifiEnabled
+                width: parent.width
+
+                Text {
+                    anchors.centerIn: parent
+                    color: GlobalConfig.textDim
+                    font.family: GlobalConfig.fontFamily
+                    font.pixelSize: BarConfig.fontSize
+                    text: "WiFi is disabled"
+                }
+            }
+            Item {
+                height: visible ? 48 : 0
+                visible: NetworkService.wifiAvailable && NetworkService.wifiEnabled && panelRoot.visibleCount === 0
+                width: parent.width
+
+                Timer {
+                    id: dotTimer
+
+                    property int step: 0
+
+                    interval: 400
+                    repeat: true
+                    running: parent.visible
+
+                    onTriggered: step = (step + 1) % 4
+                }
+                Text {
+                    anchors.centerIn: parent
+                    color: GlobalConfig.textDim
+                    font.family: GlobalConfig.fontFamily
+                    font.pixelSize: BarConfig.fontSize
+                    text: "Scanning" + ".".repeat(dotTimer.step)
+                }
+            }
+            Item {
+                height: visible ? 20 : 0
+                visible: panelRoot.connectedNetworks.length > 0 && NetworkService.wifiEnabled
+                width: parent.width
+
+                Text {
+                    anchors.verticalCenter: parent.verticalCenter
+                    color: GlobalConfig.textDim
+                    font.bold: true
+                    font.family: GlobalConfig.fontFamily
+                    font.pixelSize: BarConfig.fontSize - 1
+                    text: "Connected"
+                }
+            }
+            Repeater {
+                model: panelRoot.connectedNetworks
+
+                delegate: NetRow {}
+            }
+            Item {
+                height: visible ? 24 : 0
+                visible: panelRoot.savedNetworks.length > 0 && NetworkService.wifiEnabled
+                width: parent.width
+
+                Text {
+                    anchors.bottom: parent.bottom
+                    color: GlobalConfig.textDim
+                    font.bold: true
+                    font.family: GlobalConfig.fontFamily
+                    font.pixelSize: BarConfig.fontSize - 1
+                    text: "Known"
+                }
+            }
+            Repeater {
+                model: panelRoot.savedNetworks
+
+                delegate: NetRow {}
+            }
+            Item {
+                height: visible ? 24 : 0
+                visible: panelRoot.availableNetworks.length > 0 && NetworkService.wifiEnabled
+                width: parent.width
+
+                Text {
+                    anchors.bottom: parent.bottom
+                    color: GlobalConfig.textDim
+                    font.bold: true
+                    font.family: GlobalConfig.fontFamily
+                    font.pixelSize: BarConfig.fontSize - 1
+                    text: "Available"
+                }
+            }
+            Repeater {
+                model: panelRoot.availableNetworks
+
+                delegate: NetRow {}
+            }
+            Item {
+                height: 4
+                width: 1
+            }
+        }
+    }
+
+    component NetRow: Item {
+        id: netRow
+
+        readonly property bool isBusy: NetworkService.connectingTo === modelData.ssid
+        readonly property bool isCaptive: modelData.connected && NetworkService.connectivity === "portal"
+        readonly property bool isConnected: modelData.connected
+        readonly property bool isSecured: modelData.security && modelData.security !== "--" && modelData.security.trim() !== ""
+        required property var modelData
+
+        height: 52
+        width: parent.width
+
+        Rectangle {
+            color: {
+                if (netRow.isCaptive)
+                    return Qt.rgba(1, 0.76, 0.03, 0.15);
+                if (netRow.isConnected)
+                    return GlobalConfig.accentAlpha25;
+                if (netRow.isBusy)
+                    return GlobalConfig.accentAlpha12;
+                return rowHover.containsMouse ? BarConfig.capsuleBgHover : BarConfig.capsuleBg;
+            }
+            height: 50
+            radius: 8
+            width: parent.width
+
+            HoverHandler {
+                id: rowHover
+            }
+            Text {
+                anchors.left: parent.left
+                anchors.leftMargin: 8
+                anchors.verticalCenter: parent.verticalCenter
+                color: netRow.isCaptive ? "#FFC107" : netRow.isConnected ? GlobalConfig.accent : GlobalConfig.textDim
+                font.family: Icons.fontFamily
+                font.pixelSize: BarConfig.iconSize
+                text: panelRoot._signalIcon(netRow.modelData.signal)
+            }
+            Column {
+                anchors.left: parent.left
+                anchors.leftMargin: 38
+                anchors.right: actions.left
+                anchors.rightMargin: 4
+                anchors.verticalCenter: parent.verticalCenter
+                spacing: 1
+
+                MarqueeText {
+                    color: netRow.isCaptive ? "#FFC107" : netRow.isConnected ? GlobalConfig.accent : GlobalConfig.text
+                    fontBold: netRow.isConnected
+                    fontFamily: GlobalConfig.fontFamily
+                    fontSize: BarConfig.fontSize
+                    text: netRow.modelData.ssid
+                    width: parent.width
+                }
+                Text {
+                    color: netRow.isCaptive ? "#FFC107" : GlobalConfig.textDim
+                    font.family: GlobalConfig.fontFamily
+                    font.pixelSize: BarConfig.fontSize - 2
+                    text: netRow.isCaptive ? "Sign in required" : (netRow.isSecured ? netRow.modelData.security.trim() : "Open")
+                }
+            }
+            Row {
+                id: actions
+
+                anchors.right: parent.right
+                anchors.rightMargin: 8
+                anchors.verticalCenter: parent.verticalCenter
+                spacing: 4
+
+                Text {
+                    anchors.verticalCenter: parent.verticalCenter
+                    color: GlobalConfig.accent
+                    font.family: GlobalConfig.fontFamily
+                    font.pixelSize: BarConfig.fontSize - 1
+                    text: "Connecting…"
+                    visible: netRow.isBusy
+                }
+                Rectangle {
+                    color: {
+                        if (netRow.isConnected)
+                            return netActionMa.containsMouse ? GlobalConfig.textAlpha18 : GlobalConfig.textAlpha10;
+                        return netActionMa.containsMouse ? Qt.lighter(GlobalConfig.accent, 1.2) : GlobalConfig.accent;
+                    }
+                    height: 22
+                    radius: 11
+                    visible: !netRow.isBusy
+                    width: netActionLabel.implicitWidth + 16
+
+                    Text {
+                        id: netActionLabel
+
+                        anchors.centerIn: parent
+                        color: netRow.isConnected ? GlobalConfig.text : "white"
+                        font.family: GlobalConfig.fontFamily
+                        font.pixelSize: BarConfig.fontSize - 1
+                        text: netRow.isConnected ? "Disconnect" : "Connect"
+                    }
+                    MouseArea {
+                        id: netActionMa
+
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        hoverEnabled: true
+
+                        onClicked: {
+                            if (netRow.isConnected) {
+                                NetworkService.disconnect(netRow.modelData.ssid);
+                            } else if (netRow.modelData.existing || !netRow.isSecured) {
+                                NetworkService.connect(netRow.modelData.ssid, "");
+                            } else {
+                                PanelService.openSubPanelForCurrent("networkSubPanel", {
+                                    "ssid": netRow.modelData.ssid,
+                                    "mode": "password"
+                                });
+                            }
+                        }
+                    }
+                }
+                Rectangle {
+                    color: fMa.containsMouse ? Qt.rgba(1, 0.27, 0.27, 0.3) : Qt.rgba(1, 0.27, 0.27, 0.12)
+                    height: 22
+                    radius: 11
+                    visible: netRow.modelData.existing && !netRow.isConnected && !netRow.isBusy
+                    width: 22
+
+                    Text {
+                        anchors.centerIn: parent
+                        color: "#F44747"
+                        font.family: Icons.fontFamily
+                        font.pixelSize: 10
+                        text: Icons.close
+                    }
+                    MouseArea {
+                        id: fMa
+
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        hoverEnabled: true
+
+                        onClicked: PanelService.openSubPanelForCurrent("networkSubPanel", {
+                            "ssid": netRow.modelData.ssid,
+                            "mode": "forget"
+                        })
+                    }
+                }
+            }
+        }
+    }
+}
