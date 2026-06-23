@@ -9,6 +9,8 @@ color() {
     echo "${val:-$2}"
 }
 
+safe_write() { [[ -L "$1" && ! -e "$1" ]] && rm -f "$1"; }
+
 accent=$(color '.current.accent' '#7B2FE8')
 accentContainer=$(color '.current.accentContainer' '#3D1878')
 accentAlt=$(color '.current.accentAlt' '#C8942A')
@@ -23,8 +25,10 @@ base=$(color '.current.base' '#0A0614')
 # kitty
 # =====
 apply_kitty() {
-    mkdir -p "$HOME/.config/kitty"
-    cat > "$HOME/.config/kitty/current-theme.conf" << EOF
+    local file="$HOME/.config/kitty/current-theme.conf"
+    mkdir -p "$(dirname "$file")"
+    safe_write "$file"
+    cat > "$file" << EOF
 background            $base
 foreground            $text
 cursor                $text
@@ -64,8 +68,9 @@ EOF
 # cava
 # ====
 apply_cava() {
-    local cfg="$HOME/.config/cava/config"
-    mkdir -p "$HOME/.config/cava"
+    local file="$HOME/.config/cava/config"
+    mkdir -p "$(dirname "$file")"
+    safe_write "$file"
 
     mapfile -t gradient < <(python3 - "$accent" "$lavender" << 'PY'
 import sys
@@ -85,7 +90,7 @@ for i in range(8):
 PY
     )
 
-    cat > "$cfg" << EOF
+    cat > "$file" << EOF
 [general]
 framerate = 60
 autosens = 1
@@ -134,10 +139,10 @@ EOF
 # btop
 # ====
 apply_btop() {
-    mkdir -p "$HOME/.config/btop/themes"
-    cat > "$HOME/.config/btop/themes/keqing.theme" << EOF
-# Theme: keqing (auto-generated)
-
+    local file="$HOME/.config/btop/themes/keqing.theme"
+    mkdir -p "$(dirname "$file")"
+    safe_write "$file"
+    cat > "$file" << EOF
 theme[main_bg]="$base"
 theme[main_fg]="$text"
 theme[title]="$lavender"
@@ -180,12 +185,13 @@ EOF
 }
 
 # =======
-# vesktop — writes to Vencord QuickCSS which hot-reloads instantly
+# vesktop
 # =======
 apply_vesktop() {
-    local css="$HOME/.config/vesktop/settings/quickCss.css"
-    mkdir -p "$HOME/.config/vesktop/settings"
-    cat > "$css" << EOF
+    local file="$HOME/.config/vesktop/settings/quickCss.css"
+    mkdir -p "$(dirname "$file")"
+    safe_write "$file"
+    cat > "$file" << EOF
 /* keqing-shell: auto-generated color overrides */
 :root {
     --main-color: $accent;
