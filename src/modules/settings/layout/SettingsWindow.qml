@@ -81,7 +81,7 @@ PanelWindow {
 
             anchors.centerIn: parent
             border.color: GlobalConfig.accent
-            border.width: GlobalConfig.borderWidthThin
+            border.width: GlobalConfig.borderWidthThick
             color: GlobalConfig.overlay
             implicitHeight: 680
             implicitWidth: 920

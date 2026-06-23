@@ -36,14 +36,13 @@ ColumnLayout {
         spacing: 10
 
         Text {
-            Layout.preferredWidth: 100
+            Layout.fillWidth: true
             color: GlobalConfig.textDim
             font.family: GlobalConfig.fontFamily
             font.pixelSize: GlobalConfig.fontPixelSmaller
             text: "Source Display"
         }
         DropdownMenu {
-            Layout.fillWidth: true
             activeValue: ColorSchemeService.selectedScreen
             disabled: ColorSchemeService.screens.length === 0
             model: ColorSchemeService.screens
