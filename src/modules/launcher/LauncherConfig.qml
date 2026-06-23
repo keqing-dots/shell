@@ -12,7 +12,7 @@ QtObject {
     property int bulletsSpacing: 10
 
     // App
-    readonly property string editor: "codium"
+    readonly property string editor: "code"
 
     // Entry / list
     property int entryHeight: 40
