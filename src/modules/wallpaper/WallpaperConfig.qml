@@ -13,7 +13,7 @@ QtObject {
 
     // ControlRow
     readonly property int controlRowHeight: 35
-    readonly property string defaultSchemeType: "scheme-tonal-spot"
+    readonly property bool defaultNeonMode: false
 
     // DirBar
     readonly property int dirBarHeight: 40
@@ -51,44 +51,6 @@ QtObject {
 
     // Panel
     readonly property int panelRadius: 16
-    readonly property var schemeTypes: [
-        {
-            label: "Tonal Spot",
-            type: "scheme-tonal-spot"
-        },
-        {
-            label: "Content",
-            type: "scheme-content"
-        },
-        {
-            label: "Expressive",
-            type: "scheme-expressive"
-        },
-        {
-            label: "Fidelity",
-            type: "scheme-fidelity"
-        },
-        {
-            label: "Fruit Salad",
-            type: "scheme-fruit-salad"
-        },
-        {
-            label: "Monochrome",
-            type: "scheme-monochrome"
-        },
-        {
-            label: "Neutral",
-            type: "scheme-neutral"
-        },
-        {
-            label: "Rainbow",
-            type: "scheme-rainbow"
-        },
-        {
-            label: "Vibrant",
-            type: "scheme-vibrant"
-        }
-    ]
     readonly property color tabInactive: GlobalConfig.lavenderAlpha20
     readonly property color thumbnailBg: GlobalConfig.lavenderSubtle
     readonly property int thumbnailSize: 150

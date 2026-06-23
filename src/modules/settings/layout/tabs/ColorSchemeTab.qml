@@ -22,22 +22,18 @@ Item {
                 {
                     label: "Display Capture",
                     value: "capture"
-                },
-                {
-                    label: "Custom",
-                    value: "custom"
                 }
             ]
 
             onItemSelected: value => ColorSchemeService.mode = value
         }
+        DefaultSubtab {
+            Layout.fillWidth: true
+            visible: ColorSchemeService.mode === "default"
+        }
         CaptureSubtab {
             Layout.fillWidth: true
             visible: ColorSchemeService.mode === "capture"
-        }
-        CustomSubtab {
-            Layout.fillWidth: true
-            visible: ColorSchemeService.mode === "custom"
         }
         Item {
             Layout.fillHeight: true

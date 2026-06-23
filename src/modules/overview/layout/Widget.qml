@@ -114,6 +114,7 @@ Item {
                 delegate: RowLayout {
                     id: row
 
+                    required property int index
                     property int rowIndex: index
 
                     spacing: root.workspaceSpacingPx
@@ -124,6 +125,7 @@ Item {
                         Rectangle {
                             id: workspace
 
+                            required property int index
                             property int colIndex: index
                             property color defaultWorkspaceColor: OverviewConfig.colLayer1
                             readonly property bool hasWindows: {
@@ -137,7 +139,7 @@ Item {
                             property color hoveredBorderColor: OverviewConfig.colLayer2Hover
                             property bool hoveredWhileDragging: false
                             property color hoveredWorkspaceColor: OverviewConfig.colLayer1Hover
-                            property int workspaceValue: root.workspaceGroup * root.workspacesShown + rowIndex * OverviewConfig.columns + colIndex + 1
+                            property int workspaceValue: root.workspaceGroup * root.workspacesShown + (parent?.rowIndex ?? 0) * OverviewConfig.columns + colIndex + 1
 
                             border.color: hoveredWhileDragging ? hoveredBorderColor : OverviewConfig.emptyWorkspaceBorderColor
                             border.width: OverviewConfig.workspaceBorderWidth

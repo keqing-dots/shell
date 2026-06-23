@@ -8,32 +8,32 @@ import Quickshell.Io
 QtObject {
     id: root
 
+    property Process applyColors: Process {
+        command: ["apply-colors"]
+    }
     readonly property string cacheDir: Quickshell.env("HOME") + "/.cache/keqing-shell/"
     property var colors: ({})
     readonly property string configDir: Quickshell.env("HOME") + "/.config/keqing-shell/"
     property var currentColors: ({
             accent: "#7B2FE8",
             accentAlt: "#C8942A",
-            fieldBg: "#0F1535",
-            base: "#12091E",
-            surfaceAlt: "#1A1848",
+            accentAltContainer: "#2B1D5C",
             accentContainer: "#3D1878",
-            accentAltContainer: "#6B4A18",
-            lavender: "#C87EFF",
-            textMuted: "#A896C8",
-            text: "#F0ECF8"
+            accentDim: "#5535B8",
+            base: "#0A0614",
+            fieldBg: "#0F1535",
+            lavender: "#5E50A0",
+            lavenderLight: "#C87EFF",
+            overlay: "#1C1848",
+            overlayAlt: "#252060",
+            rose: "#7A4A58",
+            surface: "#110B22",
+            surfaceAlt: "#1A1238",
+            text: "#F0ECF8",
+            textMuted: "#A896C8"
         })
-    property string customAccent: "#7B2FE8"
-    property string customAccentAlt: "#C8942A"
-    property string customAccentAltContainer: "#6B4A18"
-    property string customAccentContainer: "#3D1878"
-    property string customBase: "#12091E"
-    property string customBg: "#0F1535"
-    property string customLavender: "#C87EFF"
-    property string customSurfaceAlt: "#1A1848"
-    property string customText: "#F0ECF8"
-    property string customTextMuted: "#A896C8"
     property string mode: "default"
+    property bool neonMode: false
     property Process proc: Process {
         property string targetScreen: ""
 
@@ -53,24 +53,18 @@ QtObject {
             property var current: ({
                     accent: "#7B2FE8",
                     accentAlt: "#C8942A",
-                    accentAltContainer: "#6B4A18",
+                    accentAltContainer: "#2B1D5C",
                     accentContainer: "#3D1878",
-                    base: "#12091E",
+                    accentDim: "#5535B8",
+                    base: "#0A0614",
                     fieldBg: "#0F1535",
-                    lavender: "#C87EFF",
-                    surfaceAlt: "#1A1848",
-                    text: "#F0ECF8",
-                    textMuted: "#A896C8"
-                })
-            property var custom: ({
-                    accent: "#7B2FE8",
-                    accentAlt: "#C8942A",
-                    accentAltContainer: "#6B4A18",
-                    accentContainer: "#3D1878",
-                    base: "#12091E",
-                    bg: "#0F1535",
-                    lavender: "#C87EFF",
-                    surfaceAlt: "#1A1848",
+                    lavender: "#5E50A0",
+                    lavenderLight: "#C87EFF",
+                    overlay: "#1C1848",
+                    overlayAlt: "#252060",
+                    rose: "#7A4A58",
+                    surface: "#110B22",
+                    surfaceAlt: "#1A1238",
                     text: "#F0ECF8",
                     textMuted: "#A896C8"
                 })
@@ -83,26 +77,21 @@ QtObject {
             root.currentColors = {
                 accent: cur.accent ?? "#7B2FE8",
                 accentAlt: cur.accentAlt ?? "#C8942A",
-                fieldBg: cur.fieldBg ?? "#0F1535",
-                base: cur.base ?? "#12091E",
-                surfaceAlt: cur.surfaceAlt ?? "#1A1848",
+                accentAltContainer: cur.accentAltContainer ?? "#2B1D5C",
                 accentContainer: cur.accentContainer ?? "#3D1878",
-                accentAltContainer: cur.accentAltContainer ?? "#6B4A18",
-                lavender: cur.lavender ?? "#C87EFF",
-                textMuted: cur.textMuted ?? "#A896C8",
-                text: cur.text ?? "#F0ECF8"
+                accentDim: cur.accentDim ?? "#5535B8",
+                base: cur.base ?? "#0A0614",
+                fieldBg: cur.fieldBg ?? "#0F1535",
+                lavender: cur.lavender ?? "#5E50A0",
+                lavenderLight: cur.lavenderLight ?? "#C87EFF",
+                overlay: cur.overlay ?? "#1C1848",
+                overlayAlt: cur.overlayAlt ?? "#252060",
+                rose: cur.rose ?? "#7A4A58",
+                surface: cur.surface ?? "#110B22",
+                surfaceAlt: cur.surfaceAlt ?? "#1A1238",
+                text: cur.text ?? "#F0ECF8",
+                textMuted: cur.textMuted ?? "#A896C8"
             };
-            var cus = rd.custom || {};
-            root.customBg = cus.bg ?? "#0F1535";
-            root.customAccent = cus.accent ?? "#7B2FE8";
-            root.customAccentAlt = cus.accentAlt ?? "#C8942A";
-            root.customBase = cus.base ?? "#12091E";
-            root.customSurfaceAlt = cus.surfaceAlt ?? "#1A1848";
-            root.customAccentContainer = cus.accentContainer ?? "#3D1878";
-            root.customAccentAltContainer = cus.accentAltContainer ?? "#6B4A18";
-            root.customLavender = cus.lavender ?? "#C87EFF";
-            root.customTextMuted = cus.textMuted ?? "#A896C8";
-            root.customText = cus.text ?? "#F0ECF8";
             root.mode = rd.mode;
             if (rd.capture && typeof rd.capture === "object") {
                 root.colors = rd.capture;
@@ -114,7 +103,6 @@ QtObject {
             }
         }
     }
-    property string schemeType: "scheme-tonal-spot"
     readonly property var screens: {
         var list = Object.keys(root.wallpapers).filter(s => s !== "HEADLESS" && root.wallpapers[s]);
         list.sort();
@@ -132,7 +120,6 @@ QtObject {
 
             property var capture: ({})
             property var current: ({})
-            property var custom: ({})
             property string mode: ""
         }
     }
@@ -141,14 +128,20 @@ QtObject {
         root.currentColors = {
             accent: "#7B2FE8",
             accentAlt: "#C8942A",
-            fieldBg: "#0F1535",
-            base: "#12091E",
-            surfaceAlt: "#1A1848",
+            accentAltContainer: "#2B1D5C",
             accentContainer: "#3D1878",
-            accentAltContainer: "#6B4A18",
-            lavender: "#C87EFF",
-            textMuted: "#A896C8",
-            text: "#F0ECF8"
+            accentDim: "#5535B8",
+            base: "#0A0614",
+            fieldBg: "#0F1535",
+            lavender: "#5E50A0",
+            lavenderLight: "#C87EFF",
+            overlay: "#1C1848",
+            overlayAlt: "#252060",
+            rose: "#7A4A58",
+            surface: "#110B22",
+            surfaceAlt: "#1A1238",
+            text: "#F0ECF8",
+            textMuted: "#A896C8"
         };
         saveAll();
     }
@@ -171,7 +164,10 @@ QtObject {
         if (proc.running)
             proc.running = false;
         proc.targetScreen = screen;
-        proc.command = ["matugen", "image", root.wallpapers[screen], "--json", "hex", "--source-color-index", "1", "-t", root.schemeType, "-m", "dark", "-q"];
+        var cmd = ["hellwal", "-i", root.wallpapers[screen], "-j", "-d"];
+        if (root.neonMode)
+            cmd.push("-m");
+        proc.command = cmd;
         proc.running = true;
     }
     function invalidate(screenName) {
@@ -189,16 +185,22 @@ QtObject {
                 var data = JSON.parse(proc.stdout.text);
                 var c = data.colors;
                 var scheme = {
-                    accent: c.primary.dark.color,
-                    accentAlt: c.tertiary.dark.color,
-                    fieldBg: c.surface_container.dark.color,
-                    base: c.surface.dark.color,
-                    surfaceAlt: c.surface_container_high.dark.color,
-                    accentContainer: c.primary_container.dark.color,
-                    accentAltContainer: c.tertiary_container.dark.color,
-                    lavender: c.secondary.dark.color,
-                    textMuted: c.on_surface_variant.dark.color,
-                    text: c.on_surface.dark.color
+                    base: c.color0,
+                    surface: c.color1,
+                    surfaceAlt: c.color2,
+                    accentAltContainer: c.color3,
+                    accentContainer: c.color4,
+                    lavender: c.color5,
+                    rose: c.color6,
+                    textMuted: c.color7,
+                    fieldBg: c.color8,
+                    overlay: c.color9,
+                    overlayAlt: c.color10,
+                    accentAlt: c.color11,
+                    accentDim: c.color12,
+                    accent: c.color13,
+                    lavenderLight: c.color14,
+                    text: c.color15
                 };
                 var updated = Object.assign({}, root.colors);
                 updated[screen] = scheme;
@@ -217,47 +219,12 @@ QtObject {
     }
     function saveAll() {
         wr.current = root.currentColors;
-        wr.custom = {
-            accent: root.customAccent,
-            accentAlt: root.customAccentAlt,
-            accentAltContainer: root.customAccentAltContainer,
-            accentContainer: root.customAccentContainer,
-            base: root.customBase,
-            bg: root.customBg,
-            lavender: root.customLavender,
-            surfaceAlt: root.customSurfaceAlt,
-            text: root.customText,
-            textMuted: root.customTextMuted
-        };
         wr.capture = root.colors;
         wr.mode = root.mode;
         writer.path = root.configDir + "colors.json";
         writer.writeAdapter();
-    }
-    function setCustomColors(bg, accent, accentAlt, base, surfaceAlt, accentContainer, accentAltContainer, lavender, textMuted, text) {
-        root.customBg = bg;
-        root.customAccent = accent;
-        root.customAccentAlt = accentAlt;
-        root.customBase = base;
-        root.customSurfaceAlt = surfaceAlt;
-        root.customAccentContainer = accentContainer;
-        root.customAccentAltContainer = accentAltContainer;
-        root.customLavender = lavender;
-        root.customTextMuted = textMuted;
-        root.customText = text;
-        root.currentColors = {
-            accent: accent,
-            accentAlt: accentAlt,
-            fieldBg: bg,
-            base: base,
-            surfaceAlt: surfaceAlt,
-            accentContainer: accentContainer,
-            accentAltContainer: accentAltContainer,
-            lavender: lavender,
-            textMuted: textMuted,
-            text: text
-        };
-        saveAll();
+        applyColors.running = false;
+        applyColors.running = true;
     }
     function setError(screen) {
         var st = Object.assign({}, root.status);
@@ -277,23 +244,9 @@ QtObject {
                 applySelected();
             else if (root.selectedScreen)
                 root.extract();
-        } else if (root.mode === "custom") {
-            root.currentColors = {
-                accent: root.customAccent,
-                accentAlt: root.customAccentAlt,
-                fieldBg: root.customBg,
-                base: root.customBase,
-                surfaceAlt: root.customSurfaceAlt,
-                accentContainer: root.customAccentContainer,
-                accentAltContainer: root.customAccentAltContainer,
-                lavender: root.customLavender,
-                textMuted: root.customTextMuted,
-                text: root.customText
-            };
-            saveAll();
         }
     }
-    onSchemeTypeChanged: {
+    onNeonModeChanged: {
         if (root.mode === "capture" && root.selectedScreen)
             root.extract();
     }

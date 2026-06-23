@@ -14,11 +14,10 @@ QtObject {
     readonly property int buttonHeight: 32
     readonly property int buttonRadius: 8
     readonly property int buttonWidth: 84
-    readonly property string defaultSchemeType: "scheme-tonal-spot"
+    readonly property bool defaultNeonMode: false
     readonly property int dropdownInnerMargin: 4
     readonly property int dropdownInnerSpacing: 2
 
-    // Scheme type dropdown
     readonly property int dropdownItemHeight: 28
 
     // Interactive states
@@ -31,42 +30,4 @@ QtObject {
     // Panel
     readonly property color panelBg: GlobalConfig.overlay
     readonly property int panelRadius: 10
-    readonly property var schemeTypes: [
-        {
-            label: "Tonal Spot",
-            type: "scheme-tonal-spot"
-        },
-        {
-            label: "Content",
-            type: "scheme-content"
-        },
-        {
-            label: "Expressive",
-            type: "scheme-expressive"
-        },
-        {
-            label: "Fidelity",
-            type: "scheme-fidelity"
-        },
-        {
-            label: "Fruit Salad",
-            type: "scheme-fruit-salad"
-        },
-        {
-            label: "Monochrome",
-            type: "scheme-monochrome"
-        },
-        {
-            label: "Neutral",
-            type: "scheme-neutral"
-        },
-        {
-            label: "Rainbow",
-            type: "scheme-rainbow"
-        },
-        {
-            label: "Vibrant",
-            type: "scheme-vibrant"
-        }
-    ]
 }

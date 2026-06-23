@@ -33,6 +33,7 @@ RowLayout {
             model: root.visibleEntries
 
             Item {
+                required property int index
                 property real size: (list && list.contentItem && list.contentItem.children && list.contentItem.children[index]) ? list.contentItem.children[index].height : (parent ? parent.height : 0)
 
                 height: size
@@ -100,6 +101,7 @@ RowLayout {
             id: entry
 
             property bool isCurrent: ListView.isCurrentItem
+            required property int index
             required property var modelData
 
             height: (ListView.view && ListView.view.entryHeight) ? ListView.view.entryHeight : LauncherConfig.entryHeight

@@ -5,6 +5,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Quickshell
 
+import qs.lib.layout
 import qs.lib.service
 import qs.modules.settings
 import qs.modules.settings
@@ -55,20 +56,16 @@ ColumnLayout {
         spacing: 10
 
         Text {
-            Layout.preferredWidth: 100
+            Layout.fillWidth: true
             color: GlobalConfig.textDim
             font.family: GlobalConfig.fontFamily
             font.pixelSize: GlobalConfig.fontPixelSmaller
-            text: "Scheme Type"
+            text: "Neon Mode"
         }
-        DropdownMenu {
-            Layout.fillWidth: true
-            activeValue: ColorSchemeService.schemeType
-            labelRole: "label"
-            model: ColorSchemeConfig.schemeTypes
-            valueRole: "type"
+        Toggle {
+            active: ColorSchemeService.neonMode
 
-            onItemSelected: value => ColorSchemeService.schemeType = value
+            onToggled: ColorSchemeService.neonMode = !ColorSchemeService.neonMode
         }
     }
     Rectangle {
@@ -123,74 +120,8 @@ ColumnLayout {
                     return "Extracting colors…";
                 case "error":
                     return "Extraction failed";
-                case "ready":
-                    return "Extracted colors";
                 default:
                     return "";
-                }
-            }
-        }
-        Row {
-            spacing: 8
-            visible: ColorSchemeService.selectedStatus === "ready"
-
-            Repeater {
-                model: ColorSchemeService.selectedColors ? [
-                    {
-                        "color": ColorSchemeService.selectedColors.accent,
-                        "name": "accent"
-                    },
-                    {
-                        "color": ColorSchemeService.selectedColors.accentContainer,
-                        "name": "accentContainer"
-                    },
-                    {
-                        "color": ColorSchemeService.selectedColors.accentAlt,
-                        "name": "accentAlt"
-                    },
-                    {
-                        "color": ColorSchemeService.selectedColors.accentAltContainer,
-                        "name": "accentAltContainer"
-                    },
-                    {
-                        "color": ColorSchemeService.selectedColors.lavender,
-                        "name": "lavender"
-                    },
-                    {
-                        "color": ColorSchemeService.selectedColors.textMuted,
-                        "name": "textMuted"
-                    },
-                    {
-                        "color": ColorSchemeService.selectedColors.surfaceAlt,
-                        "name": "surfaceAlt"
-                    },
-                    {
-                        "color": ColorSchemeService.selectedColors.fieldBg,
-                        "name": "fieldBg"
-                    },
-                    {
-                        "color": ColorSchemeService.selectedColors.base,
-                        "name": "base"
-                    }
-                ] : []
-
-                delegate: Rectangle {
-                    required property var modelData
-
-                    border.color: ColorSchemeConfig.border
-                    border.width: 1
-                    color: modelData.color
-                    height: 32
-                    radius: 16
-                    width: 32
-
-                    MouseArea {
-                        ToolTip.delay: 300
-                        ToolTip.text: parent.modelData.name + "\n" + parent.modelData.color.toString().toUpperCase()
-                        ToolTip.visible: containsMouse
-                        anchors.fill: parent
-                        hoverEnabled: true
-                    }
                 }
             }
         }
@@ -221,6 +152,122 @@ ColumnLayout {
                     margins: -1
                     right: parent.right
                     top: parent.top
+                }
+            }
+        }
+    }
+    ColumnLayout {
+        Layout.alignment: Qt.AlignHCenter
+        spacing: 6
+        visible: ColorSchemeService.selectedStatus === "ready"
+
+        Text {
+            Layout.alignment: Qt.AlignHCenter
+            color: GlobalConfig.textDim
+            font.family: GlobalConfig.fontFamily
+            font.pixelSize: GlobalConfig.fontPixelSmaller
+            text: "Color Palette"
+        }
+        Column {
+            Layout.alignment: Qt.AlignHCenter
+            spacing: 4
+
+            Repeater {
+                model: [[
+                        {
+                            name: "base",
+                            key: "base"
+                        },
+                        {
+                            name: "surface",
+                            key: "surface"
+                        },
+                        {
+                            name: "surfaceAlt",
+                            key: "surfaceAlt"
+                        },
+                        {
+                            name: "accentAltContainer",
+                            key: "accentAltContainer"
+                        },
+                        {
+                            name: "accentContainer",
+                            key: "accentContainer"
+                        },
+                        {
+                            name: "lavender",
+                            key: "lavender"
+                        },
+                        {
+                            name: "rose",
+                            key: "rose"
+                        },
+                        {
+                            name: "textMuted",
+                            key: "textMuted"
+                        }
+                    ], [
+                        {
+                            name: "fieldBg",
+                            key: "fieldBg"
+                        },
+                        {
+                            name: "overlay",
+                            key: "overlay"
+                        },
+                        {
+                            name: "overlayAlt",
+                            key: "overlayAlt"
+                        },
+                        {
+                            name: "accentAlt",
+                            key: "accentAlt"
+                        },
+                        {
+                            name: "accentDim",
+                            key: "accentDim"
+                        },
+                        {
+                            name: "accent",
+                            key: "accent"
+                        },
+                        {
+                            name: "lavenderLight",
+                            key: "lavenderLight"
+                        },
+                        {
+                            name: "text",
+                            key: "text"
+                        }
+                    ]]
+
+                delegate: Row {
+                    required property var modelData
+
+                    spacing: 4
+
+                    Repeater {
+                        model: parent.modelData
+
+                        delegate: Rectangle {
+                            required property var modelData
+
+                            border.color: ColorSchemeConfig.border
+                            border.width: 1
+                            color: ColorSchemeService.selectedColors ? (ColorSchemeService.selectedColors[modelData.key] ?? "transparent") : "transparent"
+                            height: 28
+                            radius: 14
+                            width: 28
+
+                            MouseArea {
+                                ToolTip.delay: 300
+                                ToolTip.text: parent.modelData.name + "\n" + (parent.color.toString().toUpperCase())
+                                ToolTip.visible: containsMouse
+                                anchors.fill: parent
+                                hoverEnabled: true
+                            }
+                        }
+                    }
                 }
             }
         }

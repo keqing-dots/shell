@@ -9,6 +9,6 @@ sudo cmake --install "$ROOT/plugins/build"
 rm -rf "$ROOT/plugins/build"
 
 sudo mkdir -p /etc/xdg/quickshell
-sudo rm -f /etc/xdg/quickshell/keqing-shell
-sudo ln -s "$ROOT/src" /etc/xdg/quickshell/keqing-shell
+sudo ln -sf "$ROOT/src" /etc/xdg/quickshell/keqing-shell
 sudo ln -sf "$ROOT/keqing-shell" /usr/bin/keqing-shell
+sudo ln -sf "$ROOT/scripts/apply-colors" /usr/bin/apply-colors

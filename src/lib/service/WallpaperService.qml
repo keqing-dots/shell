@@ -32,7 +32,7 @@ QtObject {
             root.currentFillModes = cacheAdapter.fillModes || {};
             var col = cacheAdapter.color || {};
             root.colorSourceScreen = col.sourceScreen || "";
-            root.schemeType = col.schemeType || WallpaperConfig.defaultSchemeType;
+            root.neonMode = col.neonMode ?? false;
             if (cacheAdapter.dir !== "")
                 root.currentDir = cacheAdapter.dir;
             if (root.colorSourceScreen === "") {
@@ -41,7 +41,7 @@ QtObject {
                     root.colorSourceScreen = screens[0];
             }
             ColorSchemeService.wallpapers = root.currentWallpapers;
-            ColorSchemeService.schemeType = root.schemeType;
+            ColorSchemeService.neonMode = root.neonMode;
             ColorSchemeService.selectedScreen = root.colorSourceScreen || "default";
             ColorSchemeService.wallpapersLoaded = true;
             root.scan(root.currentDir);
@@ -50,9 +50,9 @@ QtObject {
     property string colorSourceScreen: ""
     readonly property string configDir: Quickshell.env("HOME") + "/.config/keqing-shell/"
     property Connections cssSync: Connections {
-        function onSchemeTypeChanged() {
-            if (root.schemeType !== ColorSchemeService.schemeType) {
-                root.schemeType = ColorSchemeService.schemeType;
+        function onNeonModeChanged() {
+            if (root.neonMode !== ColorSchemeService.neonMode) {
+                root.neonMode = ColorSchemeService.neonMode;
                 saveTimer.restart();
             }
         }
@@ -88,7 +88,7 @@ QtObject {
             cacheAdapter.dir = root.currentDir;
             cacheAdapter.color = {
                 sourceScreen: root.colorSourceScreen,
-                schemeType: root.schemeType
+                neonMode: root.neonMode
             };
             cacheView.writeAdapter();
         }
@@ -109,7 +109,7 @@ QtObject {
         }
     }
     property bool scanning: false
-    property string schemeType: WallpaperConfig.defaultSchemeType
+    property bool neonMode: false
 
     signal wallpaperChanged(string screenName, string path)
 
@@ -159,9 +159,9 @@ QtObject {
         currentFillModes = updated;
         saveTimer.restart();
     }
-    function setSchemeType(type) {
-        root.schemeType = type;
-        ColorSchemeService.schemeType = type;
+    function setNeonMode(enabled) {
+        root.neonMode = enabled;
+        ColorSchemeService.neonMode = enabled;
         saveTimer.restart();
     }
     function setWallpaper(screenName, path) {
