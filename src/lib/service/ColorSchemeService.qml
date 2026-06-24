@@ -9,22 +9,22 @@ QtObject {
     id: root
 
     readonly property var defaults: ({
-            accent: "#7B2FE8",
-            accentAlt: "#C8942A",
-            accentAltContainer: "#2B1D5C",
-            accentContainer: "#3D1878",
-            accentDim: "#5535B8",
+            accent: "#9B57F4",
+            accentAlt: "#DBAA24",
+            accentAltContainer: "#2A1957",
+            accentContainer: "#3C1877",
+            accentDim: "#693DC2",
             base: "#0A0614",
-            fieldBg: "#0F1535",
-            lavender: "#5E50A0",
-            lavenderLight: "#C87EFF",
-            overlay: "#1C1848",
-            overlayAlt: "#252060",
-            rose: "#7A4A58",
-            surface: "#110B22",
-            surfaceAlt: "#1A1238",
-            text: "#F0ECF8",
-            textMuted: "#A896C8"
+            fieldBg: "#170D30",
+            lavender: "#806FBE",
+            lavenderLight: "#CE8AFF",
+            overlay: "#26164B",
+            overlayAlt: "#2F1C5F",
+            rose: "#C0547F",
+            surface: "#120B23",
+            surfaceAlt: "#1D113B",
+            text: "#F0ECF9",
+            textMuted: "#AB9DC8"
         })
 
     readonly property var colorNames: ["base", "surface", "surfaceAlt", "accentAltContainer", "accentContainer", "lavender", "rose", "textMuted", "fieldBg", "overlay", "overlayAlt", "accentAlt", "accentDim", "accent", "lavenderLight", "text"]

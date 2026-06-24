@@ -1,203 +1,121 @@
 #!/usr/bin/env bash
-# Applies keqing-shell colors to all themed applications.
 
 COLORS_JSON="$HOME/.config/keqing-shell/colors.json"
+TMPL_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/../templates"
 
-color() {
-    local val
-    val=$(jq -r "$1 // empty" "$COLORS_JSON" 2>/dev/null)
-    echo "${val:-$2}"
+color()      { local v; v=$(jq -r "$1 // empty" "$COLORS_JSON" 2>/dev/null); echo "${v:-$2}"; }
+hex_to_rgb() { local h="${1#'#'}"; printf "%d;%d;%d" $((16#${h:0:2})) $((16#${h:2:2})) $((16#${h:4:2})); }
+lerp_hex()   {
+    local c1="${1#'#'}" c2="${2#'#'}" i="$3"
+    printf '#%02x%02x%02x' \
+        $(( 16#${c1:0:2} + (16#${c2:0:2} - 16#${c1:0:2}) * i / 7 )) \
+        $(( 16#${c1:2:2} + (16#${c2:2:2} - 16#${c1:2:2}) * i / 7 )) \
+        $(( 16#${c1:4:2} + (16#${c2:4:2} - 16#${c1:4:2}) * i / 7 ))
+}
+write_file() { local f="$1"; mkdir -p "$(dirname "$f")"; [[ -L "$f" && ! -e "$f" ]] && rm -f "$f"; }
+render_tmpl() {
+    local tmpl="$1" out="$2"
+    [[ -f "$tmpl" ]] || { echo "${tmpl##*/}: not found, skipping"; return; }
+    envsubst "$ENVSUBST_VARS" < "$tmpl" > "$out"
 }
 
-safe_write() { [[ -L "$1" && ! -e "$1" ]] && rm -f "$1"; }
+# palette
+export BASE=$(color '.current.base' '#0A0614')
+export SURFACE=$(color '.current.surface' '#120B23')
+export SURFACE_ALT=$(color '.current.surfaceAlt' '#1D113B')
+export OVERLAY=$(color '.current.overlay' '#26164B')
+export OVERLAY_ALT=$(color '.current.overlayAlt' '#2F1C5F')
+export FIELD_BG=$(color '.current.fieldBg' '#170D30')
+export ACCENT=$(color '.current.accent' '#9B57F4')
+export ACCENT_ALT=$(color '.current.accentAlt' '#DBAA24')
+export ACCENT_DIM=$(color '.current.accentDim' '#693DC2')
+export ACCENT_CONTAINER=$(color '.current.accentContainer' '#3C1877')
+export ACCENT_ALT_CONTAINER=$(color '.current.accentAltContainer' '#2A1957')
+export LAVENDER=$(color '.current.lavender' '#806FBE')
+export LAVENDER_LIGHT=$(color '.current.lavenderLight' '#CE8AFF')
+export ROSE=$(color '.current.rose' '#C0547F')
+export TEXT=$(color '.current.text' '#F0ECF9')
+export TEXT_MUTED=$(color '.current.textMuted' '#AB9DC8')
 
-accent=$(color '.current.accent' '#7B2FE8')
-accentContainer=$(color '.current.accentContainer' '#3D1878')
-accentAlt=$(color '.current.accentAlt' '#C8942A')
-lavender=$(color '.current.lavender' '#5E50A0')
-text=$(color '.current.text' '#F0ECF8')
-textMuted=$(color '.current.textMuted' '#A896C8')
-fieldBg=$(color '.current.fieldBg' '#0F1535')
-surfaceAlt=$(color '.current.surfaceAlt' '#1A1238')
-base=$(color '.current.base' '#0A0614')
+# derived
+export ACCENT_RGB=$(hex_to_rgb "$ACCENT")
+export LAVENDER_LIGHT_RGB=$(hex_to_rgb "$LAVENDER_LIGHT")
+export ACCENT_ALT_RGB=$(hex_to_rgb "$ACCENT_ALT")
+for i in 0 1 2 3 4 5 6 7; do
+    export "GRADIENT_$((i+1))=$(lerp_hex "$ACCENT" "$LAVENDER" "$i")"
+done
 
-# =====
-# kitty
-# =====
+ENVSUBST_VARS='$BASE $SURFACE $SURFACE_ALT $OVERLAY $OVERLAY_ALT $FIELD_BG
+    $ACCENT $ACCENT_ALT $ACCENT_DIM $ACCENT_CONTAINER $ACCENT_ALT_CONTAINER
+    $LAVENDER $LAVENDER_LIGHT $ROSE $TEXT $TEXT_MUTED
+    $ACCENT_RGB $LAVENDER_LIGHT_RGB $ACCENT_ALT_RGB
+    $GRADIENT_1 $GRADIENT_2 $GRADIENT_3 $GRADIENT_4
+    $GRADIENT_5 $GRADIENT_6 $GRADIENT_7 $GRADIENT_8'
+
 apply_kitty() {
     local file="$HOME/.config/kitty/current-theme.conf"
-    mkdir -p "$(dirname "$file")"
-    safe_write "$file"
-    cat > "$file" << EOF
-background            $base
-foreground            $text
-cursor                $text
-cursor_text_color     $base
-selection_foreground  $textMuted
-selection_background  $surfaceAlt
-active_border_color   $accent
-inactive_border_color $surfaceAlt
-url_color             $lavender
-active_tab_foreground $base
-active_tab_background $accent
-inactive_tab_foreground $textMuted
-inactive_tab_background $surfaceAlt
-cursor_trail_color    $lavender
-
-color0  $base
-color1  #ff6b6b
-color2  #a8e6cf
-color3  $accentAlt
-color4  $accentContainer
-color5  $accent
-color6  $lavender
-color7  $text
-color8  $surfaceAlt
-color9  #ff8e8e
-color10 #c3f0d8
-color11 $accentAlt
-color12 $fieldBg
-color13 $lavender
-color14 $textMuted
-color15 $text
-EOF
+    write_file "$file"
+    render_tmpl "$TMPL_DIR/kitty.conf.tmpl" "$file"
     pkill -USR1 kitty 2>/dev/null && echo "kitty: reloaded" || echo "kitty: config written"
 }
 
-# ====
-# cava
-# ====
 apply_cava() {
     local file="$HOME/.config/cava/config"
-    mkdir -p "$(dirname "$file")"
-    safe_write "$file"
-
-    mapfile -t gradient < <(python3 - "$accent" "$lavender" << 'PY'
-import sys
-
-def lerp_hex(c1, c2, t):
-    r1, g1, b1 = int(c1[1:3], 16), int(c1[3:5], 16), int(c1[5:7], 16)
-    r2, g2, b2 = int(c2[1:3], 16), int(c2[3:5], 16), int(c2[5:7], 16)
-    return "#{:02x}{:02x}{:02x}".format(
-        int(r1 + (r2 - r1) * t),
-        int(g1 + (g2 - g1) * t),
-        int(b1 + (b2 - b1) * t),
-    )
-
-c1, c2 = sys.argv[1], sys.argv[2]
-for i in range(8):
-    print(lerp_hex(c1, c2, i / 7))
-PY
-    )
-
-    cat > "$file" << EOF
-[general]
-framerate = 60
-autosens = 1
-sensitivity = 100
-bars = 0
-bar_width = 1
-bar_spacing = 1
-sleep_timer = 0
-max_height = 66
-
-[output]
-method = noncurses
-orientation = bottom
-channels = mono
-mono_option = average
-
-[color]
-background = default
-foreground = default
-gradient = 1
-gradient_color_1 = '${gradient[0]}'
-gradient_color_2 = '${gradient[1]}'
-gradient_color_3 = '${gradient[2]}'
-gradient_color_4 = '${gradient[3]}'
-gradient_color_5 = '${gradient[4]}'
-gradient_color_6 = '${gradient[5]}'
-gradient_color_7 = '${gradient[6]}'
-gradient_color_8 = '${gradient[7]}'
-
-[smoothing]
-noise_reduction = 77
-monstercat = 0
-waves = 0
-
-[eq]
-1 = 1
-2 = 1
-3 = 1
-4 = 1
-5 = 1
-EOF
+    write_file "$file"
+    render_tmpl "$TMPL_DIR/cava.conf.tmpl" "$file"
     pkill -USR1 cava 2>/dev/null && echo "cava: reloaded" || echo "cava: config written"
 }
 
-# ====
-# btop
-# ====
 apply_btop() {
-    local file="$HOME/.config/btop/themes/keqing.theme"
-    mkdir -p "$(dirname "$file")"
-    safe_write "$file"
-    cat > "$file" << EOF
-theme[main_bg]="$base"
-theme[main_fg]="$text"
-theme[title]="$lavender"
-theme[hi_fg]="$accentAlt"
-theme[selected_bg]="$accentContainer"
-theme[selected_fg]="$text"
-theme[inactive_fg]="$textMuted"
-theme[proc_misc]="$accent"
-theme[cpu_box]="$surfaceAlt"
-theme[mem_box]="$surfaceAlt"
-theme[net_box]="$surfaceAlt"
-theme[proc_box]="$surfaceAlt"
-theme[div_line]="$surfaceAlt"
-EOF
-    for prefix in temp cpu free cached available used download upload; do
-        printf 'theme[%s_start]="%s"\n' "$prefix" "$accent"
-        printf 'theme[%s_mid]="%s"\n'   "$prefix" "$lavender"
-        printf 'theme[%s_end]="%s"\n'   "$prefix" "$accentAlt"
-    done >> "$file"
+    local theme="$HOME/.config/btop/themes/keqing.theme"
     local conf="$HOME/.config/btop/btop.conf"
+    write_file "$theme"
+    render_tmpl "$TMPL_DIR/btop.theme.tmpl" "$theme"
+    for prefix in temp cpu free cached available used download upload; do
+        printf 'theme[%s_start]="%s"\ntheme[%s_mid]="%s"\ntheme[%s_end]="%s"\n' \
+            "$prefix" "$ACCENT" "$prefix" "$LAVENDER" "$prefix" "$ACCENT_ALT"
+    done >> "$theme"
+    mkdir -p "$(dirname "$conf")"
     if [[ ! -f "$conf" ]]; then
-        cat > "$conf" << 'CONF'
-color_theme = "keqing"
-theme_background = false
-truecolor = true
-CONF
+        printf 'color_theme = "keqing"\ntheme_background = false\ntruecolor = true\n' > "$conf"
     else
-        sed -i \
-            -e 's|^color_theme = .*|color_theme = "keqing"|' \
-            -e 's|^theme_background = .*|theme_background = false|' \
-            "$conf"
+        sed -i -e 's|^color_theme = .*|color_theme = "keqing"|' \
+               -e 's|^theme_background = .*|theme_background = false|' "$conf"
     fi
     echo "btop: theme written (restart btop to apply)"
 }
 
-# =======
-# vesktop
-# =======
 apply_vesktop() {
     local file="$HOME/.config/vesktop/settings/quickCss.css"
-    mkdir -p "$(dirname "$file")"
-    safe_write "$file"
-    cat > "$file" << EOF
-/* keqing-shell: auto-generated color overrides */
-:root {
-    --main-color: $accent;
-    --hover-color: $lavender;
-    --success-color: $accentContainer;
-}
-EOF
-    echo "vesktop: quickCss.css written (hot-reloaded)"
+    write_file "$file"
+    render_tmpl "$TMPL_DIR/vesktop.css.tmpl" "$file"
+    echo "vesktop: quickCss.css written"
 }
 
-apply_kitty
-apply_cava
+apply_fastfetch() {
+    render_tmpl "$TMPL_DIR/fastfetch.jsonc.tmpl" \
+                "$HOME/.config/fastfetch/config.jsonc"
+    echo "fastfetch: config written"
+}
+
+apply_starship() {
+    render_tmpl "$TMPL_DIR/starship.toml.tmpl" \
+                "$HOME/.config/starship.toml"
+    echo "starship: config written"
+}
+
+apply_zsh() {
+    local file="$HOME/.config/keqing-shell/colors.zsh"
+    write_file "$file"
+    printf "KEQING_ACCENT_ANSI=\$'\\e[38;2;%sm'\n" "$ACCENT_RGB" > "$file"
+    echo "zsh: colors.zsh written"
+}
+
 apply_btop
+apply_cava
+apply_fastfetch
+apply_kitty
+apply_starship
 apply_vesktop
+apply_zsh
 hyprctl reload

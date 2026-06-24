@@ -1,0 +1,21 @@
+format = """
+$time $directory
+[Come on. Enough procrastinating. Let's go.](${ACCENT_ALT})
+$character
+"""
+
+add_newline = false
+
+[time]
+disabled = false
+format = "[$time](${ACCENT})"
+time_format = "%d-%m-%Y %H:%M:%S"
+
+[directory]
+format = "[$path](${TEXT})"
+truncation_length = 1
+truncate_to_repo = false
+
+[character]
+success_symbol = "[>](${TEXT})"
+error_symbol = "[>](${TEXT})"
