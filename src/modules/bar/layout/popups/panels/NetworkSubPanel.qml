@@ -100,6 +100,7 @@ WidgetPanel {
                 onAccepted: {
                     if (text.length >= 8) {
                         NetworkService.connect(subRoot.ssid, text);
+                        pwdIn.clear();
                         PanelService.closeSubPanel();
                     }
                 }
@@ -137,6 +138,7 @@ WidgetPanel {
                         onClicked: {
                             if (pwdIn.text.length >= 8) {
                                 NetworkService.connect(subRoot.ssid, pwdIn.text);
+                                pwdIn.clear();
                                 PanelService.closeSubPanel();
                             }
                         }
