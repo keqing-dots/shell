@@ -50,23 +50,6 @@ ColumnLayout {
             onItemSelected: value => ColorSchemeService.selectedScreen = value
         }
     }
-    RowLayout {
-        Layout.fillWidth: true
-        spacing: 10
-
-        Text {
-            Layout.fillWidth: true
-            color: GlobalConfig.textDim
-            font.family: GlobalConfig.fontFamily
-            font.pixelSize: GlobalConfig.fontPixelSmaller
-            text: "Neon Mode"
-        }
-        Toggle {
-            active: ColorSchemeService.neonMode
-
-            onToggled: ColorSchemeService.neonMode = !ColorSchemeService.neonMode
-        }
-    }
     Rectangle {
         Layout.alignment: Qt.AlignHCenter
         Layout.preferredHeight: root.previewH

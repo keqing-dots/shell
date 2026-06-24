@@ -10,5 +10,6 @@ rm -rf "$ROOT/plugins/build"
 
 sudo mkdir -p /etc/xdg/quickshell
 sudo ln -sfn "$ROOT/src" /etc/xdg/quickshell/keqing-shell
-sudo ln -sf "$ROOT/bin/keqing-shell" /usr/bin/keqing-shell
-sudo ln -sf "$ROOT/bin/apply-colors" /usr/bin/apply-colors
+for bin in "$ROOT/bin/"*; do
+    sudo ln -sf "$bin" "/usr/bin/${bin##*/}"
+done

@@ -32,7 +32,6 @@ QtObject {
             root.currentFillModes = cacheAdapter.fillModes || {};
             var col = cacheAdapter.color || {};
             root.colorSourceScreen = col.sourceScreen || "";
-            root.neonMode = col.neonMode ?? false;
             if (cacheAdapter.dir !== "")
                 root.currentDir = cacheAdapter.dir;
             if (root.colorSourceScreen === "") {
@@ -41,7 +40,6 @@ QtObject {
                     root.colorSourceScreen = screens[0];
             }
             ColorSchemeService.wallpapers = root.currentWallpapers;
-            ColorSchemeService.neonMode = root.neonMode;
             ColorSchemeService.selectedScreen = root.colorSourceScreen || "default";
             ColorSchemeService.wallpapersLoaded = true;
             root.scan(root.currentDir);
@@ -50,12 +48,6 @@ QtObject {
     property string colorSourceScreen: ""
     readonly property string configDir: Quickshell.env("HOME") + "/.config/keqing-shell/"
     property Connections cssSync: Connections {
-        function onNeonModeChanged() {
-            if (root.neonMode !== ColorSchemeService.neonMode) {
-                root.neonMode = ColorSchemeService.neonMode;
-                saveTimer.restart();
-            }
-        }
         function onSelectedScreenChanged() {
             if (root.colorSourceScreen !== ColorSchemeService.selectedScreen) {
                 root.colorSourceScreen = ColorSchemeService.selectedScreen;
@@ -87,8 +79,7 @@ QtObject {
             cacheAdapter.fillModes = root.currentFillModes;
             cacheAdapter.dir = root.currentDir;
             cacheAdapter.color = {
-                sourceScreen: root.colorSourceScreen,
-                neonMode: root.neonMode
+                sourceScreen: root.colorSourceScreen
             };
             cacheView.writeAdapter();
         }
@@ -109,7 +100,6 @@ QtObject {
         }
     }
     property bool scanning: false
-    property bool neonMode: false
 
     signal wallpaperChanged(string screenName, string path)
 
@@ -157,11 +147,6 @@ QtObject {
         var updated = Object.assign({}, currentFillModes);
         updated[screenName] = mode;
         currentFillModes = updated;
-        saveTimer.restart();
-    }
-    function setNeonMode(enabled) {
-        root.neonMode = enabled;
-        ColorSchemeService.neonMode = enabled;
         saveTimer.restart();
     }
     function setWallpaper(screenName, path) {

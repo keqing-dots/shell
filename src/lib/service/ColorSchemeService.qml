@@ -27,8 +27,6 @@ QtObject {
             textMuted: "#AB9DC8"
         })
 
-    readonly property var colorNames: ["base", "surface", "surfaceAlt", "accentAltContainer", "accentContainer", "lavender", "rose", "textMuted", "fieldBg", "overlay", "overlayAlt", "accentAlt", "accentDim", "accent", "lavenderLight", "text"]
-
     property Process applyColors: Process {
         command: ["apply-colors"]
     }
@@ -38,7 +36,6 @@ QtObject {
     readonly property string configDir: Quickshell.env("HOME") + "/.config/keqing-shell/"
     property var currentColors: root.defaults
     property string mode: "default"
-    property bool neonMode: false
 
     property Process proc: Process {
         property string targetScreen: ""
@@ -111,10 +108,7 @@ QtObject {
         if (proc.running)
             proc.running = false;
         proc.targetScreen = screen;
-        var cmd = ["hellwal", "-i", root.wallpapers[screen], "-j", "-d"];
-        if (root.neonMode)
-            cmd.push("-m");
-        proc.command = cmd;
+        proc.command = ["keqing-extract", root.wallpapers[screen]];
         proc.running = true;
     }
 
@@ -129,11 +123,7 @@ QtObject {
         var screen = proc.targetScreen;
         if (code === 0) {
             try {
-                var c = JSON.parse(proc.stdout.text).colors;
-                var scheme = {};
-                root.colorNames.forEach((name, i) => {
-                    scheme[name] = c["color" + i];
-                });
+                var scheme = JSON.parse(proc.stdout.text).colors;
                 root.colors = Object.assign({}, root.colors, {
                     [screen]: scheme
                 });
@@ -176,11 +166,6 @@ QtObject {
             else if (root.selectedScreen)
                 root.extract();
         }
-    }
-
-    onNeonModeChanged: {
-        if (root.mode === "capture" && root.selectedScreen)
-            root.extract();
     }
 
     onSelectedScreenChanged: {
