@@ -4,7 +4,9 @@ COLORS_JSON="$HOME/.config/keqing-shell/colors.json"
 TMPL_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/../templates"
 
 color()      { local v; v=$(jq -r "$1 // empty" "$COLORS_JSON" 2>/dev/null); echo "${v:-$2}"; }
+
 hex_to_rgb() { local h="${1#'#'}"; printf "%d;%d;%d" $((16#${h:0:2})) $((16#${h:2:2})) $((16#${h:4:2})); }
+
 lerp_hex()   {
     local c1="${1#'#'}" c2="${2#'#'}" i="$3"
     printf '#%02x%02x%02x' \
@@ -12,7 +14,15 @@ lerp_hex()   {
         $(( 16#${c1:2:2} + (16#${c2:2:2} - 16#${c1:2:2}) * i / 7 )) \
         $(( 16#${c1:4:2} + (16#${c2:4:2} - 16#${c1:4:2}) * i / 7 ))
 }
-write_file() { local f="$1"; mkdir -p "$(dirname "$f")"; [[ -L "$f" && ! -e "$f" ]] && rm -f "$f"; }
+
+write_file() {
+    local f="$1" d
+    d="$(dirname "$f")"
+    [[ -L "$d" ]] && rm -f "$d"
+    mkdir -p "$d"
+    [[ -L "$f" && ! -e "$f" ]] && rm -f "$f"
+}
+
 render_tmpl() {
     local tmpl="$1" out="$2"
     [[ -f "$tmpl" ]] || { echo "${tmpl##*/}: not found, skipping"; return; }
@@ -71,10 +81,6 @@ apply_btop() {
     local conf="$HOME/.config/btop/btop.conf"
     write_file "$theme"
     render_tmpl "$TMPL_DIR/btop.theme.tmpl" "$theme"
-    for prefix in temp cpu free cached available used download upload; do
-        printf 'theme[%s_start]="%s"\ntheme[%s_mid]="%s"\ntheme[%s_end]="%s"\n' \
-            "$prefix" "$ACCENT" "$prefix" "$LAVENDER" "$prefix" "$ACCENT_ALT"
-    done >> "$theme"
     mkdir -p "$(dirname "$conf")"
     if [[ ! -f "$conf" ]]; then
         printf 'color_theme = "keqing"\ntheme_background = false\ntruecolor = true\n' > "$conf"
@@ -93,14 +99,16 @@ apply_vesktop() {
 }
 
 apply_fastfetch() {
-    render_tmpl "$TMPL_DIR/fastfetch.jsonc.tmpl" \
-                "$HOME/.config/fastfetch/config.jsonc"
+    local file="$HOME/.config/fastfetch/config.jsonc"
+    write_file "$file"
+    render_tmpl "$TMPL_DIR/fastfetch.jsonc.tmpl" "$file"
     echo "fastfetch: config written"
 }
 
 apply_starship() {
-    render_tmpl "$TMPL_DIR/starship.toml.tmpl" \
-                "$HOME/.config/starship.toml"
+    local file="$HOME/.config/starship.toml"
+    write_file "$file"
+    render_tmpl "$TMPL_DIR/starship.toml.tmpl" "$file"
     echo "starship: config written"
 }
 
