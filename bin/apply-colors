@@ -156,31 +156,25 @@ theme[mem_box]="$surfaceAlt"
 theme[net_box]="$surfaceAlt"
 theme[proc_box]="$surfaceAlt"
 theme[div_line]="$surfaceAlt"
-theme[temp_start]="$accent"
-theme[temp_mid]="$lavender"
-theme[temp_end]="$accentAlt"
-theme[cpu_start]="$accent"
-theme[cpu_mid]="$lavender"
-theme[cpu_end]="$accentAlt"
-theme[free_start]="$accent"
-theme[free_mid]="$lavender"
-theme[free_end]="$accentAlt"
-theme[cached_start]="$accent"
-theme[cached_mid]="$lavender"
-theme[cached_end]="$accentAlt"
-theme[available_start]="$accent"
-theme[available_mid]="$lavender"
-theme[available_end]="$accentAlt"
-theme[used_start]="$accent"
-theme[used_mid]="$lavender"
-theme[used_end]="$accentAlt"
-theme[download_start]="$accent"
-theme[download_mid]="$lavender"
-theme[download_end]="$accentAlt"
-theme[upload_start]="$accent"
-theme[upload_mid]="$lavender"
-theme[upload_end]="$accentAlt"
 EOF
+    for prefix in temp cpu free cached available used download upload; do
+        printf 'theme[%s_start]="%s"\n' "$prefix" "$accent"
+        printf 'theme[%s_mid]="%s"\n'   "$prefix" "$lavender"
+        printf 'theme[%s_end]="%s"\n'   "$prefix" "$accentAlt"
+    done >> "$file"
+    local conf="$HOME/.config/btop/btop.conf"
+    if [[ ! -f "$conf" ]]; then
+        cat > "$conf" << 'CONF'
+color_theme = "keqing"
+theme_background = false
+truecolor = true
+CONF
+    else
+        sed -i \
+            -e 's|^color_theme = .*|color_theme = "keqing"|' \
+            -e 's|^theme_background = .*|theme_background = false|' \
+            "$conf"
+    fi
     echo "btop: theme written (restart btop to apply)"
 }
 
