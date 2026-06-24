@@ -91,7 +91,7 @@ def rgb_to_xyz(r: int, g: int, b: int) -> Tuple[float, float, float]:
 
 
 # ===========================================================================
-# CAM16 — chroma only (for scoring; full HCT not required here)
+# CAM16
 # ===========================================================================
 
 _VC_n   = 0.18418651851244416
@@ -285,7 +285,7 @@ def _wu_quantize(pixels: List[RGB], max_colors: int) -> List[int]:
 
 
 # ===========================================================================
-# WSMeans (weighted k-means in Lab — port of QuantizerWsmeans)
+# WSMeans (weighted k-means in Lab)
 # ===========================================================================
 
 class _Rng:
