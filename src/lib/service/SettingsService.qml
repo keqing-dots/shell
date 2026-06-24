@@ -154,34 +154,28 @@ QtObject {
         adapter.powerButtons = arr;
         save();
     }
-    function setWidgetOverrideEnabled(screenName, enabled) {
+    function ensureScreen(screenName) {
         var all = JSON.parse(JSON.stringify(allWidgets));
         if (!all[screenName]) {
-            if (!enabled)
-                return;
             var def = all["default"] || root._defaultWidgets;
             all[screenName] = {
-                "_enabled": true,
                 left: (def.left || root._defaultWidgets.left).slice(),
                 center: (def.center || root._defaultWidgets.center).slice(),
                 right: (def.right || root._defaultWidgets.right).slice()
             };
-        } else {
-            all[screenName]._enabled = enabled;
         }
+        return all;
+    }
+    function setWidgetOverrideEnabled(screenName, enabled) {
+        if (!allWidgets[screenName] && !enabled)
+            return;
+        var all = ensureScreen(screenName);
+        all[screenName]._enabled = enabled;
         adapter.widgets = all;
         save();
     }
     function setWidgets(screenName, section, arr) {
-        var all = JSON.parse(JSON.stringify(allWidgets));
-        if (!all[screenName]) {
-            var def = all["default"] || root._defaultWidgets;
-            all[screenName] = {
-                left: (def.left || root._defaultWidgets.left).slice(),
-                center: (def.center || root._defaultWidgets.center).slice(),
-                right: (def.right || root._defaultWidgets.right).slice()
-            };
-        }
+        var all = ensureScreen(screenName);
         all[screenName][section] = arr;
         adapter.widgets = all;
         save();

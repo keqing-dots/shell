@@ -8,13 +8,7 @@ import Quickshell.Io
 QtObject {
     id: root
 
-    property Process applyColors: Process {
-        command: ["apply-colors"]
-    }
-    readonly property string cacheDir: Quickshell.env("HOME") + "/.cache/keqing-shell/"
-    property var colors: ({})
-    readonly property string configDir: Quickshell.env("HOME") + "/.config/keqing-shell/"
-    property var currentColors: ({
+    readonly property var defaults: ({
             accent: "#7B2FE8",
             accentAlt: "#C8942A",
             accentAltContainer: "#2B1D5C",
@@ -32,8 +26,20 @@ QtObject {
             text: "#F0ECF8",
             textMuted: "#A896C8"
         })
+
+    readonly property var colorNames: ["base", "surface", "surfaceAlt", "accentAltContainer", "accentContainer", "lavender", "rose", "textMuted", "fieldBg", "overlay", "overlayAlt", "accentAlt", "accentDim", "accent", "lavenderLight", "text"]
+
+    property Process applyColors: Process {
+        command: ["apply-colors"]
+    }
+
+    readonly property string cacheDir: Quickshell.env("HOME") + "/.cache/keqing-shell/"
+    property var colors: ({})
+    readonly property string configDir: Quickshell.env("HOME") + "/.config/keqing-shell/"
+    property var currentColors: root.defaults
     property string mode: "default"
     property bool neonMode: false
+
     property Process proc: Process {
         property string targetScreen: ""
 
@@ -41,68 +47,35 @@ QtObject {
 
         onExited: code => root.onExited(code)
     }
-    property FileView restoreView: FileView {
+
+    property FileView file: FileView {
         path: root.configDir + "colors.json"
         printErrors: false
         watchChanges: false
 
         adapter: JsonAdapter {
-            id: rd
+            id: json
 
             property var capture: ({})
-            property var current: ({
-                    accent: "#7B2FE8",
-                    accentAlt: "#C8942A",
-                    accentAltContainer: "#2B1D5C",
-                    accentContainer: "#3D1878",
-                    accentDim: "#5535B8",
-                    base: "#0A0614",
-                    fieldBg: "#0F1535",
-                    lavender: "#5E50A0",
-                    lavenderLight: "#C87EFF",
-                    overlay: "#1C1848",
-                    overlayAlt: "#252060",
-                    rose: "#7A4A58",
-                    surface: "#110B22",
-                    surfaceAlt: "#1A1238",
-                    text: "#F0ECF8",
-                    textMuted: "#A896C8"
-                })
+            property var current: ({})
             property string mode: "default"
         }
 
         onLoadFailed: {}
         onLoaded: {
-            var cur = rd.current || {};
-            root.currentColors = {
-                accent: cur.accent ?? "#7B2FE8",
-                accentAlt: cur.accentAlt ?? "#C8942A",
-                accentAltContainer: cur.accentAltContainer ?? "#2B1D5C",
-                accentContainer: cur.accentContainer ?? "#3D1878",
-                accentDim: cur.accentDim ?? "#5535B8",
-                base: cur.base ?? "#0A0614",
-                fieldBg: cur.fieldBg ?? "#0F1535",
-                lavender: cur.lavender ?? "#5E50A0",
-                lavenderLight: cur.lavenderLight ?? "#C87EFF",
-                overlay: cur.overlay ?? "#1C1848",
-                overlayAlt: cur.overlayAlt ?? "#252060",
-                rose: cur.rose ?? "#7A4A58",
-                surface: cur.surface ?? "#110B22",
-                surfaceAlt: cur.surfaceAlt ?? "#1A1238",
-                text: cur.text ?? "#F0ECF8",
-                textMuted: cur.textMuted ?? "#A896C8"
-            };
-            root.mode = rd.mode;
-            if (rd.capture && typeof rd.capture === "object") {
-                root.colors = rd.capture;
+            root.currentColors = Object.assign({}, root.defaults, json.current || {});
+            root.mode = json.mode;
+            if (json.capture && typeof json.capture === "object") {
+                root.colors = json.capture;
                 var st = {};
-                Object.keys(rd.capture).forEach(function (screen) {
-                    st[screen] = "ready";
+                Object.keys(json.capture).forEach(s => {
+                    st[s] = "ready";
                 });
                 root.status = st;
             }
         }
     }
+
     readonly property var screens: {
         var list = Object.keys(root.wallpapers).filter(s => s !== "HEADLESS" && root.wallpapers[s]);
         list.sort();
@@ -114,37 +87,12 @@ QtObject {
     property var status: ({})
     property var wallpapers: ({})
     property bool wallpapersLoaded: false
-    property FileView writer: FileView {
-        adapter: JsonAdapter {
-            id: wr
-
-            property var capture: ({})
-            property var current: ({})
-            property string mode: ""
-        }
-    }
 
     function applyDefault() {
-        root.currentColors = {
-            accent: "#7B2FE8",
-            accentAlt: "#C8942A",
-            accentAltContainer: "#2B1D5C",
-            accentContainer: "#3D1878",
-            accentDim: "#5535B8",
-            base: "#0A0614",
-            fieldBg: "#0F1535",
-            lavender: "#5E50A0",
-            lavenderLight: "#C87EFF",
-            overlay: "#1C1848",
-            overlayAlt: "#252060",
-            rose: "#7A4A58",
-            surface: "#110B22",
-            surfaceAlt: "#1A1238",
-            text: "#F0ECF8",
-            textMuted: "#A896C8"
-        };
+        root.currentColors = root.defaults;
         saveAll();
     }
+
     function applySelected() {
         var scheme = root.selectedColors;
         if (!scheme)
@@ -152,15 +100,14 @@ QtObject {
         root.currentColors = scheme;
         saveAll();
     }
+
     function extract() {
         if (root.mode !== "capture")
             return;
         var screen = root.selectedScreen;
         if (!screen || !root.wallpapers[screen])
             return;
-        var s = Object.assign({}, root.status);
-        s[screen] = "loading";
-        root.status = s;
+        setStatus(screen, "loading");
         if (proc.running)
             proc.running = false;
         proc.targetScreen = screen;
@@ -170,66 +117,50 @@ QtObject {
         proc.command = cmd;
         proc.running = true;
     }
+
     function invalidate(screenName) {
-        var st = Object.assign({}, root.status);
-        st[screenName] = "idle";
-        root.status = st;
+        setStatus(screenName, "idle");
         var c = Object.assign({}, root.colors);
         delete c[screenName];
         root.colors = c;
     }
+
     function onExited(code) {
         var screen = proc.targetScreen;
         if (code === 0) {
             try {
-                var data = JSON.parse(proc.stdout.text);
-                var c = data.colors;
-                var scheme = {
-                    base: c.color0,
-                    surface: c.color1,
-                    surfaceAlt: c.color2,
-                    accentAltContainer: c.color3,
-                    accentContainer: c.color4,
-                    lavender: c.color5,
-                    rose: c.color6,
-                    textMuted: c.color7,
-                    fieldBg: c.color8,
-                    overlay: c.color9,
-                    overlayAlt: c.color10,
-                    accentAlt: c.color11,
-                    accentDim: c.color12,
-                    accent: c.color13,
-                    lavenderLight: c.color14,
-                    text: c.color15
-                };
-                var updated = Object.assign({}, root.colors);
-                updated[screen] = scheme;
-                root.colors = updated;
-                var st = Object.assign({}, root.status);
-                st[screen] = "ready";
-                root.status = st;
+                var c = JSON.parse(proc.stdout.text).colors;
+                var scheme = {};
+                root.colorNames.forEach((name, i) => {
+                    scheme[name] = c["color" + i];
+                });
+                root.colors = Object.assign({}, root.colors, {
+                    [screen]: scheme
+                });
+                setStatus(screen, "ready");
                 if (screen === root.selectedScreen && root.mode === "capture")
                     applySelected();
             } catch (e) {
-                setError(screen);
+                setStatus(screen, "error");
             }
         } else {
-            setError(screen);
+            setStatus(screen, "error");
         }
     }
+
     function saveAll() {
-        wr.current = root.currentColors;
-        wr.capture = root.colors;
-        wr.mode = root.mode;
-        writer.path = root.configDir + "colors.json";
-        writer.writeAdapter();
+        json.current = root.currentColors;
+        json.capture = root.colors;
+        json.mode = root.mode;
+        file.writeAdapter();
         applyColors.running = false;
         applyColors.running = true;
     }
-    function setError(screen) {
-        var st = Object.assign({}, root.status);
-        st[screen] = "error";
-        root.status = st;
+
+    function setStatus(screen, val) {
+        root.status = Object.assign({}, root.status, {
+            [screen]: val
+        });
     }
 
     onModeChanged: {
@@ -246,14 +177,17 @@ QtObject {
                 root.extract();
         }
     }
+
     onNeonModeChanged: {
         if (root.mode === "capture" && root.selectedScreen)
             root.extract();
     }
+
     onSelectedScreenChanged: {
         if (root.mode === "capture")
             root.extract();
     }
+
     onWallpapersLoadedChanged: {
         if (wallpapersLoaded && mode === "capture" && selectedScreen !== "" && selectedStatus === "idle")
             extract();
