@@ -6,7 +6,7 @@ import Quickshell
 import Quickshell.Hyprland
 import Quickshell.Io
 
-import qs.lib.service
+import qs.service
 
 QtObject {
     id: root

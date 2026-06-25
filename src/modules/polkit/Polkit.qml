@@ -5,9 +5,9 @@ import Quickshell
 import Quickshell.Services.Polkit
 import Quickshell.Wayland
 
-import qs.lib.layout
+import qs.components
 import qs.modules.polkit
-import qs.styles
+import qs.config
 
 Scope {
     id: root

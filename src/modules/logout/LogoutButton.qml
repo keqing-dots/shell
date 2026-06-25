@@ -3,7 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 
 import qs.modules.logout
-import qs.styles
+import qs.config
 
 Rectangle {
     id: root

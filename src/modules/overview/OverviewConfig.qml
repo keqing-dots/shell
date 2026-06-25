@@ -3,7 +3,7 @@ pragma Singleton
 
 import QtQuick
 
-import qs.styles
+import qs.config
 
 QtObject {
     id: root

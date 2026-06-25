@@ -10,7 +10,7 @@ import Quickshell.Wayland
 import qs.modules.overview
 import qs.modules.overview.layout
 import qs.modules.overview.service
-import qs.styles
+import qs.config
 
 Item {
     id: root

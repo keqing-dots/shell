@@ -3,9 +3,9 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell.Io
 
-import qs.lib.layout
+import qs.components
 import qs.modules.bar
-import qs.styles
+import qs.config
 
 Rectangle {
     id: root

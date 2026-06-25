@@ -3,9 +3,9 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 
-import qs.lib.layout
+import qs.components
 import qs.modules.settings
-import qs.styles
+import qs.config
 
 Item {
     id: root

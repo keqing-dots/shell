@@ -2,7 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 
-import qs.styles
+import qs.config
 
 Rectangle {
     property color baseColor: ColorConfig.textAlpha07

@@ -4,7 +4,7 @@ import QtQuick
 
 import qs.modules.bar
 import qs.modules.bar.service
-import qs.styles
+import qs.config
 
 Item {
     id: root

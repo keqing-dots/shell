@@ -4,11 +4,11 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 
-import qs.lib.layout
-import qs.lib.service
+import qs.components
+import qs.service
 import qs.modules.settings
 import qs.modules.settings.layout.components
-import qs.styles
+import qs.config
 
 Flickable {
     id: root

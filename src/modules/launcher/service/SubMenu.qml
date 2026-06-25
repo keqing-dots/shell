@@ -5,7 +5,7 @@ import Quickshell
 import Quickshell.Io
 
 import qs.modules.launcher
-import qs.styles
+import qs.config
 
 Item {
     id: root

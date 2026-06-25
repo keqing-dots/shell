@@ -6,7 +6,7 @@ import Quickshell
 import Quickshell.Wayland
 
 import qs.modules.overview
-import qs.styles
+import qs.config
 
 Item {
     id: root

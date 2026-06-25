@@ -3,7 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 
 import qs.modules.overview
-import qs.styles
+import qs.config
 
 Text {
     id: root

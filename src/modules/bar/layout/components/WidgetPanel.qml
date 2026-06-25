@@ -2,9 +2,9 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 
-import qs.lib.layout
+import qs.components
 import qs.modules.bar
-import qs.styles
+import qs.config
 
 PanelRect {
     border.color: BarConfig.panelBorder

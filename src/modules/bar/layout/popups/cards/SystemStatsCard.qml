@@ -2,11 +2,11 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 
-import qs.lib.layout
-import qs.lib.service
+import qs.components
+import qs.service
 import qs.modules.bar
 import qs.modules.bar.layout.components
-import qs.styles
+import qs.config
 
 ControlCenterCard {
     id: root

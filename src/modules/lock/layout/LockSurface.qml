@@ -4,9 +4,9 @@ import QtQuick
 import QtQuick.Controls
 import Quickshell.Wayland
 
-import qs.lib.service
+import qs.service
 import qs.modules.lock
-import qs.styles
+import qs.config
 
 WlSessionLockSurface {
     id: root

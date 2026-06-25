@@ -2,7 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 
-import qs.styles
+import qs.config
 
 Rectangle {
     border.color: ColorConfig.accent

@@ -5,7 +5,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 
-import qs.lib.service
+import qs.service
 import qs.modules.overview
 
 Item {

@@ -3,8 +3,8 @@ pragma Singleton
 
 import QtQuick
 
-import qs.lib.service
-import qs.styles
+import qs.service
+import qs.config
 
 QtObject {
     // Bar

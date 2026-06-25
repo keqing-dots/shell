@@ -2,10 +2,10 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 
-import qs.lib.layout
-import qs.lib.service
+import qs.components
+import qs.service
 import qs.modules.lock
-import qs.styles
+import qs.config
 
 Rectangle {
     id: root

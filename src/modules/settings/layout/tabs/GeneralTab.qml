@@ -3,9 +3,9 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 
-import qs.lib.service
+import qs.service
 import qs.modules.settings.layout.components
-import qs.styles
+import qs.config
 
 Flickable {
     id: root

@@ -4,7 +4,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 
-import qs.styles
+import qs.config
 
 Item {
     id: root

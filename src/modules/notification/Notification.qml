@@ -6,9 +6,9 @@ import Quickshell
 import Quickshell.Wayland
 import Quickshell.Widgets
 
-import qs.lib.service
+import qs.service
 import qs.modules.notification
-import qs.styles
+import qs.config
 
 Variants {
     model: Quickshell.screens

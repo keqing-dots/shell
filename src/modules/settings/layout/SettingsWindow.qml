@@ -6,10 +6,10 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Wayland
 
-import qs.lib.service
+import qs.service
 import qs.modules.settings
 import qs.modules.settings.layout.tabs
-import qs.styles
+import qs.config
 
 PanelWindow {
     id: root

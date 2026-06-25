@@ -4,7 +4,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Wayland
 
-import qs.lib.service
+import qs.service
 import qs.modules.bar
 import qs.modules.bar.layout.components
 import qs.modules.bar.layout.popups

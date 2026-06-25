@@ -5,7 +5,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import qs.modules.launcher
-import qs.styles
+import qs.config
 
 RowLayout {
     id: root

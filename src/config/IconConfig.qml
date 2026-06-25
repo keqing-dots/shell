@@ -9,7 +9,7 @@ QtObject {
     // Font
     readonly property string fontFamily: tablerIconsLoader.status === FontLoader.Ready ? tablerIconsLoader.name : ""
     readonly property var tablerIconsLoader: FontLoader {
-        source: Qt.resolvedUrl("assets/fonts/tabler-icons.ttf")
+        source: Qt.resolvedUrl("../assets/fonts/tabler-icons.ttf")
     }
 
     // Status

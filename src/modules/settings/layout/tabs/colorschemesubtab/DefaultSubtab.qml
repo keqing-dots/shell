@@ -4,9 +4,9 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import qs.lib.service
+import qs.service
 import qs.modules.settings
-import qs.styles
+import qs.config
 
 ColumnLayout {
     Layout.alignment: Qt.AlignHCenter

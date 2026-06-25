@@ -3,10 +3,10 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell.Services.UPower
 
-import qs.lib.service
+import qs.service
 import qs.modules.bar
 import qs.modules.bar.layout.components
-import qs.styles
+import qs.config
 
 ControlCenterCard {
     id: root

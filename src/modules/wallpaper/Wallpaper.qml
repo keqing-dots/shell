@@ -4,9 +4,9 @@ import QtQuick
 import Quickshell
 import Quickshell.Wayland
 
-import qs.lib.service
+import qs.service
 import qs.modules.wallpaper
-import qs.styles
+import qs.config
 
 Scope {
     id: root

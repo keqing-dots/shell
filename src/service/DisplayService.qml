@@ -3,7 +3,7 @@ pragma Singleton
 
 import QtQuick
 
-import qs.lib.service
+import qs.service
 
 QtObject {
     readonly property var screens: SettingsService.displays

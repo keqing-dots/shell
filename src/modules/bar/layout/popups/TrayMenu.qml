@@ -4,7 +4,7 @@ import QtQuick
 import Quickshell
 
 import qs.modules.bar
-import qs.styles
+import qs.config
 
 PopupWindow {
     id: root

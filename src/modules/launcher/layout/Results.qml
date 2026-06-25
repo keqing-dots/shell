@@ -7,7 +7,7 @@ import Quickshell
 import Quickshell.Widgets
 
 import qs.modules.launcher
-import qs.styles
+import qs.config
 
 RowLayout {
     id: root

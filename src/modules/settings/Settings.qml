@@ -3,7 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 
-import qs.lib.service
+import qs.service
 import qs.modules.settings.layout
 
 Scope {

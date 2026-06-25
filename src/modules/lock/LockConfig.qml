@@ -4,7 +4,7 @@ pragma Singleton
 import QtQuick
 import Quickshell
 
-import qs.styles
+import qs.config
 
 QtObject {
     // Animation

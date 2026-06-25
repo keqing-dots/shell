@@ -3,13 +3,13 @@ pragma Singleton
 
 import QtQuick
 
-import qs.lib.service
+import qs.service
 
 QtObject {
     // Family
     property string fontFamily: SettingsService.adapter.general.fontFamily || "ComicShannsMono Nerd Font"
     readonly property var yujiMaiLoader: FontLoader {
-        source: Qt.resolvedUrl("assets/fonts/YujiMai.ttf")
+        source: Qt.resolvedUrl("../assets/fonts/YujiMai.ttf")
     }
     readonly property string yujiMaiFamily: yujiMaiLoader.name
 

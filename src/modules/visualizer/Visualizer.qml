@@ -7,7 +7,7 @@ import Quickshell.Wayland
 
 import KeqingShell.Visualizer
 
-import qs.lib.service
+import qs.service
 import qs.modules.visualizer
 
 Scope {

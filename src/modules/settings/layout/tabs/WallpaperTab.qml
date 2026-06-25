@@ -4,10 +4,11 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 
-import qs.lib.service
+import qs.service
 import qs.modules.settings.layout.tabs
+import qs.modules.settings.layout.tabs.wallpapertab
 import qs.modules.wallpaper
-import qs.styles
+import qs.config
 
 Item {
     id: root

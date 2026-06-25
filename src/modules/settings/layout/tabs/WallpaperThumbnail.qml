@@ -3,7 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 
 import qs.modules.wallpaper
-import qs.styles
+import qs.config
 
 Rectangle {
     id: thumb

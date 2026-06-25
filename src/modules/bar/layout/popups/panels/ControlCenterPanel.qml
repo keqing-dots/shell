@@ -4,7 +4,7 @@ import QtQuick
 import QtQuick.Controls
 import Quickshell.Services.Pipewire
 
-import qs.lib.service
+import qs.service
 import qs.modules.bar.layout.components
 import qs.modules.bar.layout.popups.cards
 

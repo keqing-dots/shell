@@ -4,7 +4,7 @@ import QtQuick
 
 import qs.modules.settings.layout.components
 import qs.modules.wallpaper
-import qs.styles
+import qs.config
 
 Item {
     id: controlRow

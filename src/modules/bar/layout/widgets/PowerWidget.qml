@@ -4,7 +4,7 @@ import QtQuick
 import Quickshell
 
 import qs.modules.bar.layout.components
-import qs.styles
+import qs.config
 
 WidgetCapsule {
     id: root
