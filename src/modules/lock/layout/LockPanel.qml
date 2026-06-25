@@ -91,7 +91,6 @@ Rectangle {
             bgColor: GlobalConfig.fieldBg
             borderColor: GlobalConfig.accent
             borderWidth: LockConfig.profileBorderWidth
-            imageMargin: 4
             implicitHeight: LockConfig.profileSize
             implicitWidth: LockConfig.profileSize
             source: GlobalConfig.userPfp

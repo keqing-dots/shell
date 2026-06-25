@@ -202,9 +202,8 @@ Scope {
                 anchors.centerIn: parent
                 bgColor: GlobalConfig.fieldBg
                 borderColor: GlobalConfig.accent
-                borderWidth: LogoutConfig.buttonBorderWidth
+                borderWidth: LogoutConfig.logoBorderWidth
                 height: LogoutConfig.logoSize
-                imageMargin: 4
                 scale: 0
                 source: window.visible ? GlobalConfig.logoutLogo : ""
                 width: LogoutConfig.logoSize

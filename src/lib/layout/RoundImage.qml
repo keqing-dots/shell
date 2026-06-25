@@ -11,7 +11,6 @@ Item {
     property color bgColor: "transparent"
     property color borderColor: GlobalConfig.accent
     property real borderWidth: 0
-    property real imageMargin: 0
     property bool playing: true
     property url source: ""
 
@@ -34,9 +33,12 @@ Item {
         id: imgContent
 
         anchors.fill: parent
-        anchors.margins: root.imageMargin
+        anchors.margins: root.borderWidth
+        layer.effect: MultiEffect {
+            maskEnabled: true
+            maskSource: imgMask
+        }
         layer.enabled: true
-        visible: false
 
         AnimatedImage {
             id: animImage
@@ -57,11 +59,5 @@ Item {
         layer.enabled: true
         radius: width / 2
         visible: false
-    }
-    MultiEffect {
-        anchors.fill: imgContent
-        source: imgContent
-        maskEnabled: true
-        maskSource: imgMask
     }
 }

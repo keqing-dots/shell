@@ -47,4 +47,7 @@ QtObject {
     readonly property color workspaceActive: GlobalConfig.accentAlt
     readonly property color workspaceInactive: GlobalConfig.lavenderAlpha35
     readonly property color workspaceOccupied: GlobalConfig.accent
+
+    // Profile Card
+    readonly property int logoBorderWidth: 5
 }

@@ -55,9 +55,10 @@ Rectangle {
 
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: parent.top
-                height: 80
+                borderWidth: BarConfig.logoBorderWidth
+                height: 100
                 source: GlobalConfig.userPfp
-                width: 80
+                width: 100
             }
 
             // info

@@ -29,6 +29,7 @@ QtObject {
     // Logo
     property int logoAnimMs: 600
     property int logoSize: 250
+    property int logoBorderWidth: 5
 
     // Assets
     readonly property var yujiMaiLoader: FontLoader {
