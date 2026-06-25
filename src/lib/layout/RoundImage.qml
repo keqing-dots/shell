@@ -1,7 +1,7 @@
 pragma ComponentBehavior: Bound
 
-import Qt5Compat.GraphicalEffects
 import QtQuick
+import QtQuick.Effects
 
 import qs.styles
 
@@ -35,6 +35,7 @@ Item {
 
         anchors.fill: parent
         anchors.margins: root.imageMargin
+        layer.enabled: true
         visible: false
 
         AnimatedImage {
@@ -53,13 +54,14 @@ Item {
         id: imgMask
 
         anchors.fill: imgContent
-        antialiasing: true
+        layer.enabled: true
         radius: width / 2
         visible: false
     }
-    OpacityMask {
+    MultiEffect {
         anchors.fill: imgContent
-        maskSource: imgMask
         source: imgContent
+        maskEnabled: true
+        maskSource: imgMask
     }
 }
