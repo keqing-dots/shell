@@ -38,10 +38,13 @@ Flickable {
                     text: "Font Family"
                 }
                 DropdownMenu {
+                    activeValue: GlobalConfig.fontFamily
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
-                    activeValue: GlobalConfig.fontFamily
-                    model: Qt.fontFamilies().slice().sort()
+                    model: {
+                        const local = [GlobalConfig.yujiMaiLoader.name, Icons.fontFamily];
+                        return Qt.fontFamilies().filter(f => !local.includes(f)).sort();
+                    }
 
                     onItemSelected: value => SettingsService.setFontFamily(value)
                 }

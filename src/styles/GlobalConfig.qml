@@ -70,10 +70,7 @@ QtObject {
     readonly property int radiusSm: 5
 
     // Typography
-    readonly property var fontFamilyLoader: FontLoader {
-        source: Qt.resolvedUrl("assets/fonts/ComicShannsMonoNerdFont-Regular.otf")
-    }
-    property string fontFamily: SettingsService.adapter.general.fontFamily || fontFamilyLoader.name
+    property string fontFamily: SettingsService.adapter.general.fontFamily || "ComicShannsMono Nerd Font"
     readonly property var yujiMaiLoader: FontLoader {
         source: Qt.resolvedUrl("assets/fonts/YujiMai.ttf")
     }
