@@ -55,75 +55,56 @@ for i in 0 1 2 3 4 5 6 7; do
     export "GRADIENT_$((i+1))=$(lerp_hex "$ACCENT" "$LAVENDER" "$i")"
 done
 
-ENVSUBST_VARS='$BASE $SURFACE $SURFACE_ALT $OVERLAY $OVERLAY_ALT $FIELD_BG
-    $ACCENT $ACCENT_ALT $ACCENT_DIM $ACCENT_CONTAINER $ACCENT_ALT_CONTAINER
-    $LAVENDER $LAVENDER_LIGHT $ROSE $TEXT $TEXT_MUTED
-    $ACCENT_RGB $LAVENDER_LIGHT_RGB $ACCENT_ALT_RGB
-    $GRADIENT_1 $GRADIENT_2 $GRADIENT_3 $GRADIENT_4
-    $GRADIENT_5 $GRADIENT_6 $GRADIENT_7 $GRADIENT_8'
+ENVSUBST_VARS='
+    $BASE
+    $SURFACE
+    $SURFACE_ALT
+    $OVERLAY
+    $OVERLAY_ALT
+    $FIELD_BG
+    $ACCENT
+    $ACCENT_ALT
+    $ACCENT_DIM
+    $ACCENT_CONTAINER
+    $ACCENT_ALT_CONTAINER
+    $LAVENDER
+    $LAVENDER_LIGHT
+    $ROSE
+    $TEXT
+    $TEXT_MUTED
+    $ACCENT_RGB
+    $LAVENDER_LIGHT_RGB
+    $ACCENT_ALT_RGB
+    $GRADIENT_1
+    $GRADIENT_2
+    $GRADIENT_3
+    $GRADIENT_4
+    $GRADIENT_5
+    $GRADIENT_6
+    $GRADIENT_7
+    $GRADIENT_8
+'
 
-apply_kitty() {
-    local file="$HOME/.config/kitty/current-theme.conf"
-    write_file "$file"
-    render_tmpl "$TMPL_DIR/kitty.conf.tmpl" "$file"
-    pkill -USR1 kitty 2>/dev/null && echo "kitty: reloaded" || echo "kitty: config written"
-}
-
-apply_cava() {
-    local file="$HOME/.config/cava/config"
-    write_file "$file"
-    render_tmpl "$TMPL_DIR/cava.conf.tmpl" "$file"
-    pkill -USR1 cava 2>/dev/null && echo "cava: reloaded" || echo "cava: config written"
-}
-
-apply_btop() {
-    local theme="$HOME/.config/btop/themes/keqing.theme"
-    local conf="$HOME/.config/btop/btop.conf"
-    write_file "$theme"
-    render_tmpl "$TMPL_DIR/btop.theme.tmpl" "$theme"
-    mkdir -p "$(dirname "$conf")"
-    if [[ ! -f "$conf" ]]; then
-        printf 'color_theme = "keqing"\ntheme_background = false\ntruecolor = true\n' > "$conf"
+apply() {
+    local name="$1" tmpl="$2" out="$3" reload="${4:-}"
+    write_file "$out"
+    render_tmpl "$TMPL_DIR/$tmpl" "$out"
+    if [[ -n "$reload" ]]; then
+        $reload 2>/dev/null && echo "$name: reloaded" || echo "$name: config written"
     else
-        sed -i -e 's|^color_theme = .*|color_theme = "keqing"|' \
-               -e 's|^theme_background = .*|theme_background = false|' "$conf"
+        echo "$name: config written"
     fi
-    echo "btop: theme written (restart btop to apply)"
 }
 
-apply_vesktop() {
-    local file="$HOME/.config/vesktop/settings/quickCss.css"
-    write_file "$file"
-    render_tmpl "$TMPL_DIR/vesktop.css.tmpl" "$file"
-    echo "vesktop: quickCss.css written"
-}
+C="$HOME/.config"
 
-apply_fastfetch() {
-    local file="$HOME/.config/fastfetch/config.jsonc"
-    write_file "$file"
-    render_tmpl "$TMPL_DIR/fastfetch.jsonc.tmpl" "$file"
-    echo "fastfetch: config written"
-}
+apply btop       btop.theme.tmpl            "$C/btop/themes/keqing.theme"
+apply cava       cava.conf.tmpl             "$C/cava/config"                              "pkill -USR1 cava"
+apply fastfetch  fastfetch.jsonc.tmpl       "$C/fastfetch/config.jsonc"
+apply kitty      kitty.conf.tmpl            "$C/kitty/current-theme.conf"                 "pkill -USR1 kitty"
+apply starship   starship.toml.tmpl         "$C/starship.toml"
+apply vesktop    vesktop.css.tmpl           "$C/vesktop/settings/quickCss.css"
+apply yazi       yazi-flavor.toml.tmpl      "$C/yazi/flavors/keqing.yazi/flavor.toml"
+apply zsh        zsh-colors.zsh.tmpl        "$C/keqing-shell/colors.zsh"
 
-apply_starship() {
-    local file="$HOME/.config/starship.toml"
-    write_file "$file"
-    render_tmpl "$TMPL_DIR/starship.toml.tmpl" "$file"
-    echo "starship: config written"
-}
-
-apply_zsh() {
-    local file="$HOME/.config/keqing-shell/colors.zsh"
-    write_file "$file"
-    printf "KEQING_ACCENT_ANSI=\$'\\e[38;2;%sm'\n" "$ACCENT_RGB" > "$file"
-    echo "zsh: colors.zsh written"
-}
-
-apply_btop
-apply_cava
-apply_fastfetch
-apply_kitty
-apply_starship
-apply_vesktop
-apply_zsh
 hyprctl reload
