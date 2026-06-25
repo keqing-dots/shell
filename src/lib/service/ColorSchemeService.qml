@@ -108,7 +108,7 @@ QtObject {
         if (proc.running)
             proc.running = false;
         proc.targetScreen = screen;
-        proc.command = ["keqing-extract", root.wallpapers[screen]];
+        proc.command = ["color-extract", root.wallpapers[screen]];
         proc.running = true;
     }
 
