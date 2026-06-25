@@ -5,7 +5,7 @@ import QtQuick.Layouts
 
 import qs.lib.service
 import qs.modules.settings.layout.components
-import qs.modules.settings.layout.tabs
+import qs.modules.settings.layout.tabs.colorschemesubtab
 
 Item {
     ColumnLayout {

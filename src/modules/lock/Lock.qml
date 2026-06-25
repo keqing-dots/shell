@@ -34,8 +34,8 @@ Scope {
         PamContext {
             id: pam
 
-            config: LockConfig.pamConfigFile
-            configDirectory: LockConfig.pamConfigDir
+            config: GlobalConfig.pamConfigFile
+            configDirectory: GlobalConfig.pamConfigDir
 
             onCompleted: result => {
                 if (result === PamResult.Success) {

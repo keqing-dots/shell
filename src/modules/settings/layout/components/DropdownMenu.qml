@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 
+import qs.lib.layout
 import qs.modules.settings
 import qs.styles
 
@@ -129,7 +130,7 @@ Item {
         contentItem: FocusScope {
             id: menuFocus
 
-            implicitHeight: menuCol.implicitHeight
+            implicitHeight: Math.min(menuCol.implicitHeight, 240)
 
             Keys.onDownPressed: event => {
                 root.highlightIndex = Math.min(root.model.length - 1, root.highlightIndex + 1);
@@ -162,59 +163,68 @@ Item {
                 event.accepted = true;
             }
 
-            Column {
-                id: menuCol
+            ScrollView {
+                id: scrollView
 
-                spacing: 2
-                width: parent.width
+                anchors.fill: parent
+                clip: true
 
-                Repeater {
-                    model: root.model
+                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
-                    delegate: Rectangle {
-                        id: optItem
+                Column {
+                    id: menuCol
 
-                        required property int index
-                        readonly property bool isActive: itemValue === root.activeValue
-                        readonly property bool isHighlighted: index === root.highlightIndex
-                        readonly property string itemLabel: typeof modelData === "string" ? modelData : (modelData[root.labelRole] ?? "")
-                        readonly property string itemValue: typeof modelData === "string" ? modelData : (modelData[root.valueRole] ?? "")
-                        required property var modelData
+                    spacing: 2
+                    width: scrollView.width
 
-                        color: isHighlighted ? GlobalConfig.accentAlpha15 : optArea.containsMouse ? GlobalConfig.textAlpha07 : "transparent"
-                        height: 26
-                        radius: 3
-                        width: parent.width
+                    Repeater {
+                        model: root.model
 
-                        Behavior on color {
-                            ColorAnimation {
-                                duration: 80
+                        delegate: Rectangle {
+                            id: optItem
+
+                            required property int index
+                            readonly property bool isActive: itemValue === root.activeValue
+                            readonly property bool isHighlighted: index === root.highlightIndex
+                            readonly property string itemLabel: typeof modelData === "string" ? modelData : (modelData[root.labelRole] ?? "")
+                            readonly property string itemValue: typeof modelData === "string" ? modelData : (modelData[root.valueRole] ?? "")
+                            required property var modelData
+
+                            color: isHighlighted ? GlobalConfig.accentAlpha15 : optArea.containsMouse ? GlobalConfig.textAlpha07 : "transparent"
+                            height: 26
+                            radius: 3
+                            width: parent.width
+
+                            Behavior on color {
+                                ColorAnimation {
+                                    duration: 80
+                                }
                             }
-                        }
 
-                        Text {
-                            anchors.left: parent.left
-                            anchors.leftMargin: 8
-                            anchors.right: parent.right
-                            anchors.rightMargin: 8
-                            anchors.verticalCenter: parent.verticalCenter
-                            color: optItem.isActive || optItem.isHighlighted ? GlobalConfig.accent : GlobalConfig.text
-                            elide: Text.ElideRight
-                            font.bold: optItem.isActive
-                            font.family: GlobalConfig.fontFamily
-                            font.pixelSize: GlobalConfig.fontPixelSmaller
-                            text: optItem.itemLabel
-                        }
-                        MouseArea {
-                            id: optArea
+                            MarqueeText {
+                                anchors.left: parent.left
+                                anchors.leftMargin: 8
+                                anchors.right: parent.right
+                                anchors.rightMargin: 8
+                                anchors.verticalCenter: parent.verticalCenter
+                                color: optItem.isActive || optItem.isHighlighted ? GlobalConfig.accent : GlobalConfig.text
+                                fontBold: optItem.isActive
+                                fontFamily: GlobalConfig.fontFamily
+                                fontSize: GlobalConfig.fontPixelSmaller
+                                running: optArea.containsMouse
+                                text: optItem.itemLabel
+                            }
+                            MouseArea {
+                                id: optArea
 
-                            anchors.fill: parent
-                            cursorShape: Qt.PointingHandCursor
-                            hoverEnabled: true
+                                anchors.fill: parent
+                                cursorShape: Qt.PointingHandCursor
+                                hoverEnabled: true
 
-                            onClicked: {
-                                root.itemSelected(optItem.itemValue);
-                                menu.close();
+                                onClicked: {
+                                    root.itemSelected(optItem.itemValue);
+                                    menu.close();
+                                }
                             }
                         }
                     }

@@ -76,7 +76,7 @@ Rectangle {
     }
     Text {
         color: GlobalConfig.text
-        font.family: LogoutConfig.buttonCharFont
+        font.family: GlobalConfig.yujiMaiFamily
         font.pixelSize: LogoutConfig.buttonSize / 2
         text: root.chars[root.index] ?? ""
         x: (parent.width - width) / 2

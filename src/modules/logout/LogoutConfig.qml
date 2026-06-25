@@ -11,7 +11,7 @@ QtObject {
     // Buttons
     property int buttonBorderAnimMs: 160
     property int buttonBorderWidth: 5
-    readonly property string buttonCharFont: yujiMaiLoader.name
+
     property int buttonCornerRadiusDiv: 5
     property real buttonHighlightScale: 1.05
     property int buttonOpacityAnimMs: 150
@@ -30,9 +30,4 @@ QtObject {
     property int logoAnimMs: 600
     property int logoSize: 250
     property int logoBorderWidth: 5
-
-    // Assets
-    readonly property var yujiMaiLoader: FontLoader {
-        source: Qt.resolvedUrl("YujiMai.ttf")
-    }
 }

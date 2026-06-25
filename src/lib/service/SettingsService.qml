@@ -52,6 +52,9 @@ QtObject {
             ]
         })
     readonly property JsonAdapter adapter: JsonAdapter {
+        property JsonObject general: JsonObject {
+            property string fontFamily: ""
+        }
         property JsonObject bar: JsonObject {
             property real backgroundOpacity: 0
             property int height: 35
@@ -132,6 +135,10 @@ QtObject {
         };
     }
 
+    function setFontFamily(family) {
+        adapter.general.fontFamily = family;
+        save();
+    }
     function save() {
         saveTimer.restart();
     }

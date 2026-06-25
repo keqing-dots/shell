@@ -35,10 +35,6 @@ QtObject {
     readonly property int layoutSpacing: 20
     readonly property int marginLarge: 50
 
-    // PAM
-    readonly property url pamConfigDir: Qt.resolvedUrl(".")
-    readonly property string pamConfigFile: "pam.conf"
-
     // Panel
     readonly property color panelBg: GlobalConfig.overlay
     readonly property int panelMargin: 20

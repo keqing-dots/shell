@@ -13,19 +13,21 @@ Item {
     property string fontFamily: GlobalConfig.fontFamily
     property int fontSize: 12
     property int pauseDuration: 1200
+    property bool running: true
     property int speed: 35
     property string text: ""
 
     function _restart() {
         label.x = 0;
         anim.stop();
-        if (root._overflow > 0)
+        if (root.running && root._overflow > 0)
             anim.start();
     }
 
     clip: true
     height: label.implicitHeight
 
+    onRunningChanged: root._restart()
     onWidthChanged: root._restart()
 
     Text {

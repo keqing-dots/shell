@@ -9,67 +9,36 @@ import qs.lib.service
 QtObject {
     id: root
 
-    // Colors — live-bound to ColorSchemeService; updated by every extraction,
-    // manual ThemeTab pick, and startup restore from colors.json.
-
-    // Primary — deep violet overcoat
+    // Accent
     property color accent: ColorSchemeService.currentColors.accent
     readonly property color accentAlpha12: Qt.rgba(accent.r, accent.g, accent.b, 0.12)
     readonly property color accentAlpha15: Qt.rgba(accent.r, accent.g, accent.b, 0.15)
     readonly property color accentAlpha18: Qt.rgba(accent.r, accent.g, accent.b, 0.18)
     readonly property color accentAlpha20: Qt.rgba(accent.r, accent.g, accent.b, 0.20)
     readonly property color accentAlpha25: Qt.rgba(accent.r, accent.g, accent.b, 0.25)
-
-    // Secondary — gold ornaments
-    property color accentAlt: ColorSchemeService.currentColors.accentAlt
-    property color accentAltContainer: ColorSchemeService.currentColors.accentAltContainer
     property color accentContainer: ColorSchemeService.currentColors.accentContainer
 
-    // Animation
-    readonly property int animationFast: 150
-    readonly property int animationNormal: 220
+    // Accent alt
+    property color accentAlt: ColorSchemeService.currentColors.accentAlt
+    property color accentAltContainer: ColorSchemeService.currentColors.accentAltContainer
+
+    // Base
     property color base: ColorSchemeService.currentColors.base
     readonly property color baseAlpha45: Qt.rgba(base.r, base.g, base.b, 0.45)
+    readonly property color overlay: Qt.rgba(base.r, base.g, base.b, 0.92)
 
-    // Sizing
-    readonly property int borderWidthThick: 4
-    readonly property int borderWidthThin: 2
-    readonly property var comicShannsLoader: FontLoader {
-        source: Qt.resolvedUrl("assets/fonts/ComicShannsMonoNerdFont-Regular.otf")
-    }
-
-    // Assets
-    readonly property url defaultWallpaper: source("assets/default_wp.svg")
-
-    // Fixed — Electro Vision lore color, not wallpaper-derived
-    readonly property color electro: "#9D3EF2"
-
-    // Surfaces — dark blue skirt → near-black gloves
-    property color fieldBg: ColorSchemeService.currentColors.fieldBg
-
-    // Typography
-    readonly property string fontFamily: comicShannsLoader.name
-    readonly property int fontPixelSmall: 15
-    readonly property int fontPixelSmaller: 15
-    readonly property url inputEcho: source("assets/pwdelegate/1.png")
-
-    // Lavender — pale inner top
+    // Lavender
     property color lavender: ColorSchemeService.currentColors.lavender
     readonly property color lavenderAlpha20: Qt.rgba(lavender.r, lavender.g, lavender.b, 0.20)
     readonly property color lavenderAlpha35: Qt.rgba(lavender.r, lavender.g, lavender.b, 0.35)
-
-    // Derived — reactive to palette, not individually extracted
     readonly property color lavenderSubtle: Qt.rgba(lavender.r, lavender.g, lavender.b, 0.15)
-    readonly property url logoutLogo: source("assets/gifs/logoutlogo.gif")
-    readonly property color overlay: Qt.rgba(base.r, base.g, base.b, 0.92)
-    readonly property int radiusMd: 10
-    readonly property int radiusSm: 5
+
+    // Surfaces
+    property color fieldBg: ColorSchemeService.currentColors.fieldBg
     property color surfaceAlt: ColorSchemeService.currentColors.surfaceAlt
 
-    // Text — on_surface, adapts with wallpaper
+    // Text
     property color text: ColorSchemeService.currentColors.text
-
-    // Alpha tints — precomputed for use throughout the shell
     readonly property color textAlpha03: Qt.rgba(text.r, text.g, text.b, 0.03)
     readonly property color textAlpha04: Qt.rgba(text.r, text.g, text.b, 0.04)
     readonly property color textAlpha05: Qt.rgba(text.r, text.g, text.b, 0.05)
@@ -84,12 +53,44 @@ QtObject {
     readonly property color textAlpha18: Qt.rgba(text.r, text.g, text.b, 0.18)
     readonly property color textAlpha20: Qt.rgba(text.r, text.g, text.b, 0.20)
     readonly property color textAlpha35: Qt.rgba(text.r, text.g, text.b, 0.35)
+    property color textMuted: ColorSchemeService.currentColors.textMuted
     readonly property color textDim: Qt.rgba(textMuted.r, textMuted.g, textMuted.b, 0.6)
 
-    // Text
-    property color textMuted: ColorSchemeService.currentColors.textMuted
-    readonly property string user: Quickshell.env("USER")
+    // Fixed; not palette-derived
+    readonly property color electro: "#9D3EF2"
+
+    // Animation
+    readonly property int animationFast: 150
+    readonly property int animationNormal: 220
+
+    // Sizing
+    readonly property int borderWidthThick: 4
+    readonly property int borderWidthThin: 2
+    readonly property int radiusMd: 10
+    readonly property int radiusSm: 5
+
+    // Typography
+    readonly property var fontFamilyLoader: FontLoader {
+        source: Qt.resolvedUrl("assets/fonts/ComicShannsMonoNerdFont-Regular.otf")
+    }
+    property string fontFamily: SettingsService.adapter.general.fontFamily || fontFamilyLoader.name
+    readonly property var yujiMaiLoader: FontLoader {
+        source: Qt.resolvedUrl("assets/fonts/YujiMai.ttf")
+    }
+    readonly property string yujiMaiFamily: yujiMaiLoader.name
+    readonly property int fontPixelSmall: 15
+    readonly property int fontPixelSmaller: 15
+
+    // Assets
+    readonly property url defaultWallpaper: source("assets/default_wp.svg")
+    readonly property url inputEcho: source("assets/pwdelegate/1.png")
+    readonly property url logoutLogo: source("assets/gifs/logoutlogo.gif")
     readonly property url userPfp: source("assets/gifs/userpfp.gif")
+    readonly property url pamConfigDir: source("assets/")
+    readonly property string pamConfigFile: "pam.conf"
+
+    // System
+    readonly property string user: Quickshell.env("USER")
 
     function constellation(index) {
         return Qt.resolvedUrl("assets/lmbullets/" + index + ".png");
@@ -98,15 +99,21 @@ QtObject {
         return Qt.resolvedUrl(url);
     }
 
-    // Primary
+    // Accent
     Behavior on accent {
         ColorAnimation {
             duration: 500
             easing.type: Easing.OutCubic
         }
     }
+    Behavior on accentContainer {
+        ColorAnimation {
+            duration: 500
+            easing.type: Easing.OutCubic
+        }
+    }
 
-    // Secondary
+    // Accent alt
     Behavior on accentAlt {
         ColorAnimation {
             duration: 500
@@ -119,21 +126,9 @@ QtObject {
             easing.type: Easing.OutCubic
         }
     }
-    Behavior on accentContainer {
-        ColorAnimation {
-            duration: 500
-            easing.type: Easing.OutCubic
-        }
-    }
-    Behavior on base {
-        ColorAnimation {
-            duration: 500
-            easing.type: Easing.OutCubic
-        }
-    }
 
-    // Surfaces
-    Behavior on fieldBg {
+    // Base
+    Behavior on base {
         ColorAnimation {
             duration: 500
             easing.type: Easing.OutCubic
@@ -142,6 +137,14 @@ QtObject {
 
     // Lavender
     Behavior on lavender {
+        ColorAnimation {
+            duration: 500
+            easing.type: Easing.OutCubic
+        }
+    }
+
+    // Surfaces
+    Behavior on fieldBg {
         ColorAnimation {
             duration: 500
             easing.type: Easing.OutCubic
