@@ -12,7 +12,7 @@ Rectangle {
 
     property string _uptime: ""
 
-    border.color: GlobalConfig.accent
+    border.color: ColorConfig.accent
     border.width: 1
     color: BarConfig.capsuleBg
     height: mainCol.implicitHeight + 24
@@ -71,18 +71,18 @@ Rectangle {
                 spacing: 2
 
                 Text {
-                    color: GlobalConfig.text
+                    color: ColorConfig.text
                     font.bold: true
-                    font.family: GlobalConfig.fontFamily
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize + 1
                     horizontalAlignment: Text.AlignHCenter
                     text: GlobalConfig.user
                     width: 200
                 }
                 Text {
-                    color: GlobalConfig.textDim
+                    color: ColorConfig.textDim
                     elide: Text.ElideRight
-                    font.family: GlobalConfig.fontFamily
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize - 1
                     horizontalAlignment: Text.AlignHCenter
                     text: root._uptime
@@ -94,9 +94,9 @@ Rectangle {
             Text {
                 anchors.right: parent.right
                 anchors.top: parent.top
-                color: settingsHover.containsMouse ? GlobalConfig.text : GlobalConfig.textDim
+                color: settingsHover.containsMouse ? ColorConfig.text : ColorConfig.textDim
                 font.family: Icons.fontFamily
-                font.pixelSize: 16
+                font.pixelSize: FontConfig.fontProfileSettings
                 text: Icons.settings
 
                 Behavior on color {

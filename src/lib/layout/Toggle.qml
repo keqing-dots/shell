@@ -17,7 +17,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: root.active ? GlobalConfig.accent : GlobalConfig.textAlpha12
+        color: root.active ? ColorConfig.accent : ColorConfig.textAlpha12
         radius: height / 2
 
         Behavior on color {
@@ -28,7 +28,7 @@ Item {
 
         Rectangle {
             anchors.verticalCenter: parent.verticalCenter
-            color: GlobalConfig.text
+            color: ColorConfig.text
             height: 16
             radius: 8
             width: 16

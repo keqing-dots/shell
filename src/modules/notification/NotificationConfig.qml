@@ -16,8 +16,8 @@ QtObject {
     readonly property int fontSummary: 17
 
     // Card
-    readonly property color cardBg: GlobalConfig.overlay
-    readonly property color cardBorder: GlobalConfig.accent
+    readonly property color cardBg: ColorConfig.overlay
+    readonly property color cardBorder: ColorConfig.accent
     readonly property int cardBorderWidth: 2
     readonly property int cardPadding: 16
     readonly property int cardRadius: 10

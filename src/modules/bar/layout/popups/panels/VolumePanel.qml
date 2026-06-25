@@ -42,9 +42,9 @@ WidgetPanel {
 
                 Text {
                     anchors.verticalCenter: parent.verticalCenter
-                    color: GlobalConfig.text
+                    color: ColorConfig.text
                     font.bold: true
-                    font.family: GlobalConfig.fontFamily
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize + 1
                     text: "Volume"
                 }
@@ -62,9 +62,9 @@ WidgetPanel {
                     }
                     Text {
                         anchors.centerIn: parent
-                        color: GlobalConfig.text
+                        color: ColorConfig.text
                         font.family: Icons.fontFamily
-                        font.pixelSize: 14
+                        font.pixelSize: FontConfig.fontPanelActionIcon
                         text: Icons.close
                     }
                     MouseArea {
@@ -91,17 +91,17 @@ WidgetPanel {
 
                 Text {
                     anchors.verticalCenter: parent.verticalCenter
-                    color: GlobalConfig.text
+                    color: ColorConfig.text
                     font.bold: true
-                    font.family: GlobalConfig.fontFamily
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize
                     text: "Output"
                 }
                 Text {
                     anchors.verticalCenter: parent.verticalCenter
-                    color: GlobalConfig.textDim
+                    color: ColorConfig.textDim
                     elide: Text.ElideRight
-                    font.family: GlobalConfig.fontFamily
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize
                     text: VolumeService.sink ? " — " + (VolumeService.sink.description || VolumeService.sink.name || "") : ""
                     width: Math.min(implicitWidth, 180)
@@ -137,8 +137,8 @@ WidgetPanel {
                 Text {
                     id: outPct
 
-                    color: GlobalConfig.textDim
-                    font.family: GlobalConfig.fontFamily
+                    color: ColorConfig.textDim
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize
                     horizontalAlignment: Text.AlignRight
                     text: VolumeService.sinkMuted ? "muted" : Math.round(VolumeService.sinkVolume * 100) + "%"
@@ -164,9 +164,9 @@ WidgetPanel {
                     }
                     Text {
                         anchors.centerIn: parent
-                        color: GlobalConfig.text
+                        color: ColorConfig.text
                         font.family: Icons.fontFamily
-                        font.pixelSize: 14
+                        font.pixelSize: FontConfig.fontPanelActionIcon
                         text: VolumeService.sinkMuted ? Icons.volumeMute : VolumeService.sinkVolume === 0 ? Icons.volumeEmpty : VolumeService.sinkVolume < 0.5 ? Icons.volumeLow : Icons.volumeHigh
                     }
                     MouseArea {
@@ -190,17 +190,17 @@ WidgetPanel {
 
                 Text {
                     anchors.verticalCenter: parent.verticalCenter
-                    color: GlobalConfig.text
+                    color: ColorConfig.text
                     font.bold: true
-                    font.family: GlobalConfig.fontFamily
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize
                     text: "Input"
                 }
                 Text {
                     anchors.verticalCenter: parent.verticalCenter
-                    color: GlobalConfig.textDim
+                    color: ColorConfig.textDim
                     elide: Text.ElideRight
-                    font.family: GlobalConfig.fontFamily
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize
                     text: VolumeService.source ? " — " + (VolumeService.source.description || VolumeService.source.name || "") : ""
                     width: Math.min(implicitWidth, 180)
@@ -234,8 +234,8 @@ WidgetPanel {
                 Text {
                     id: inPct
 
-                    color: GlobalConfig.textDim
-                    font.family: GlobalConfig.fontFamily
+                    color: ColorConfig.textDim
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize
                     horizontalAlignment: Text.AlignRight
                     text: VolumeService.sourceMuted ? "muted" : Math.round(VolumeService.sourceVolume * 100) + "%"
@@ -261,9 +261,9 @@ WidgetPanel {
                     }
                     Text {
                         anchors.centerIn: parent
-                        color: GlobalConfig.text
+                        color: ColorConfig.text
                         font.family: Icons.fontFamily
-                        font.pixelSize: 14
+                        font.pixelSize: FontConfig.fontPanelActionIcon
                         text: VolumeService.sourceMuted ? Icons.volumeMute : VolumeService.sourceVolume === 0 ? Icons.volumeEmpty : VolumeService.sourceVolume < 0.5 ? Icons.volumeLow : Icons.volumeHigh
                     }
                     MouseArea {
@@ -289,9 +289,9 @@ WidgetPanel {
                 width: parent.width
             }
             Text {
-                color: GlobalConfig.text
+                color: ColorConfig.text
                 font.bold: true
-                font.family: GlobalConfig.fontFamily
+                font.family: FontConfig.fontFamily
                 font.pixelSize: BarConfig.fontSize
                 height: implicitHeight + 6
                 text: "Applications"
@@ -331,9 +331,9 @@ WidgetPanel {
                         Text {
                             id: appNameTxt
 
-                            color: GlobalConfig.text
+                            color: ColorConfig.text
                             elide: Text.ElideRight
-                            font.family: GlobalConfig.fontFamily
+                            font.family: FontConfig.fontFamily
                             font.pixelSize: BarConfig.fontSize
                             text: {
                                 var props = appItem.modelData?.properties;
@@ -354,8 +354,8 @@ WidgetPanel {
                         Text {
                             id: appPctTxt
 
-                            color: GlobalConfig.textDim
-                            font.family: GlobalConfig.fontFamily
+                            color: ColorConfig.textDim
+                            font.family: FontConfig.fontFamily
                             font.pixelSize: BarConfig.fontSize
                             horizontalAlignment: Text.AlignRight
                             text: {
@@ -386,9 +386,9 @@ WidgetPanel {
                             }
                             Text {
                                 anchors.centerIn: parent
-                                color: GlobalConfig.text
+                                color: ColorConfig.text
                                 font.family: Icons.fontFamily
-                                font.pixelSize: 14
+                                font.pixelSize: FontConfig.fontPanelActionIcon
                                 text: {
                                     var a = appItem.modelData?.audio;
                                     var m = a?.muted ?? false;
@@ -450,9 +450,9 @@ WidgetPanel {
                 width: parent.width
             }
             Text {
-                color: GlobalConfig.text
+                color: ColorConfig.text
                 font.bold: true
-                font.family: GlobalConfig.fontFamily
+                font.family: FontConfig.fontFamily
                 font.pixelSize: BarConfig.fontSize
                 height: implicitHeight + 6
                 text: "Output Device"
@@ -477,7 +477,7 @@ WidgetPanel {
 
                         Rectangle {
                             anchors.verticalCenter: parent.verticalCenter
-                            color: sinkItem.isDefault ? GlobalConfig.accent : GlobalConfig.textAlpha20
+                            color: sinkItem.isDefault ? ColorConfig.accent : ColorConfig.textAlpha20
                             height: 14
                             radius: 7
                             width: 14
@@ -493,9 +493,9 @@ WidgetPanel {
                         }
                         Text {
                             anchors.verticalCenter: parent.verticalCenter
-                            color: sinkItem.isDefault ? GlobalConfig.accent : GlobalConfig.text
+                            color: sinkItem.isDefault ? ColorConfig.accent : ColorConfig.text
                             elide: Text.ElideRight
-                            font.family: GlobalConfig.fontFamily
+                            font.family: FontConfig.fontFamily
                             font.pixelSize: BarConfig.fontSize
                             text: sinkItem.modelData.description || sinkItem.modelData.name || "Unknown"
                             width: col.width - 22 - 8
@@ -514,9 +514,9 @@ WidgetPanel {
                 width: parent.width
             }
             Text {
-                color: GlobalConfig.text
+                color: ColorConfig.text
                 font.bold: true
-                font.family: GlobalConfig.fontFamily
+                font.family: FontConfig.fontFamily
                 font.pixelSize: BarConfig.fontSize
                 height: implicitHeight + 6
                 text: "Input Device"
@@ -541,7 +541,7 @@ WidgetPanel {
 
                         Rectangle {
                             anchors.verticalCenter: parent.verticalCenter
-                            color: sourceItem.isDefault ? GlobalConfig.accent : GlobalConfig.textAlpha20
+                            color: sourceItem.isDefault ? ColorConfig.accent : ColorConfig.textAlpha20
                             height: 14
                             radius: 7
                             width: 14
@@ -557,9 +557,9 @@ WidgetPanel {
                         }
                         Text {
                             anchors.verticalCenter: parent.verticalCenter
-                            color: sourceItem.isDefault ? GlobalConfig.accent : GlobalConfig.text
+                            color: sourceItem.isDefault ? ColorConfig.accent : ColorConfig.text
                             elide: Text.ElideRight
-                            font.family: GlobalConfig.fontFamily
+                            font.family: FontConfig.fontFamily
                             font.pixelSize: BarConfig.fontSize
                             text: sourceItem.modelData.description || sourceItem.modelData.name || "Unknown"
                             width: col.width - 22 - 8

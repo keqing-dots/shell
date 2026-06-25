@@ -66,17 +66,17 @@ ControlCenterCard {
 
             Text {
                 anchors.verticalCenter: parent.verticalCenter
-                color: GlobalConfig.text
+                color: ColorConfig.text
                 font.bold: true
-                font.family: GlobalConfig.fontFamily
+                font.family: FontConfig.fontFamily
                 font.pixelSize: BarConfig.fontSize
                 text: row.label
             }
             Text {
                 anchors.verticalCenter: parent.verticalCenter
-                color: GlobalConfig.textDim
+                color: ColorConfig.textDim
                 elide: Text.ElideRight
-                font.family: GlobalConfig.fontFamily
+                font.family: FontConfig.fontFamily
                 font.pixelSize: BarConfig.fontSize
                 text: row.device ? " — " + row.device : ""
                 width: Math.min(implicitWidth, 148)
@@ -104,8 +104,8 @@ ControlCenterCard {
             Text {
                 id: pct
 
-                color: GlobalConfig.textDim
-                font.family: GlobalConfig.fontFamily
+                color: ColorConfig.textDim
+                font.family: FontConfig.fontFamily
                 font.pixelSize: BarConfig.fontSize
                 horizontalAlignment: Text.AlignRight
                 text: row.muted ? "muted" : Math.round(row.volume * 100) + "%"
@@ -131,9 +131,9 @@ ControlCenterCard {
                 }
                 Text {
                     anchors.centerIn: parent
-                    color: GlobalConfig.text
+                    color: ColorConfig.text
                     font.family: Icons.fontFamily
-                    font.pixelSize: 14
+                    font.pixelSize: FontConfig.fontPanelActionIcon
                     text: row.icon
                 }
                 MouseArea {

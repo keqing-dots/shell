@@ -74,7 +74,7 @@ Item {
         Text {
             id: iconItem
 
-            color: GlobalConfig.text
+            color: ColorConfig.text
             font.family: Icons.fontFamily
             font.pixelSize: BarConfig.iconSize
             text: root.iconGlyph
@@ -88,8 +88,8 @@ Item {
         anchors.left: iconSection.right
         anchors.verticalCenter: parent.verticalCenter
         clip: true
-        color: GlobalConfig.text
-        font.family: GlobalConfig.fontFamily
+        color: ColorConfig.text
+        font.family: FontConfig.fontFamily
         font.pixelSize: BarConfig.fontSize
         opacity: root.showLabel ? 1.0 : 0.0
         text: root.labelText

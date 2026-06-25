@@ -7,7 +7,7 @@ import qs.styles
 Item {
     id: root
 
-    property color arcColor: GlobalConfig.accent
+    property color arcColor: ColorConfig.accent
     property string icon: ""
     property string label: ""
     property real value: 0
@@ -56,15 +56,15 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             color: root.arcColor
             font.family: Icons.fontFamily
-            font.pixelSize: 15
+            font.pixelSize: FontConfig.fontGaugeIcon
             text: root.icon
         }
         Text {
             anchors.horizontalCenter: parent.horizontalCenter
-            color: GlobalConfig.text
+            color: ColorConfig.text
             font.bold: true
-            font.family: GlobalConfig.fontFamily
-            font.pixelSize: 11
+            font.family: FontConfig.fontFamily
+            font.pixelSize: FontConfig.fontGaugeValue
             text: Math.round(root.value) + "%"
         }
     }

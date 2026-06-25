@@ -63,9 +63,9 @@ WidgetPanel {
             Text {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
-                color: GlobalConfig.text
+                color: ColorConfig.text
                 font.bold: true
-                font.family: GlobalConfig.fontFamily
+                font.family: FontConfig.fontFamily
                 font.pixelSize: BarConfig.fontSize + 1
                 text: root._months[root.displayMonth.getMonth()] + " " + root.displayMonth.getFullYear()
             }
@@ -82,9 +82,9 @@ WidgetPanel {
 
                     Text {
                         anchors.centerIn: parent
-                        color: GlobalConfig.text
+                        color: ColorConfig.text
                         font.family: Icons.fontFamily
-                        font.pixelSize: 14
+                        font.pixelSize: FontConfig.fontPanelActionIcon
                         text: Icons.chevronLeft
                     }
                     MouseArea {
@@ -105,8 +105,8 @@ WidgetPanel {
 
                     Text {
                         anchors.centerIn: parent
-                        color: GlobalConfig.text
-                        font.pixelSize: 14
+                        color: ColorConfig.text
+                        font.pixelSize: FontConfig.fontPanelActionIcon
                         text: "•"
                     }
                     MouseArea {
@@ -127,9 +127,9 @@ WidgetPanel {
 
                     Text {
                         anchors.centerIn: parent
-                        color: GlobalConfig.text
+                        color: ColorConfig.text
                         font.family: Icons.fontFamily
-                        font.pixelSize: 14
+                        font.pixelSize: FontConfig.fontPanelActionIcon
                         text: Icons.chevronRight
                     }
                     MouseArea {
@@ -150,9 +150,9 @@ WidgetPanel {
 
                     Text {
                         anchors.centerIn: parent
-                        color: GlobalConfig.text
+                        color: ColorConfig.text
                         font.family: Icons.fontFamily
-                        font.pixelSize: 14
+                        font.pixelSize: FontConfig.fontPanelActionIcon
                         text: Icons.close
                     }
                     MouseArea {
@@ -190,9 +190,9 @@ WidgetPanel {
 
                     Text {
                         anchors.centerIn: parent
-                        color: GlobalConfig.textDim
+                        color: ColorConfig.textDim
                         font.bold: true
-                        font.family: GlobalConfig.fontFamily
+                        font.family: FontConfig.fontFamily
                         font.pixelSize: BarConfig.fontSize - 1
                         text: parent.modelData
                     }
@@ -224,16 +224,16 @@ WidgetPanel {
 
                     Rectangle {
                         anchors.centerIn: parent
-                        color: cell.isToday ? GlobalConfig.accent : "transparent"
+                        color: cell.isToday ? ColorConfig.accent : "transparent"
                         height: width
                         radius: width / 2
                         width: Math.min(parent.width, parent.height) - 4
 
                         Text {
                             anchors.centerIn: parent
-                            color: cell.isToday ? "white" : (cell.inMonth ? GlobalConfig.text : GlobalConfig.textDim)
+                            color: cell.isToday ? "white" : (cell.inMonth ? ColorConfig.text : ColorConfig.textDim)
                             font.bold: cell.isToday
-                            font.family: GlobalConfig.fontFamily
+                            font.family: FontConfig.fontFamily
                             font.pixelSize: BarConfig.fontSize
                             opacity: cell.inMonth || cell.isToday ? 1.0 : 0.4
                             text: cell.modelData.getDate()

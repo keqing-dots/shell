@@ -8,7 +8,7 @@ import qs.styles
 QtObject {
     // Bar
     readonly property real barOpacity: 0.6
-    readonly property list<color> barGradient: [GlobalConfig.accent]
+    readonly property list<color> barGradient: [ColorConfig.accent]
     readonly property int barMaxHeight: 350
     readonly property int barRadius: 3
     readonly property int barSpacing: 7

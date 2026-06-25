@@ -39,8 +39,8 @@ ControlCenterCard {
                 }
                 Text {
                     anchors.horizontalCenter: parent.horizontalCenter
-                    color: GlobalConfig.textDim
-                    font.family: GlobalConfig.fontFamily
+                    color: ColorConfig.textDim
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize - 1
                     text: "CPU"
                 }
@@ -58,8 +58,8 @@ ControlCenterCard {
                 }
                 Text {
                     anchors.horizontalCenter: parent.horizontalCenter
-                    color: GlobalConfig.textDim
-                    font.family: GlobalConfig.fontFamily
+                    color: ColorConfig.textDim
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize - 1
                     text: "GPU"
                 }
@@ -75,8 +75,8 @@ ControlCenterCard {
                 }
                 Text {
                     anchors.horizontalCenter: parent.horizontalCenter
-                    color: GlobalConfig.textDim
-                    font.family: GlobalConfig.fontFamily
+                    color: ColorConfig.textDim
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize - 1
                     text: "RAM"
                 }
@@ -92,8 +92,8 @@ ControlCenterCard {
                 }
                 Text {
                     anchors.horizontalCenter: parent.horizontalCenter
-                    color: GlobalConfig.textDim
-                    font.family: GlobalConfig.fontFamily
+                    color: ColorConfig.textDim
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize - 1
                     text: "DISK"
                 }

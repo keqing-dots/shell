@@ -37,9 +37,9 @@ ColumnLayout {
 
         Text {
             Layout.fillWidth: true
-            color: GlobalConfig.textDim
-            font.family: GlobalConfig.fontFamily
-            font.pixelSize: GlobalConfig.fontPixelSmaller
+            color: ColorConfig.textDim
+            font.family: FontConfig.fontFamily
+            font.pixelSize: FontConfig.fontSettingsBody
             text: "Source Display"
         }
         DropdownMenu {
@@ -55,7 +55,7 @@ ColumnLayout {
         Layout.preferredHeight: root.previewH
         Layout.preferredWidth: root.previewW
         clip: true
-        color: GlobalConfig.fieldBg
+        color: ColorConfig.fieldBg
         radius: ColorSchemeConfig.inputRadius
         visible: ColorSchemeService.selectedScreen !== ""
 
@@ -79,9 +79,9 @@ ColumnLayout {
         }
         Text {
             anchors.centerIn: parent
-            color: GlobalConfig.textDim
-            font.family: GlobalConfig.fontFamily
-            font.pixelSize: 28
+            color: ColorConfig.textDim
+            font.family: FontConfig.fontFamily
+            font.pixelSize: FontConfig.fontCardIcon
             text: ""
             visible: wpThumb.status !== Image.Ready
         }
@@ -93,9 +93,9 @@ ColumnLayout {
 
         Text {
             Layout.fillWidth: true
-            color: ColorSchemeService.selectedStatus === "error" ? "#cf6679" : GlobalConfig.textDim
-            font.family: GlobalConfig.fontFamily
-            font.pixelSize: GlobalConfig.fontPixelSmaller
+            color: ColorSchemeService.selectedStatus === "error" ? "#cf6679" : ColorConfig.textDim
+            font.family: FontConfig.fontFamily
+            font.pixelSize: FontConfig.fontSettingsBody
             text: {
                 switch (ColorSchemeService.selectedStatus) {
                 case "loading":
@@ -125,7 +125,7 @@ ColumnLayout {
             }
 
             Rectangle {
-                color: GlobalConfig.accent
+                color: ColorConfig.accent
                 height: 10
                 radius: 5
                 width: 10
@@ -145,9 +145,9 @@ ColumnLayout {
 
         Text {
             Layout.alignment: Qt.AlignHCenter
-            color: GlobalConfig.textDim
-            font.family: GlobalConfig.fontFamily
-            font.pixelSize: GlobalConfig.fontPixelSmaller
+            color: ColorConfig.textDim
+            font.family: FontConfig.fontFamily
+            font.pixelSize: FontConfig.fontSettingsBody
             text: "Color Palette"
         }
         Column {
@@ -256,9 +256,9 @@ ColumnLayout {
     }
     Text {
         Layout.alignment: Qt.AlignHCenter
-        color: GlobalConfig.textDim
-        font.family: GlobalConfig.fontFamily
-        font.pixelSize: GlobalConfig.fontPixelSmaller
+        color: ColorConfig.textDim
+        font.family: FontConfig.fontFamily
+        font.pixelSize: FontConfig.fontSettingsBody
         text: "No active wallpapers configured"
         visible: ColorSchemeService.wallpapersLoaded && ColorSchemeService.screens.length === 0
     }

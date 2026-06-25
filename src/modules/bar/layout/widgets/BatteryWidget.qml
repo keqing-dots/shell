@@ -13,9 +13,9 @@ WidgetCapsule {
 
     borderColor: {
         if (BatteryService.allFull)
-            return GlobalConfig.text;
+            return ColorConfig.text;
         if (BatteryService.anyCharging)
-            return GlobalConfig.accentAlt;
+            return ColorConfig.accentAlt;
         if (BatteryService.pct <= 25)
             return "#ff5555";
         return BarConfig.capsuleBorder;

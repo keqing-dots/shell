@@ -39,19 +39,19 @@ QtObject {
             mode: "fit"
         }
     ]
-    readonly property color gridBorderColor: GlobalConfig.textAlpha12
+    readonly property color gridBorderColor: ColorConfig.textAlpha12
     readonly property int gridBorderWidth: 5
     readonly property int gridSpacing: 10
     readonly property int imageRows: 4
     // Grid — source of truth for panel size; change these to resize the whole panel
     readonly property int imagesPerRow: 7
-    readonly property color panelBg: GlobalConfig.overlay
-    readonly property color panelBorderColor: GlobalConfig.textAlpha15
+    readonly property color panelBg: ColorConfig.overlay
+    readonly property color panelBorderColor: ColorConfig.textAlpha15
     readonly property int panelPadding: 16
 
     // Panel
     readonly property int panelRadius: 16
-    readonly property color tabInactive: GlobalConfig.lavenderAlpha20
-    readonly property color thumbnailBg: GlobalConfig.lavenderSubtle
+    readonly property color tabInactive: ColorConfig.lavenderAlpha20
+    readonly property color thumbnailBg: ColorConfig.lavenderSubtle
     readonly property int thumbnailSize: 150
 }

@@ -160,9 +160,9 @@ Column {
                     }
                     Rectangle {
                         anchors.fill: parent
-                        border.color: orderCard.dragging || dragHandle.containsMouse ? GlobalConfig.accent : GlobalConfig.textAlpha12
+                        border.color: orderCard.dragging || dragHandle.containsMouse ? ColorConfig.accent : ColorConfig.textAlpha12
                         border.width: 1
-                        color: orderCard.dragging ? GlobalConfig.accentAlpha20 : GlobalConfig.textAlpha07
+                        color: orderCard.dragging ? ColorConfig.accentAlpha20 : ColorConfig.textAlpha07
                         opacity: orderCard.on ? 1 : 0.45
                         radius: 6
 
@@ -227,18 +227,18 @@ Column {
                                     spacing: 2
 
                                     Text {
-                                        color: GlobalConfig.text
+                                        color: ColorConfig.text
                                         elide: Text.ElideRight
-                                        font.family: GlobalConfig.fontFamily
-                                        font.pixelSize: GlobalConfig.fontPixelSmaller
+                                        font.family: FontConfig.fontFamily
+                                        font.pixelSize: FontConfig.fontSettingsBody
                                         text: (root.cardMeta[orderCard.modelData] || {}).label ?? orderCard.modelData
                                         width: parent.width
                                     }
                                     Text {
-                                        color: GlobalConfig.text
+                                        color: ColorConfig.text
                                         elide: Text.ElideRight
-                                        font.family: GlobalConfig.fontFamily
-                                        font.pixelSize: GlobalConfig.fontPixelSmaller - 1
+                                        font.family: FontConfig.fontFamily
+                                        font.pixelSize: FontConfig.fontSettingsBodySm
                                         opacity: 0.4
                                         text: (root.cardMeta[orderCard.modelData] || {}).hint ?? ""
                                         width: parent.width
@@ -246,7 +246,7 @@ Column {
                                 }
                             }
                             Rectangle {
-                                color: orderCard.on ? GlobalConfig.accent : GlobalConfig.textAlpha15
+                                color: orderCard.on ? ColorConfig.accent : ColorConfig.textAlpha15
                                 height: 20
                                 radius: 10
                                 width: 36

@@ -121,17 +121,17 @@ Flickable {
 
                     Text {
                         Layout.fillWidth: true
-                        color: GlobalConfig.text
-                        font.family: GlobalConfig.fontFamily
-                        font.pixelSize: GlobalConfig.fontPixelSmaller
+                        color: ColorConfig.text
+                        font.family: FontConfig.fontFamily
+                        font.pixelSize: FontConfig.fontSettingsBody
                         font.weight: Font.DemiBold
                         opacity: 0.85
                         text: numRow.modelData.label
                     }
                     Rectangle {
-                        border.color: numInput.activeFocus ? GlobalConfig.accent : GlobalConfig.textAlpha15
+                        border.color: numInput.activeFocus ? ColorConfig.accent : ColorConfig.textAlpha15
                         border.width: 1
-                        color: GlobalConfig.textAlpha07
+                        color: ColorConfig.textAlpha07
                         implicitHeight: 28
                         implicitWidth: 72
                         radius: 4
@@ -147,9 +147,9 @@ Flickable {
 
                             anchors.fill: parent
                             anchors.margins: 6
-                            color: GlobalConfig.text
-                            font.family: GlobalConfig.fontFamily
-                            font.pixelSize: GlobalConfig.fontPixelSmaller
+                            color: ColorConfig.text
+                            font.family: FontConfig.fontFamily
+                            font.pixelSize: FontConfig.fontSettingsBody
                             horizontalAlignment: TextInput.AlignHCenter
                             selectByMouse: true
                             text: {
@@ -175,9 +175,9 @@ Flickable {
                     }
                     Text {
                         Layout.leftMargin: 4
-                        color: GlobalConfig.text
+                        color: ColorConfig.text
                         font.family: Icons.fontFamily
-                        font.pixelSize: GlobalConfig.fontPixelSmall
+                        font.pixelSize: FontConfig.fontSettingsWindowIcon
                         opacity: resetMa.containsMouse ? 0.9 : 0.3
                         text: Icons.refresh
 
@@ -207,9 +207,9 @@ Flickable {
         }
         Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
-            border.color: GlobalConfig.textAlpha12
+            border.color: ColorConfig.textAlpha12
             border.width: 1
-            color: resetAllMa.containsMouse ? GlobalConfig.accentAlpha15 : GlobalConfig.textAlpha05
+            color: resetAllMa.containsMouse ? ColorConfig.accentAlpha15 : ColorConfig.textAlpha05
             height: 30
             radius: GlobalConfig.radiusSm
             width: resetAllText.implicitWidth + 24
@@ -224,9 +224,9 @@ Flickable {
                 id: resetAllText
 
                 anchors.centerIn: parent
-                color: resetAllMa.containsMouse ? GlobalConfig.accent : GlobalConfig.text
-                font.family: GlobalConfig.fontFamily
-                font.pixelSize: GlobalConfig.fontPixelSmaller
+                color: resetAllMa.containsMouse ? ColorConfig.accent : ColorConfig.text
+                font.family: FontConfig.fontFamily
+                font.pixelSize: FontConfig.fontSettingsBody
                 opacity: resetAllMa.containsMouse ? 1.0 : 0.55
                 text: "↺  Reset all to defaults"
 
@@ -269,9 +269,9 @@ Flickable {
                 width: parent.width
 
                 Rectangle {
-                    border.color: root.selectedWidgetScreen === "default" ? GlobalConfig.accentAlt : "transparent"
+                    border.color: root.selectedWidgetScreen === "default" ? ColorConfig.accentAlt : "transparent"
                     border.width: 2
-                    color: GlobalConfig.lavenderAlpha20
+                    color: ColorConfig.lavenderAlpha20
                     height: 35
                     radius: 6
                     width: (widgetScreenRow.width - root.sortedScreens.length * widgetScreenRow.spacing) / Math.max(1, root.sortedScreens.length + 1)
@@ -284,9 +284,9 @@ Flickable {
 
                     Text {
                         anchors.centerIn: parent
-                        color: GlobalConfig.text
-                        font.family: GlobalConfig.fontFamily
-                        font.pixelSize: GlobalConfig.fontPixelSmaller
+                        color: ColorConfig.text
+                        font.family: FontConfig.fontFamily
+                        font.pixelSize: FontConfig.fontSettingsBody
                         text: "Default"
                     }
                     MouseArea {
@@ -302,9 +302,9 @@ Flickable {
                     delegate: Rectangle {
                         required property var modelData
 
-                        border.color: root.selectedWidgetScreen === modelData.name ? GlobalConfig.accentAlt : "transparent"
+                        border.color: root.selectedWidgetScreen === modelData.name ? ColorConfig.accentAlt : "transparent"
                         border.width: 2
-                        color: GlobalConfig.lavenderAlpha20
+                        color: ColorConfig.lavenderAlpha20
                         height: 35
                         radius: 6
                         width: (widgetScreenRow.width - root.sortedScreens.length * widgetScreenRow.spacing) / Math.max(1, root.sortedScreens.length + 1)
@@ -317,9 +317,9 @@ Flickable {
 
                         Text {
                             anchors.centerIn: parent
-                            color: GlobalConfig.text
-                            font.family: GlobalConfig.fontFamily
-                            font.pixelSize: GlobalConfig.fontPixelSmaller
+                            color: ColorConfig.text
+                            font.family: FontConfig.fontFamily
+                            font.pixelSize: FontConfig.fontSettingsBody
                             text: modelData.name
                         }
                         MouseArea {
@@ -337,9 +337,9 @@ Flickable {
 
                 Text {
                     Layout.fillWidth: true
-                    color: GlobalConfig.text
-                    font.family: GlobalConfig.fontFamily
-                    font.pixelSize: GlobalConfig.fontPixelSmaller
+                    color: ColorConfig.text
+                    font.family: FontConfig.fontFamily
+                    font.pixelSize: FontConfig.fontSettingsBody
                     opacity: 0.85
                     text: "Override default layout"
                 }

@@ -32,6 +32,7 @@ Item {
     property int highlightIndex: -1
     property string labelRole: "label"
     property var model: []
+    property bool selfFont: false
     readonly property bool opened: menu.opened
     property bool triggerVisible: true
     property string valueRole: "value"
@@ -59,9 +60,9 @@ Item {
         readonly property bool open: menu.opened
 
         anchors.fill: parent
-        border.color: open ? GlobalConfig.accent : GlobalConfig.textAlpha12
+        border.color: open ? ColorConfig.accent : ColorConfig.textAlpha12
         border.width: 1
-        color: open ? GlobalConfig.accentAlpha12 : GlobalConfig.textAlpha06
+        color: open ? ColorConfig.accentAlpha12 : ColorConfig.textAlpha06
         opacity: root.disabled ? 0.4 : 1.0
         radius: GlobalConfig.radiusSm
         visible: root.triggerVisible
@@ -85,16 +86,16 @@ Item {
 
             Text {
                 anchors.verticalCenter: parent.verticalCenter
-                color: GlobalConfig.text
-                font.family: GlobalConfig.fontFamily
-                font.pixelSize: GlobalConfig.fontPixelSmaller
+                color: ColorConfig.text
+                font.family: FontConfig.fontFamily
+                font.pixelSize: FontConfig.fontSettingsBody
                 text: root.activeLabel
             }
             Text {
                 anchors.verticalCenter: parent.verticalCenter
-                color: GlobalConfig.textDim
+                color: ColorConfig.textDim
                 font.family: Icons.fontFamily
-                font.pixelSize: 7
+                font.pixelSize: FontConfig.fontDropdownChevron
                 text: triggerRect.open ? Icons.chevronUp : Icons.chevronDown
             }
         }
@@ -122,9 +123,9 @@ Item {
         y: parent.height + 2
 
         background: Rectangle {
-            border.color: GlobalConfig.accent
+            border.color: ColorConfig.accent
             border.width: 1
-            color: GlobalConfig.overlay
+            color: ColorConfig.overlay
             radius: GlobalConfig.radiusSm
         }
         contentItem: FocusScope {
@@ -190,7 +191,7 @@ Item {
                             readonly property string itemValue: typeof modelData === "string" ? modelData : (modelData[root.valueRole] ?? "")
                             required property var modelData
 
-                            color: isHighlighted ? GlobalConfig.accentAlpha15 : optArea.containsMouse ? GlobalConfig.textAlpha07 : "transparent"
+                            color: isHighlighted ? ColorConfig.accentAlpha15 : optArea.containsMouse ? ColorConfig.textAlpha07 : "transparent"
                             height: 26
                             radius: 3
                             width: parent.width
@@ -207,10 +208,10 @@ Item {
                                 anchors.right: parent.right
                                 anchors.rightMargin: 8
                                 anchors.verticalCenter: parent.verticalCenter
-                                color: optItem.isActive || optItem.isHighlighted ? GlobalConfig.accent : GlobalConfig.text
+                                color: optItem.isActive || optItem.isHighlighted ? ColorConfig.accent : ColorConfig.text
                                 fontBold: optItem.isActive
-                                fontFamily: GlobalConfig.fontFamily
-                                fontSize: GlobalConfig.fontPixelSmaller
+                                fontFamily: root.selfFont ? optItem.itemValue : FontConfig.fontFamily
+                                fontSize: FontConfig.fontSettingsBody
                                 running: optArea.containsMouse
                                 text: optItem.itemLabel
                             }

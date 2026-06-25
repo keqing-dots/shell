@@ -19,14 +19,14 @@ RowLayout {
     Rectangle {
         Layout.preferredHeight: root.size
         Layout.preferredWidth: root.size
-        border.color: GlobalConfig.accent
+        border.color: ColorConfig.accent
         border.width: LauncherConfig.searchbarBorderWidth
         color: "transparent"
         radius: LauncherConfig.searchbarRadius
 
         Text {
             anchors.centerIn: parent
-            color: GlobalConfig.text
+            color: ColorConfig.text
             font.family: Icons.fontFamily
             font.pixelSize: LauncherConfig.searchbarFontPx
             text: LauncherConfig.modeIcons[root.mode] || ""
@@ -37,9 +37,9 @@ RowLayout {
 
         Layout.fillWidth: true
         Layout.preferredHeight: root.size
-        color: GlobalConfig.text
+        color: ColorConfig.text
         focus: true
-        font.family: GlobalConfig.fontFamily
+        font.family: FontConfig.fontFamily
         font.pixelSize: LauncherConfig.searchbarFontPx
         leftPadding: LauncherConfig.searchbarPadding
         rightPadding: LauncherConfig.searchbarPadding
@@ -47,7 +47,7 @@ RowLayout {
         z: 2
 
         background: Rectangle {
-            border.color: GlobalConfig.accent
+            border.color: ColorConfig.accent
             border.width: LauncherConfig.searchbarBorderWidth
             color: "transparent"
             radius: LauncherConfig.searchbarRadius

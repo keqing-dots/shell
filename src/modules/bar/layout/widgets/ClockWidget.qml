@@ -17,8 +17,8 @@ WidgetCapsule {
         id: label
 
         anchors.centerIn: parent
-        color: GlobalConfig.text
-        font.family: GlobalConfig.fontFamily
+        color: ColorConfig.text
+        font.family: FontConfig.fontFamily
         font.pixelSize: BarConfig.fontSize
         text: Qt.formatDateTime(DateTimeService.date, config.format || "ddd yyyy-MM-dd hh:mm:ss")
     }

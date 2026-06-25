@@ -36,9 +36,9 @@ WidgetPanel {
 
             Text {
                 anchors.verticalCenter: parent.verticalCenter
-                color: GlobalConfig.text
+                color: ColorConfig.text
                 font.bold: true
-                font.family: GlobalConfig.fontFamily
+                font.family: FontConfig.fontFamily
                 font.pixelSize: BarConfig.fontSize + 1
                 text: "System"
             }
@@ -54,9 +54,9 @@ WidgetPanel {
                 }
                 Text {
                     anchors.centerIn: parent
-                    color: GlobalConfig.text
+                    color: ColorConfig.text
                     font.family: Icons.fontFamily
-                    font.pixelSize: 14
+                    font.pixelSize: FontConfig.fontPanelActionIcon
                     text: Icons.close
                 }
                 MouseArea {
@@ -136,27 +136,27 @@ WidgetPanel {
             width: parent.width
 
             Text {
-                color: GlobalConfig.textDim
+                color: ColorConfig.textDim
                 font.family: Icons.fontFamily
                 font.pixelSize: BarConfig.fontSize
                 text: Icons.arrowNarrowDown + " "
             }
             Text {
-                color: GlobalConfig.text
-                font.family: GlobalConfig.fontFamily
+                color: ColorConfig.text
+                font.family: FontConfig.fontFamily
                 font.pixelSize: BarConfig.fontSize
                 text: SystemStatService.formatSpeed(SystemStatService.rxBps)
                 width: 60
             }
             Text {
-                color: GlobalConfig.textDim
+                color: ColorConfig.textDim
                 font.family: Icons.fontFamily
                 font.pixelSize: BarConfig.fontSize
                 text: Icons.arrowNarrowUp + " "
             }
             Text {
-                color: GlobalConfig.text
-                font.family: GlobalConfig.fontFamily
+                color: ColorConfig.text
+                font.family: FontConfig.fontFamily
                 font.pixelSize: BarConfig.fontSize
                 text: SystemStatService.formatSpeed(SystemStatService.txBps)
             }
@@ -175,7 +175,7 @@ WidgetPanel {
                 return "#F44747";
             if (pct > 0.7)
                 return "#E0A83A";
-            return GlobalConfig.accent;
+            return ColorConfig.accent;
         }
         property string extra: ""
         property string label: ""
@@ -203,8 +203,8 @@ WidgetPanel {
 
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
-                    color: GlobalConfig.textDim
-                    font.family: GlobalConfig.fontFamily
+                    color: ColorConfig.textDim
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize
                     text: statRow.label + (statRow.extra !== "" ? "  " + statRow.extra : "")
                 }
@@ -213,13 +213,13 @@ WidgetPanel {
                     anchors.verticalCenter: parent.verticalCenter
                     color: statRow.barColor
                     font.bold: true
-                    font.family: GlobalConfig.fontFamily
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize
                     text: statRow.value
                 }
             }
             Rectangle {
-                color: GlobalConfig.textAlpha08
+                color: ColorConfig.textAlpha08
                 height: 5
                 radius: 3
                 width: parent.width

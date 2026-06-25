@@ -36,9 +36,9 @@ WidgetPanel {
 
         Text {
             anchors.centerIn: parent
-            color: GlobalConfig.text
+            color: ColorConfig.text
             font.family: Icons.fontFamily
-            font.pixelSize: 13
+            font.pixelSize: FontConfig.fontSubPanelClose
             text: Icons.close
         }
         MouseArea {
@@ -63,7 +63,7 @@ WidgetPanel {
         Text {
             color: "#F44747"
             elide: Text.ElideRight
-            font.family: GlobalConfig.fontFamily
+            font.family: FontConfig.fontFamily
             font.pixelSize: BarConfig.fontSize - 1
             horizontalAlignment: Text.AlignHCenter
             text: "Forget \"" + BluetoothService.deviceName(subRoot.device) + "\"?"
@@ -88,7 +88,7 @@ WidgetPanel {
 
                         anchors.centerIn: parent
                         color: "#F44747"
-                        font.family: GlobalConfig.fontFamily
+                        font.family: FontConfig.fontFamily
                         font.pixelSize: BarConfig.fontSize - 1
                         text: "Forget"
                     }
@@ -115,8 +115,8 @@ WidgetPanel {
                         id: fCancelLabel
 
                         anchors.centerIn: parent
-                        color: GlobalConfig.text
-                        font.family: GlobalConfig.fontFamily
+                        color: ColorConfig.text
+                        font.family: FontConfig.fontFamily
                         font.pixelSize: BarConfig.fontSize - 1
                         text: "Cancel"
                     }

@@ -15,15 +15,15 @@ QtObject {
     readonly property string barPosition: "top"
 
     // Capsule
-    readonly property color capsuleBg: GlobalConfig.overlay
-    readonly property color capsuleBgHover: GlobalConfig.overlay
-    readonly property color capsuleBorder: GlobalConfig.accent
+    readonly property color capsuleBg: ColorConfig.overlay
+    readonly property color capsuleBgHover: ColorConfig.overlay
+    readonly property color capsuleBorder: ColorConfig.accent
     readonly property int capsuleBorderWidth: 2
     readonly property int capsuleHeight: barHeight
     readonly property int capsuleRadius: GlobalConfig.radiusMd
 
     // Typography
-    readonly property int fontSize: GlobalConfig.fontPixelSmall
+    readonly property int fontSize: FontConfig.fontBarLabel
     readonly property int iconSize: 18
 
     // Layout
@@ -31,11 +31,11 @@ QtObject {
     readonly property real marginVertical: 5
 
     // Menu
-    readonly property color menuBg: GlobalConfig.overlay
-    readonly property color menuBorder: GlobalConfig.accent
-    readonly property color menuHover: GlobalConfig.textAlpha13
-    readonly property color panelBg: GlobalConfig.overlay
-    readonly property color panelBorder: GlobalConfig.accent
+    readonly property color menuBg: ColorConfig.overlay
+    readonly property color menuBorder: ColorConfig.accent
+    readonly property color menuHover: ColorConfig.textAlpha13
+    readonly property color panelBg: ColorConfig.overlay
+    readonly property color panelBorder: ColorConfig.accent
 
     // Panel
     readonly property int panelBorderWidth: 2
@@ -44,9 +44,9 @@ QtObject {
     readonly property int panelRadius: GlobalConfig.radiusMd
     readonly property int screenMargin: SettingsService.adapter.bar.screenMargin
     readonly property real widgetSpacing: 10
-    readonly property color workspaceActive: GlobalConfig.accentAlt
-    readonly property color workspaceInactive: GlobalConfig.lavenderAlpha35
-    readonly property color workspaceOccupied: GlobalConfig.accent
+    readonly property color workspaceActive: ColorConfig.accentAlt
+    readonly property color workspaceInactive: ColorConfig.lavenderAlpha35
+    readonly property color workspaceOccupied: ColorConfig.accent
 
     // Profile Card
     readonly property int logoBorderWidth: 5

@@ -31,7 +31,7 @@ Item {
     Rectangle {
         id: cardRect
 
-        border.color: GlobalConfig.accent
+        border.color: ColorConfig.accent
         border.width: 1
         color: BarConfig.capsuleBg
         height: 10 + hdr.height + 8 + root.contentHeight + 12
@@ -53,9 +53,9 @@ Item {
             Text {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
-                color: GlobalConfig.text
+                color: ColorConfig.text
                 font.bold: true
-                font.family: GlobalConfig.fontFamily
+                font.family: FontConfig.fontFamily
                 font.pixelSize: BarConfig.fontSize
                 text: root.title
             }

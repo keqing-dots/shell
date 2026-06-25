@@ -157,7 +157,7 @@ Item {
                                 verticalAlignment: Text.AlignVCenter
 
                                 font {
-                                    family: GlobalConfig.fontFamily
+                                    family: FontConfig.fontFamily
                                     pixelSize: (OverviewConfig.workspaceNumberBaseSize * (root.monitorData?.scale ?? 1)) * root.overviewScale
                                     weight: Font.DemiBold
                                 }
@@ -346,7 +346,7 @@ Item {
                 property int activeWorkspaceInGroup: root.activeWorkspaceId - (root.workspaceGroup * root.workspacesShown)
                 property int activeWorkspaceRowIndex: Math.floor((activeWorkspaceInGroup - 1) / OverviewConfig.columns)
 
-                border.color: GlobalConfig.accentAlt
+                border.color: ColorConfig.accentAlt
                 border.width: OverviewConfig.focusedIndicatorBorderWidth
                 color: "transparent"
                 height: root.workspaceImplicitHeight

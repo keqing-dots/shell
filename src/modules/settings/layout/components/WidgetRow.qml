@@ -46,9 +46,9 @@ Column {
     spacing: 8
 
     Text {
-        color: GlobalConfig.text
-        font.family: GlobalConfig.fontFamily
-        font.pixelSize: GlobalConfig.fontPixelSmaller
+        color: ColorConfig.text
+        font.family: FontConfig.fontFamily
+        font.pixelSize: FontConfig.fontSettingsBody
         opacity: 0.45
         text: root.section.charAt(0).toUpperCase() + root.section.slice(1)
     }
@@ -166,9 +166,9 @@ Column {
                     id: cardBg
 
                     anchors.fill: parent
-                    border.color: wCard.dragging || dragHandle.containsMouse ? GlobalConfig.accent : GlobalConfig.textAlpha12
+                    border.color: wCard.dragging || dragHandle.containsMouse ? ColorConfig.accent : ColorConfig.textAlpha12
                     border.width: 1
-                    color: wCard.dragging ? GlobalConfig.accentAlpha20 : GlobalConfig.textAlpha07
+                    color: wCard.dragging ? ColorConfig.accentAlpha20 : ColorConfig.textAlpha07
                     radius: 6
 
                     RowLayout {
@@ -240,18 +240,18 @@ Column {
                             Text {
                                 anchors.fill: parent
                                 anchors.leftMargin: 0
-                                color: GlobalConfig.text
+                                color: ColorConfig.text
                                 elide: Text.ElideRight
-                                font.family: GlobalConfig.fontFamily
-                                font.pixelSize: GlobalConfig.fontPixelSmaller
+                                font.family: FontConfig.fontFamily
+                                font.pixelSize: FontConfig.fontSettingsBody
                                 text: wCard.modelData.id ?? ""
                                 verticalAlignment: Text.AlignVCenter
                             }
                         }
                         Text {
-                            color: GlobalConfig.text
+                            color: ColorConfig.text
                             font.family: Icons.fontFamily
-                            font.pixelSize: GlobalConfig.fontPixelSmaller
+                            font.pixelSize: FontConfig.fontSettingsBody
                             opacity: settingsBtn.containsMouse ? 1.0 : 0.3
                             text: Icons.settings
                             visible: root.hasSettings(wCard.modelData.id ?? "")
@@ -268,9 +268,9 @@ Column {
                             }
                         }
                         Text {
-                            color: GlobalConfig.text
+                            color: ColorConfig.text
                             font.family: Icons.fontFamily
-                            font.pixelSize: GlobalConfig.fontPixelSmaller
+                            font.pixelSize: FontConfig.fontSettingsBody
                             opacity: removeBtn.containsMouse ? 1.0 : 0.3
                             text: Icons.close
 

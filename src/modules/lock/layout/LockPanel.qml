@@ -24,7 +24,7 @@ Rectangle {
     signal failedReset
     signal unlockFinished
 
-    border.color: GlobalConfig.accent
+    border.color: ColorConfig.accent
     border.width: LockConfig.bgBorderWidth
     clip: true
     color: LockConfig.panelBg
@@ -41,7 +41,7 @@ Rectangle {
         id: lockIcon
 
         anchors.centerIn: parent
-        color: GlobalConfig.accent
+        color: ColorConfig.accent
         font.family: Icons.fontFamily
         font.pixelSize: 200
         opacity: 1
@@ -67,15 +67,15 @@ Rectangle {
 
                 Text {
                     anchors.horizontalCenter: parent.horizontalCenter
-                    color: GlobalConfig.text
-                    font.family: GlobalConfig.fontFamily
+                    color: ColorConfig.text
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: LockConfig.fontTime
                     text: Qt.formatDateTime(DateTimeService.date, "hh:mm")
                 }
                 Text {
                     anchors.horizontalCenter: parent.horizontalCenter
-                    color: GlobalConfig.text
-                    font.family: GlobalConfig.fontFamily
+                    color: ColorConfig.text
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: LockConfig.fontDate
                     text: Qt.formatDateTime(DateTimeService.date, "dddd, MMM dd yyyy")
                 }
@@ -88,8 +88,8 @@ Rectangle {
         // Avatar
         RoundImage {
             anchors.horizontalCenter: parent.horizontalCenter
-            bgColor: GlobalConfig.fieldBg
-            borderColor: GlobalConfig.accent
+            bgColor: ColorConfig.fieldBg
+            borderColor: ColorConfig.accent
             borderWidth: LockConfig.profileBorderWidth
             implicitHeight: LockConfig.profileSize
             implicitWidth: LockConfig.profileSize
@@ -102,8 +102,8 @@ Rectangle {
         // Username
         Text {
             anchors.horizontalCenter: parent.horizontalCenter
-            color: GlobalConfig.text
-            font.family: GlobalConfig.fontFamily
+            color: ColorConfig.text
+            font.family: FontConfig.fontFamily
             font.pixelSize: LockConfig.fontNormal
             text: GlobalConfig.user
         }
@@ -118,9 +118,9 @@ Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             animFastMs: LockConfig.animFastMs
             animNormalMs: LockConfig.animNormalMs
-            border.color: GlobalConfig.accent
+            border.color: ColorConfig.accent
             border.width: LockConfig.bgBorderWidth
-            color: GlobalConfig.fieldBg
+            color: ColorConfig.fieldBg
             dotContainerMargin: LockConfig.bgRadius
             dotSize: LockConfig.dotSize
             dotSlideOffset: LockConfig.dotSlideOffset
@@ -146,8 +146,8 @@ Rectangle {
         // Motivational text
         Text {
             anchors.horizontalCenter: parent.horizontalCenter
-            color: GlobalConfig.accentAlt
-            font.family: GlobalConfig.fontFamily
+            color: ColorConfig.accentAlt
+            font.family: FontConfig.fontFamily
             font.pixelSize: LockConfig.fontNormal
             text: "Come on. Enough procrastinating. Let's go."
         }

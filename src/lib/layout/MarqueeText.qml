@@ -8,9 +8,9 @@ Item {
     id: root
 
     readonly property real _overflow: Math.max(0, label.implicitWidth - root.width)
-    property color color: GlobalConfig.text
+    property color color: ColorConfig.text
     property bool fontBold: false
-    property string fontFamily: GlobalConfig.fontFamily
+    property string fontFamily: FontConfig.fontFamily
     property int fontSize: 12
     property int pauseDuration: 1200
     property bool running: true

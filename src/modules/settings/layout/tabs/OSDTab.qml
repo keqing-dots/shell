@@ -61,15 +61,15 @@ Flickable {
                     Text {
                         anchors.left: parent.left
                         anchors.verticalCenter: parent.verticalCenter
-                        color: GlobalConfig.text
-                        font.family: GlobalConfig.fontFamily
-                        font.pixelSize: GlobalConfig.fontPixelSmaller
+                        color: ColorConfig.text
+                        font.family: FontConfig.fontFamily
+                        font.pixelSize: FontConfig.fontSettingsBody
                         text: root.labels[row.modelData] ?? row.modelData
                     }
                     Rectangle {
                         anchors.right: parent.right
                         anchors.verticalCenter: parent.verticalCenter
-                        color: row.on ? GlobalConfig.accent : GlobalConfig.textAlpha15
+                        color: row.on ? ColorConfig.accent : ColorConfig.textAlpha15
                         height: 20
                         radius: 10
                         width: 36

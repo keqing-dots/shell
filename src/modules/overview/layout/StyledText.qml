@@ -13,8 +13,8 @@ Text {
     verticalAlignment: Text.AlignVCenter
 
     font {
-        family: GlobalConfig.fontFamily
+        family: FontConfig.fontFamily
         hintingPreference: Font.PreferFullHinting
-        pixelSize: GlobalConfig.fontPixelSmall
+        pixelSize: FontConfig.fontOverviewText
     }
 }

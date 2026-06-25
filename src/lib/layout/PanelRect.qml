@@ -5,8 +5,8 @@ import QtQuick
 import qs.styles
 
 Rectangle {
-    border.color: GlobalConfig.accent
+    border.color: ColorConfig.accent
     border.width: 1
-    color: GlobalConfig.overlay
+    color: ColorConfig.overlay
     radius: 12
 }

@@ -52,9 +52,9 @@ Item {
         id: inputBox
 
         anchors.fill: parent
-        border.color: inputField.activeFocus ? GlobalConfig.accent : GlobalConfig.textAlpha15
+        border.color: inputField.activeFocus ? ColorConfig.accent : ColorConfig.textAlpha15
         border.width: 1
-        color: GlobalConfig.textAlpha07
+        color: ColorConfig.textAlpha07
         radius: 4
 
         Behavior on border.color {
@@ -66,9 +66,9 @@ Item {
         Text {
             anchors.fill: parent
             anchors.leftMargin: 7
-            color: GlobalConfig.textDim
-            font.family: GlobalConfig.fontFamily
-            font.pixelSize: GlobalConfig.fontPixelSmaller
+            color: ColorConfig.textDim
+            font.family: FontConfig.fontFamily
+            font.pixelSize: FontConfig.fontSettingsBody
             text: root.placeholder
             verticalAlignment: Text.AlignVCenter
             visible: inputField.text === ""
@@ -78,9 +78,9 @@ Item {
 
             anchors.fill: parent
             anchors.margins: 6
-            color: GlobalConfig.text
-            font.family: GlobalConfig.fontFamily
-            font.pixelSize: GlobalConfig.fontPixelSmaller
+            color: ColorConfig.text
+            font.family: FontConfig.fontFamily
+            font.pixelSize: FontConfig.fontSettingsBody
 
             Keys.onDownPressed: event => {
                 dropdown.highlightIndex = Math.min(dropdown.highlightIndex + 1, root.filteredModel.length - 1);

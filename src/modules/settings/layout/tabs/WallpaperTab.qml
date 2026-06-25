@@ -45,7 +45,7 @@ Item {
                 delegate: Rectangle {
                     required property var modelData
 
-                    border.color: root.selectedScreen === modelData.name ? GlobalConfig.accentAlt : "transparent"
+                    border.color: root.selectedScreen === modelData.name ? ColorConfig.accentAlt : "transparent"
                     border.width: 2
                     color: WallpaperConfig.tabInactive
                     height: WallpaperConfig.controlRowHeight
@@ -60,9 +60,9 @@ Item {
 
                     Text {
                         anchors.centerIn: parent
-                        color: GlobalConfig.text
-                        font.family: GlobalConfig.fontFamily
-                        font.pixelSize: GlobalConfig.fontPixelSmaller
+                        color: ColorConfig.text
+                        font.family: FontConfig.fontFamily
+                        font.pixelSize: FontConfig.fontSettingsBody
                         text: modelData.name
                     }
                     MouseArea {

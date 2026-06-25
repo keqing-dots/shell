@@ -9,7 +9,7 @@ Item {
     id: root
 
     property color bgColor: "transparent"
-    property color borderColor: GlobalConfig.accent
+    property color borderColor: ColorConfig.accent
     property real borderWidth: 0
     property bool playing: true
     property url source: ""

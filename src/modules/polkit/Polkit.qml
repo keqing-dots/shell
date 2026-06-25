@@ -99,7 +99,7 @@ Scope {
             id: panel
 
             anchors.centerIn: parent
-            border.color: GlobalConfig.accent
+            border.color: ColorConfig.accent
             border.width: PolkitConfig.borderWidth
             color: PolkitConfig.panelBg
             implicitHeight: content.implicitHeight + 2 * PolkitConfig.panelMargin
@@ -136,9 +136,9 @@ Scope {
                 anchors.rightMargin: 12
                 anchors.top: parent.top
                 anchors.topMargin: 12
-                color: GlobalConfig.textDim
+                color: ColorConfig.textDim
                 font.family: Icons.fontFamily
-                font.pixelSize: 16
+                font.pixelSize: FontConfig.fontPolkitClose
                 text: Icons.close
 
                 MouseArea {
@@ -158,9 +158,9 @@ Scope {
                 // Label
                 Text {
                     anchors.horizontalCenter: parent.horizontalCenter
-                    color: GlobalConfig.textDim
-                    font.family: GlobalConfig.fontFamily
-                    font.pixelSize: 13
+                    color: ColorConfig.textDim
+                    font.family: FontConfig.fontFamily
+                    font.pixelSize: FontConfig.fontPolkitLabel
                     text: "Authentication Required"
                 }
 
@@ -169,9 +169,9 @@ Scope {
                     id: passwordField
 
                     anchors.horizontalCenter: parent.horizontalCenter
-                    border.color: GlobalConfig.accent
+                    border.color: ColorConfig.accent
                     border.width: PolkitConfig.borderWidth
-                    color: GlobalConfig.fieldBg
+                    color: ColorConfig.fieldBg
                     dotContainerMargin: PolkitConfig.dotMargin
                     dotSize: PolkitConfig.dotSize
                     dotSlideOffset: PolkitConfig.dotSlideOffset

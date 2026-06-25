@@ -13,9 +13,9 @@ QtObject {
 
     // Background
     readonly property int bgBorderWidth: 5
-    readonly property color bgDark: GlobalConfig.fieldBg
+    readonly property color bgDark: ColorConfig.fieldBg
     readonly property int bgRadius: 10
-    readonly property color borderAccent: GlobalConfig.accent
+    readonly property color borderAccent: ColorConfig.accent
 
     // Dots
     readonly property int dotSize: 20
@@ -36,7 +36,7 @@ QtObject {
     readonly property int marginLarge: 50
 
     // Panel
-    readonly property color panelBg: GlobalConfig.overlay
+    readonly property color panelBg: ColorConfig.overlay
     readonly property int panelMargin: 20
 
     // Profile
@@ -45,6 +45,6 @@ QtObject {
 
     // Colors
     readonly property color textDark: "black"
-    readonly property color textMain: GlobalConfig.text
+    readonly property color textMain: ColorConfig.text
     readonly property int timerFailMs: 3000
 }

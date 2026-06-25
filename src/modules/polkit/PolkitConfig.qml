@@ -11,7 +11,7 @@ QtObject {
 
     // Panel
     readonly property int borderWidth: 5
-    readonly property color panelBg: GlobalConfig.overlay
+    readonly property color panelBg: ColorConfig.overlay
     readonly property int panelMargin: 30
     readonly property int panelRadius: 20
     readonly property int panelWidth: 480

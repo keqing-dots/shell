@@ -25,9 +25,9 @@ Rectangle {
         expandRadius = show ? LogoutConfig.buttonsExpandedRadius : 0;
     }
 
-    border.color: root.isHighlighted ? GlobalConfig.accentAlt : GlobalConfig.accent
+    border.color: root.isHighlighted ? ColorConfig.accentAlt : ColorConfig.accent
     border.width: LogoutConfig.buttonBorderWidth
-    color: GlobalConfig.fieldBg
+    color: ColorConfig.fieldBg
     height: LogoutConfig.buttonSize
     opacity: 0
     radius: LogoutConfig.buttonSize / LogoutConfig.buttonCornerRadiusDiv
@@ -75,8 +75,8 @@ Rectangle {
         }
     }
     Text {
-        color: GlobalConfig.text
-        font.family: GlobalConfig.yujiMaiFamily
+        color: ColorConfig.text
+        font.family: FontConfig.yujiMaiFamily
         font.pixelSize: LogoutConfig.buttonSize / 2
         text: root.chars[root.index] ?? ""
         x: (parent.width - width) / 2

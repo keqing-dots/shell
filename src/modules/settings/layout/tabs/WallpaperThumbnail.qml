@@ -13,7 +13,7 @@ Rectangle {
 
     signal clicked(string path)
 
-    border.color: selected ? GlobalConfig.accentAlt : "transparent"
+    border.color: selected ? ColorConfig.accentAlt : "transparent"
     border.width: 3
     clip: true
     color: WallpaperConfig.thumbnailBg
@@ -47,7 +47,7 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        color: GlobalConfig.overlay
+        color: ColorConfig.overlay
         height: fileLabel.implicitHeight + 6
 
         Text {
@@ -60,8 +60,8 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             color: "white"
             elide: Text.ElideRight
-            font.family: GlobalConfig.fontFamily
-            font.pixelSize: GlobalConfig.fontPixelSmaller
+            font.family: FontConfig.fontFamily
+            font.pixelSize: FontConfig.fontSettingsBody
             text: thumb.path.split('/').pop()
         }
     }

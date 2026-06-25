@@ -52,9 +52,9 @@ WidgetPanel {
         Text {
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
-            color: GlobalConfig.text
+            color: ColorConfig.text
             font.bold: true
-            font.family: GlobalConfig.fontFamily
+            font.family: FontConfig.fontFamily
             font.pixelSize: BarConfig.fontSize + 1
             text: "Network"
         }
@@ -72,9 +72,9 @@ WidgetPanel {
 
                 Text {
                     anchors.centerIn: parent
-                    color: NetworkService.scanning ? GlobalConfig.accent : GlobalConfig.text
+                    color: NetworkService.scanning ? ColorConfig.accent : ColorConfig.text
                     font.family: Icons.fontFamily
-                    font.pixelSize: 14
+                    font.pixelSize: FontConfig.fontPanelActionIcon
                     text: Icons.refresh
                 }
                 MouseArea {
@@ -102,9 +102,9 @@ WidgetPanel {
 
                 Text {
                     anchors.centerIn: parent
-                    color: GlobalConfig.text
+                    color: ColorConfig.text
                     font.family: Icons.fontFamily
-                    font.pixelSize: 14
+                    font.pixelSize: FontConfig.fontPanelActionIcon
                     text: Icons.close
                 }
                 MouseArea {
@@ -179,7 +179,7 @@ WidgetPanel {
 
                         anchors.verticalCenter: parent.verticalCenter
                         color: "#F44747"
-                        font.family: GlobalConfig.fontFamily
+                        font.family: FontConfig.fontFamily
                         font.pixelSize: BarConfig.fontSize
                         text: NetworkService.lastError
                         width: col.width - 60
@@ -196,7 +196,7 @@ WidgetPanel {
                             anchors.centerIn: parent
                             color: "#F44747"
                             font.family: Icons.fontFamily
-                            font.pixelSize: 12
+                            font.pixelSize: FontConfig.fontNetworkClose
                             text: Icons.close
                         }
                         MouseArea {
@@ -210,7 +210,7 @@ WidgetPanel {
             }
             Rectangle {
                 clip: true
-                color: GlobalConfig.accentAlpha18
+                color: ColorConfig.accentAlpha18
                 height: visible ? 40 : 0
                 radius: 8
                 visible: NetworkService.ethernetConnected
@@ -218,8 +218,8 @@ WidgetPanel {
 
                 Text {
                     anchors.centerIn: parent
-                    color: GlobalConfig.text
-                    font.family: GlobalConfig.fontFamily
+                    color: ColorConfig.text
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize
                     text: "Ethernet"
                 }
@@ -231,8 +231,8 @@ WidgetPanel {
 
                 Text {
                     anchors.centerIn: parent
-                    color: GlobalConfig.textDim
-                    font.family: GlobalConfig.fontFamily
+                    color: ColorConfig.textDim
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize
                     text: "No Wi-Fi adapter found"
                 }
@@ -244,8 +244,8 @@ WidgetPanel {
 
                 Text {
                     anchors.centerIn: parent
-                    color: GlobalConfig.textDim
-                    font.family: GlobalConfig.fontFamily
+                    color: ColorConfig.textDim
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize
                     text: "WiFi is disabled"
                 }
@@ -268,8 +268,8 @@ WidgetPanel {
                 }
                 Text {
                     anchors.centerIn: parent
-                    color: GlobalConfig.textDim
-                    font.family: GlobalConfig.fontFamily
+                    color: ColorConfig.textDim
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize
                     text: "Scanning" + ".".repeat(dotTimer.step)
                 }
@@ -281,9 +281,9 @@ WidgetPanel {
 
                 Text {
                     anchors.verticalCenter: parent.verticalCenter
-                    color: GlobalConfig.textDim
+                    color: ColorConfig.textDim
                     font.bold: true
-                    font.family: GlobalConfig.fontFamily
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize - 1
                     text: "Connected"
                 }
@@ -300,9 +300,9 @@ WidgetPanel {
 
                 Text {
                     anchors.bottom: parent.bottom
-                    color: GlobalConfig.textDim
+                    color: ColorConfig.textDim
                     font.bold: true
-                    font.family: GlobalConfig.fontFamily
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize - 1
                     text: "Known"
                 }
@@ -319,9 +319,9 @@ WidgetPanel {
 
                 Text {
                     anchors.bottom: parent.bottom
-                    color: GlobalConfig.textDim
+                    color: ColorConfig.textDim
                     font.bold: true
-                    font.family: GlobalConfig.fontFamily
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize - 1
                     text: "Available"
                 }
@@ -355,9 +355,9 @@ WidgetPanel {
                 if (netRow.isCaptive)
                     return Qt.rgba(1, 0.76, 0.03, 0.15);
                 if (netRow.isConnected)
-                    return GlobalConfig.accentAlpha25;
+                    return ColorConfig.accentAlpha25;
                 if (netRow.isBusy)
-                    return GlobalConfig.accentAlpha12;
+                    return ColorConfig.accentAlpha12;
                 return rowHover.containsMouse ? BarConfig.capsuleBgHover : BarConfig.capsuleBg;
             }
             height: 50
@@ -371,7 +371,7 @@ WidgetPanel {
                 anchors.left: parent.left
                 anchors.leftMargin: 8
                 anchors.verticalCenter: parent.verticalCenter
-                color: netRow.isCaptive ? "#FFC107" : netRow.isConnected ? GlobalConfig.accent : GlobalConfig.textDim
+                color: netRow.isCaptive ? "#FFC107" : netRow.isConnected ? ColorConfig.accent : ColorConfig.textDim
                 font.family: Icons.fontFamily
                 font.pixelSize: BarConfig.iconSize
                 text: panelRoot._signalIcon(netRow.modelData.signal)
@@ -385,16 +385,16 @@ WidgetPanel {
                 spacing: 1
 
                 MarqueeText {
-                    color: netRow.isCaptive ? "#FFC107" : netRow.isConnected ? GlobalConfig.accent : GlobalConfig.text
+                    color: netRow.isCaptive ? "#FFC107" : netRow.isConnected ? ColorConfig.accent : ColorConfig.text
                     fontBold: netRow.isConnected
-                    fontFamily: GlobalConfig.fontFamily
+                    fontFamily: FontConfig.fontFamily
                     fontSize: BarConfig.fontSize
                     text: netRow.modelData.ssid
                     width: parent.width
                 }
                 Text {
-                    color: netRow.isCaptive ? "#FFC107" : GlobalConfig.textDim
-                    font.family: GlobalConfig.fontFamily
+                    color: netRow.isCaptive ? "#FFC107" : ColorConfig.textDim
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize - 2
                     text: netRow.isCaptive ? "Sign in required" : (netRow.isSecured ? netRow.modelData.security.trim() : "Open")
                 }
@@ -409,8 +409,8 @@ WidgetPanel {
 
                 Text {
                     anchors.verticalCenter: parent.verticalCenter
-                    color: GlobalConfig.accent
-                    font.family: GlobalConfig.fontFamily
+                    color: ColorConfig.accent
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize - 1
                     text: "Connecting…"
                     visible: netRow.isBusy
@@ -418,8 +418,8 @@ WidgetPanel {
                 Rectangle {
                     color: {
                         if (netRow.isConnected)
-                            return netActionMa.containsMouse ? GlobalConfig.textAlpha18 : GlobalConfig.textAlpha10;
-                        return netActionMa.containsMouse ? Qt.lighter(GlobalConfig.accent, 1.2) : GlobalConfig.accent;
+                            return netActionMa.containsMouse ? ColorConfig.textAlpha18 : ColorConfig.textAlpha10;
+                        return netActionMa.containsMouse ? Qt.lighter(ColorConfig.accent, 1.2) : ColorConfig.accent;
                     }
                     height: 22
                     radius: 11
@@ -430,8 +430,8 @@ WidgetPanel {
                         id: netActionLabel
 
                         anchors.centerIn: parent
-                        color: netRow.isConnected ? GlobalConfig.text : "white"
-                        font.family: GlobalConfig.fontFamily
+                        color: netRow.isConnected ? ColorConfig.text : "white"
+                        font.family: FontConfig.fontFamily
                         font.pixelSize: BarConfig.fontSize - 1
                         text: netRow.isConnected ? "Disconnect" : "Connect"
                     }
@@ -467,7 +467,7 @@ WidgetPanel {
                         anchors.centerIn: parent
                         color: "#F44747"
                         font.family: Icons.fontFamily
-                        font.pixelSize: 10
+                        font.pixelSize: FontConfig.fontListItemRemove
                         text: Icons.close
                     }
                     MouseArea {

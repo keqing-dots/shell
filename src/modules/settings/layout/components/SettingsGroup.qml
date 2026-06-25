@@ -15,18 +15,18 @@ Column {
     spacing: 8
 
     Text {
-        color: GlobalConfig.text
-        font.family: GlobalConfig.fontFamily
-        font.pixelSize: GlobalConfig.fontPixelSmaller
+        color: ColorConfig.text
+        font.family: FontConfig.fontFamily
+        font.pixelSize: FontConfig.fontSettingsBody
         font.weight: Font.DemiBold
         opacity: 0.45
         text: root.title
         visible: root.title !== ""
     }
     Rectangle {
-        border.color: GlobalConfig.textAlpha07
+        border.color: ColorConfig.textAlpha07
         border.width: 1
-        color: GlobalConfig.textAlpha04
+        color: ColorConfig.textAlpha04
         implicitHeight: inner.implicitHeight + 24
         radius: 8
         width: root.width

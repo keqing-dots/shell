@@ -69,7 +69,7 @@ PanelWindow {
         anchors.centerIn: parent
         border.width: LauncherConfig.menuBorderWidth
         clip: true
-        color: Qt.rgba(GlobalConfig.base.r, GlobalConfig.base.g, GlobalConfig.base.b, LauncherConfig.menuBgAlpha)
+        color: Qt.rgba(ColorConfig.base.r, ColorConfig.base.g, ColorConfig.base.b, LauncherConfig.menuBgAlpha)
         height: getHeight()
         radius: LauncherConfig.menuRadius
         width: root.menuWidth

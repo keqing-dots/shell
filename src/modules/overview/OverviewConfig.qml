@@ -28,23 +28,23 @@ QtObject {
     property int backgroundBorderWidth: 1
 
     // Colors
-    property color backgroundColor: GlobalConfig.fieldBg
+    property color backgroundColor: ColorConfig.fieldBg
     property real backgroundOpacity: 1
     property int backgroundPadding: 10
     readonly property color colLayer0: backgroundColor
-    readonly property color colLayer0Border: GlobalConfig.accent
-    readonly property color colLayer1: GlobalConfig.fieldBg
-    readonly property color colLayer1Hover: GlobalConfig.fieldBg
+    readonly property color colLayer0Border: ColorConfig.accent
+    readonly property color colLayer1: ColorConfig.fieldBg
+    readonly property color colLayer1Hover: ColorConfig.fieldBg
     readonly property color colLayer2: "transparent"
-    readonly property color colLayer2Active: GlobalConfig.accentAlpha20
-    readonly property color colLayer2Hover: GlobalConfig.textAlpha08
-    readonly property color colOnLayer1: GlobalConfig.text
-    readonly property color colOnTooltip: GlobalConfig.text
-    readonly property color colShadow: GlobalConfig.overlay
-    readonly property color colTooltip: GlobalConfig.fieldBg
+    readonly property color colLayer2Active: ColorConfig.accentAlpha20
+    readonly property color colLayer2Hover: ColorConfig.textAlpha08
+    readonly property color colOnLayer1: ColorConfig.text
+    readonly property color colOnTooltip: ColorConfig.text
+    readonly property color colShadow: ColorConfig.overlay
+    readonly property color colTooltip: ColorConfig.fieldBg
     property int columns: 5
     property real elevationMargin: 10
-    readonly property color emptyWorkspaceBorderColor: applyAlpha(GlobalConfig.text, 0.18)
+    readonly property color emptyWorkspaceBorderColor: applyAlpha(ColorConfig.text, 0.18)
 
     // Misc
     property bool enable: true
@@ -56,9 +56,9 @@ QtObject {
     // Window
     property real iconToWindowRatio: 0.25
     property real iconToWindowRatioCompact: 0.45
-    readonly property color onBackground: GlobalConfig.text
+    readonly property color onBackground: ColorConfig.text
     property real otherMonitorOpacity: 0.4
-    readonly property color outline: GlobalConfig.accent
+    readonly property color outline: ColorConfig.accent
     property int raceDelayMs: 150
     property int rows: 2
     property real scale: 0.15

@@ -116,9 +116,9 @@ Popup {
     width: root.currentWidgetId === "Power" ? 360 : 260
 
     background: Rectangle {
-        border.color: GlobalConfig.textAlpha14
+        border.color: ColorConfig.textAlpha14
         border.width: 1
-        color: GlobalConfig.overlay
+        color: ColorConfig.overlay
         radius: 6
     }
     contentItem: Column {
@@ -128,15 +128,15 @@ Popup {
         width: root.availableWidth
 
         Text {
-            color: GlobalConfig.text
-            font.family: GlobalConfig.fontFamily
-            font.pixelSize: GlobalConfig.fontPixelSmaller
+            color: ColorConfig.text
+            font.family: FontConfig.fontFamily
+            font.pixelSize: FontConfig.fontSettingsBody
             font.weight: Font.DemiBold
             opacity: 0.55
             text: root.currentWidgetId + " settings"
         }
         Rectangle {
-            color: GlobalConfig.textAlpha08
+            color: ColorConfig.textAlpha08
             height: 1
             width: contentCol.width
         }
@@ -150,17 +150,17 @@ Popup {
                 width: parent.width
 
                 Text {
-                    color: GlobalConfig.text
-                    font.family: GlobalConfig.fontFamily
-                    font.pixelSize: GlobalConfig.fontPixelSmaller
+                    color: ColorConfig.text
+                    font.family: FontConfig.fontFamily
+                    font.pixelSize: FontConfig.fontSettingsBody
                     opacity: 0.5
                     text: "Icon"
                 }
                 Rectangle {
-                    border.color: iconField.activeFocus ? GlobalConfig.accent : GlobalConfig.textAlpha15
+                    border.color: iconField.activeFocus ? ColorConfig.accent : ColorConfig.textAlpha15
                     border.width: 1
                     clip: true
-                    color: GlobalConfig.textAlpha07
+                    color: ColorConfig.textAlpha07
                     height: 26
                     radius: 4
                     width: parent.width
@@ -176,9 +176,9 @@ Popup {
 
                         anchors.fill: parent
                         anchors.margins: 6
-                        color: GlobalConfig.text
-                        font.family: GlobalConfig.fontFamily
-                        font.pixelSize: GlobalConfig.fontPixelSmaller
+                        color: ColorConfig.text
+                        font.family: FontConfig.fontFamily
+                        font.pixelSize: FontConfig.fontSettingsBody
                         text: root.editIcon
 
                         onTextChanged: root.editIcon = text
@@ -190,17 +190,17 @@ Popup {
                 width: parent.width
 
                 Text {
-                    color: GlobalConfig.text
-                    font.family: GlobalConfig.fontFamily
-                    font.pixelSize: GlobalConfig.fontPixelSmaller
+                    color: ColorConfig.text
+                    font.family: FontConfig.fontFamily
+                    font.pixelSize: FontConfig.fontSettingsBody
                     opacity: 0.5
                     text: "Command"
                 }
                 Rectangle {
-                    border.color: cmdField.activeFocus ? GlobalConfig.accent : GlobalConfig.textAlpha15
+                    border.color: cmdField.activeFocus ? ColorConfig.accent : ColorConfig.textAlpha15
                     border.width: 1
                     clip: true
-                    color: GlobalConfig.textAlpha07
+                    color: ColorConfig.textAlpha07
                     height: 26
                     radius: 4
                     width: parent.width
@@ -216,18 +216,18 @@ Popup {
 
                         anchors.fill: parent
                         anchors.margins: 6
-                        color: GlobalConfig.text
-                        font.family: GlobalConfig.fontFamily
-                        font.pixelSize: GlobalConfig.fontPixelSmaller
+                        color: ColorConfig.text
+                        font.family: FontConfig.fontFamily
+                        font.pixelSize: FontConfig.fontSettingsBody
                         text: root.editCommand
 
                         onTextChanged: root.editCommand = text
                     }
                 }
                 Text {
-                    color: GlobalConfig.text
-                    font.family: GlobalConfig.fontFamily
-                    font.pixelSize: GlobalConfig.fontPixelSmaller - 1
+                    color: ColorConfig.text
+                    font.family: FontConfig.fontFamily
+                    font.pixelSize: FontConfig.fontSettingsBodySm
                     opacity: 0.3
                     text: "space-separated args"
                 }
@@ -239,17 +239,17 @@ Popup {
             width: contentCol.width
 
             Text {
-                color: GlobalConfig.text
-                font.family: GlobalConfig.fontFamily
-                font.pixelSize: GlobalConfig.fontPixelSmaller
+                color: ColorConfig.text
+                font.family: FontConfig.fontFamily
+                font.pixelSize: FontConfig.fontSettingsBody
                 opacity: 0.5
                 text: "Format"
             }
             Rectangle {
-                border.color: fmtField.activeFocus ? GlobalConfig.accent : GlobalConfig.textAlpha15
+                border.color: fmtField.activeFocus ? ColorConfig.accent : ColorConfig.textAlpha15
                 border.width: 1
                 clip: true
-                color: GlobalConfig.textAlpha07
+                color: ColorConfig.textAlpha07
                 height: 26
                 radius: 4
                 width: parent.width
@@ -265,18 +265,18 @@ Popup {
 
                     anchors.fill: parent
                     anchors.margins: 6
-                    color: GlobalConfig.text
-                    font.family: GlobalConfig.fontFamily
-                    font.pixelSize: GlobalConfig.fontPixelSmaller
+                    color: ColorConfig.text
+                    font.family: FontConfig.fontFamily
+                    font.pixelSize: FontConfig.fontSettingsBody
                     text: root.editFormat
 
                     onTextChanged: root.editFormat = text
                 }
             }
             Text {
-                color: GlobalConfig.text
-                font.family: GlobalConfig.fontFamily
-                font.pixelSize: GlobalConfig.fontPixelSmaller - 1
+                color: ColorConfig.text
+                font.family: FontConfig.fontFamily
+                font.pixelSize: FontConfig.fontSettingsBodySm
                 opacity: 0.3
                 text: "e.g. ddd yyyy-MM-dd hh:mm:ss"
             }
@@ -292,15 +292,15 @@ Popup {
 
                 Text {
                     anchors.verticalCenter: parent.verticalCenter
-                    color: GlobalConfig.text
-                    font.family: GlobalConfig.fontFamily
-                    font.pixelSize: GlobalConfig.fontPixelSmaller
+                    color: ColorConfig.text
+                    font.family: FontConfig.fontFamily
+                    font.pixelSize: FontConfig.fontSettingsBody
                     text: "Start expanded"
                     width: parent.width - 44
                 }
                 Rectangle {
                     anchors.verticalCenter: parent.verticalCenter
-                    color: root.editStartExpanded ? GlobalConfig.accent : GlobalConfig.textAlpha15
+                    color: root.editStartExpanded ? ColorConfig.accent : ColorConfig.textAlpha15
                     height: 20
                     radius: 10
                     width: 36
@@ -339,9 +339,9 @@ Popup {
                 width: parent.width
 
                 Text {
-                    color: GlobalConfig.text
-                    font.family: GlobalConfig.fontFamily
-                    font.pixelSize: GlobalConfig.fontPixelSmaller
+                    color: ColorConfig.text
+                    font.family: FontConfig.fontFamily
+                    font.pixelSize: FontConfig.fontSettingsBody
                     opacity: 0.5
                     text: "Arrow side"
                 }
@@ -357,9 +357,9 @@ Popup {
                             required property int index
                             required property string modelData
 
-                            border.color: root.editArrowSide === arrowBtn.modelData ? GlobalConfig.accent : GlobalConfig.textAlpha15
+                            border.color: root.editArrowSide === arrowBtn.modelData ? ColorConfig.accent : ColorConfig.textAlpha15
                             border.width: 1
-                            color: root.editArrowSide === arrowBtn.modelData ? GlobalConfig.accentAlpha18 : GlobalConfig.textAlpha07
+                            color: root.editArrowSide === arrowBtn.modelData ? ColorConfig.accentAlpha18 : ColorConfig.textAlpha07
                             height: 24
                             radius: 4
                             width: (contentCol.width - 4) / 2
@@ -372,9 +372,9 @@ Popup {
 
                             Text {
                                 anchors.centerIn: parent
-                                color: root.editArrowSide === arrowBtn.modelData ? GlobalConfig.accent : GlobalConfig.text
-                                font.family: GlobalConfig.fontFamily
-                                font.pixelSize: GlobalConfig.fontPixelSmaller
+                                color: root.editArrowSide === arrowBtn.modelData ? ColorConfig.accent : ColorConfig.text
+                                font.family: FontConfig.fontFamily
+                                font.pixelSize: FontConfig.fontSettingsBody
                                 opacity: root.editArrowSide === arrowBtn.modelData ? 1.0 : 0.6
                                 text: arrowBtn.modelData.charAt(0).toUpperCase() + arrowBtn.modelData.slice(1)
 
@@ -399,9 +399,9 @@ Popup {
                 width: parent.width
 
                 Text {
-                    color: GlobalConfig.text
-                    font.family: GlobalConfig.fontFamily
-                    font.pixelSize: GlobalConfig.fontPixelSmaller
+                    color: ColorConfig.text
+                    font.family: FontConfig.fontFamily
+                    font.pixelSize: FontConfig.fontSettingsBody
                     opacity: 0.5
                     text: "Direction"
                 }
@@ -417,9 +417,9 @@ Popup {
                             required property int index
                             required property string modelData
 
-                            border.color: root.editDirection === dirBtn.modelData ? GlobalConfig.accent : GlobalConfig.textAlpha15
+                            border.color: root.editDirection === dirBtn.modelData ? ColorConfig.accent : ColorConfig.textAlpha15
                             border.width: 1
-                            color: root.editDirection === dirBtn.modelData ? GlobalConfig.accentAlpha18 : GlobalConfig.textAlpha07
+                            color: root.editDirection === dirBtn.modelData ? ColorConfig.accentAlpha18 : ColorConfig.textAlpha07
                             height: 24
                             radius: 4
                             width: (contentCol.width - 4) / 2
@@ -432,9 +432,9 @@ Popup {
 
                             Text {
                                 anchors.centerIn: parent
-                                color: root.editDirection === dirBtn.modelData ? GlobalConfig.accent : GlobalConfig.text
-                                font.family: GlobalConfig.fontFamily
-                                font.pixelSize: GlobalConfig.fontPixelSmaller
+                                color: root.editDirection === dirBtn.modelData ? ColorConfig.accent : ColorConfig.text
+                                font.family: FontConfig.fontFamily
+                                font.pixelSize: FontConfig.fontSettingsBody
                                 opacity: root.editDirection === dirBtn.modelData ? 1.0 : 0.6
                                 text: dirBtn.modelData.toUpperCase()
 
@@ -460,15 +460,15 @@ Popup {
 
                 Text {
                     anchors.verticalCenter: parent.verticalCenter
-                    color: GlobalConfig.text
-                    font.family: GlobalConfig.fontFamily
-                    font.pixelSize: GlobalConfig.fontPixelSmaller
+                    color: ColorConfig.text
+                    font.family: FontConfig.fontFamily
+                    font.pixelSize: FontConfig.fontSettingsBody
                     text: "Hide passive"
                     width: parent.width - 44
                 }
                 Rectangle {
                     anchors.verticalCenter: parent.verticalCenter
-                    color: root.editHidePassive ? GlobalConfig.accent : GlobalConfig.textAlpha15
+                    color: root.editHidePassive ? ColorConfig.accent : ColorConfig.textAlpha15
                     height: 20
                     radius: 10
                     width: 36
@@ -509,9 +509,9 @@ Popup {
             width: contentCol.width
 
             Text {
-                color: GlobalConfig.text
-                font.family: GlobalConfig.fontFamily
-                font.pixelSize: GlobalConfig.fontPixelSmaller
+                color: ColorConfig.text
+                font.family: FontConfig.fontFamily
+                font.pixelSize: FontConfig.fontSettingsBody
                 opacity: 0.45
                 text: "Command"
             }
@@ -534,19 +534,19 @@ Popup {
 
                         Text {
                             Layout.preferredWidth: 24
-                            color: GlobalConfig.text
-                            font.family: GlobalConfig.fontFamily
-                            font.pixelSize: GlobalConfig.fontPixelSmaller
+                            color: ColorConfig.text
+                            font.family: FontConfig.fontFamily
+                            font.pixelSize: FontConfig.fontSettingsBody
                             horizontalAlignment: Text.AlignHCenter
                             opacity: 0.7
                             text: modelData.char
                         }
                         Rectangle {
                             Layout.fillWidth: true
-                            border.color: cmdField.activeFocus ? GlobalConfig.accent : GlobalConfig.textAlpha15
+                            border.color: cmdField.activeFocus ? ColorConfig.accent : ColorConfig.textAlpha15
                             border.width: 1
                             clip: true
-                            color: GlobalConfig.textAlpha07
+                            color: ColorConfig.textAlpha07
                             height: 26
                             radius: 4
 
@@ -561,9 +561,9 @@ Popup {
 
                                 anchors.fill: parent
                                 anchors.margins: 6
-                                color: GlobalConfig.text
-                                font.family: GlobalConfig.fontFamily
-                                font.pixelSize: GlobalConfig.fontPixelSmaller
+                                color: ColorConfig.text
+                                font.family: FontConfig.fontFamily
+                                font.pixelSize: FontConfig.fontSettingsBody
                                 text: modelData.cmd
                             }
                         }
@@ -572,7 +572,7 @@ Popup {
             }
         }
         Rectangle {
-            color: saveArea.containsMouse ? GlobalConfig.accentAlpha25 : GlobalConfig.accentAlpha15
+            color: saveArea.containsMouse ? ColorConfig.accentAlpha25 : ColorConfig.accentAlpha15
             height: 28
             radius: 4
             width: contentCol.width
@@ -585,9 +585,9 @@ Popup {
 
             Text {
                 anchors.centerIn: parent
-                color: GlobalConfig.accent
-                font.family: GlobalConfig.fontFamily
-                font.pixelSize: GlobalConfig.fontPixelSmaller
+                color: ColorConfig.accent
+                font.family: FontConfig.fontFamily
+                font.pixelSize: FontConfig.fontSettingsBody
                 text: "Save"
             }
             MouseArea {

@@ -5,7 +5,7 @@ import QtQuick
 import qs.styles
 
 Rectangle {
-    color: GlobalConfig.textAlpha06
+    color: ColorConfig.textAlpha06
     height: 1
     width: parent.width
 }

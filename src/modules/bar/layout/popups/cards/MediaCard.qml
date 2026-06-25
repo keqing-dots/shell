@@ -47,9 +47,9 @@ ControlCenterCard {
             }
             Text {
                 anchors.centerIn: parent
-                color: GlobalConfig.textDim
+                color: ColorConfig.textDim
                 font.family: Icons.fontFamily
-                font.pixelSize: 28
+                font.pixelSize: FontConfig.fontCardIcon
                 text: Icons.musicNote
                 visible: MediaService.trackArtUrl === ""
             }
@@ -66,15 +66,15 @@ ControlCenterCard {
                 verticalCenter: parent.verticalCenter
             }
             MarqueeText {
-                color: GlobalConfig.text
-                fontFamily: GlobalConfig.fontFamily
+                color: ColorConfig.text
+                fontFamily: FontConfig.fontFamily
                 fontSize: BarConfig.fontSize
                 text: MediaService.currentPlayer ? (MediaService.trackTitle !== "" ? MediaService.trackTitle : "Unknown") : "Nothing playing"
                 width: parent.width
             }
             MarqueeText {
-                color: GlobalConfig.textDim
-                fontFamily: GlobalConfig.fontFamily
+                color: ColorConfig.textDim
+                fontFamily: FontConfig.fontFamily
                 fontSize: BarConfig.fontSize - 1
                 text: MediaService.currentPlayer ? (MediaService.trackArtist !== "" ? MediaService.trackArtist : "Unknown Artist") : ""
                 width: parent.width
@@ -93,8 +93,8 @@ ControlCenterCard {
             topMargin: 10
         }
         Text {
-            color: GlobalConfig.textDim
-            font.family: GlobalConfig.fontFamily
+            color: ColorConfig.textDim
+            font.family: FontConfig.fontFamily
             font.pixelSize: BarConfig.fontSize - 1
             text: MediaService.positionString + " / " + MediaService.lengthString
 
@@ -127,9 +127,9 @@ ControlCenterCard {
 
                 Text {
                     anchors.centerIn: parent
-                    color: MediaService.canGoPrevious ? GlobalConfig.text : GlobalConfig.textDim
+                    color: MediaService.canGoPrevious ? ColorConfig.text : ColorConfig.textDim
                     font.family: Icons.fontFamily
-                    font.pixelSize: 16
+                    font.pixelSize: FontConfig.fontMediaControl
                     text: Icons.playerPrev
                 }
                 MouseArea {
@@ -151,9 +151,9 @@ ControlCenterCard {
 
                 Text {
                     anchors.centerIn: parent
-                    color: GlobalConfig.text
+                    color: ColorConfig.text
                     font.family: Icons.fontFamily
-                    font.pixelSize: 16
+                    font.pixelSize: FontConfig.fontMediaControl
                     text: MediaService.isPlaying ? Icons.playerPause : Icons.playerPlay
                 }
                 MouseArea {
@@ -174,9 +174,9 @@ ControlCenterCard {
 
                 Text {
                     anchors.centerIn: parent
-                    color: MediaService.canGoNext ? GlobalConfig.text : GlobalConfig.textDim
+                    color: MediaService.canGoNext ? ColorConfig.text : ColorConfig.textDim
                     font.family: Icons.fontFamily
-                    font.pixelSize: 16
+                    font.pixelSize: FontConfig.fontMediaControl
                     text: Icons.playerNext
                 }
                 MouseArea {

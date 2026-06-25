@@ -19,11 +19,11 @@ ControlCenterCard {
                 return "#ef4444";
             if (t >= 70)
                 return "#f97316";
-            return GlobalConfig.text;
+            return ColorConfig.text;
         }
         font.bold: true
-        font.family: GlobalConfig.fontFamily
-        font.pixelSize: 22
+        font.family: FontConfig.fontFamily
+        font.pixelSize: FontConfig.fontTempValue
         text: SystemStatService.gpuTempC + " °C"
 
         anchors {

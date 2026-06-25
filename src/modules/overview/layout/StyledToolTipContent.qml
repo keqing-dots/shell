@@ -47,7 +47,7 @@ Item {
             anchors.centerIn: parent
             color: OverviewConfig.colOnTooltip
             font.hintingPreference: Font.PreferNoHinting
-            font.pixelSize: GlobalConfig.fontPixelSmaller
+            font.pixelSize: FontConfig.fontTooltip
             text: root.text
             wrapMode: Text.Wrap
         }

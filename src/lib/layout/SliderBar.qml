@@ -25,7 +25,7 @@ Item {
         id: track
 
         anchors.verticalCenter: parent.verticalCenter
-        color: GlobalConfig.textAlpha12
+        color: ColorConfig.textAlpha12
         height: 4
         radius: 2
         width: parent.width
@@ -33,7 +33,7 @@ Item {
         Rectangle {
             id: fill
 
-            color: root.dimmed ? GlobalConfig.textMuted : GlobalConfig.accent
+            color: root.dimmed ? ColorConfig.textMuted : ColorConfig.accent
             height: parent.height
             radius: parent.radius
             width: Math.max(radius, track.width * Math.min(root.value, root.maxValue) / root.maxValue)
@@ -51,7 +51,7 @@ Item {
         }
         Rectangle {
             anchors.verticalCenter: parent.verticalCenter
-            color: GlobalConfig.text
+            color: ColorConfig.text
             height: 12
             radius: 6
             width: 12

@@ -58,9 +58,9 @@ WidgetPanel {
         Text {
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
-            color: GlobalConfig.text
+            color: ColorConfig.text
             font.bold: true
-            font.family: GlobalConfig.fontFamily
+            font.family: FontConfig.fontFamily
             font.pixelSize: BarConfig.fontSize + 1
             text: "Bluetooth"
         }
@@ -71,7 +71,7 @@ WidgetPanel {
 
             Rectangle {
                 anchors.verticalCenter: parent.verticalCenter
-                color: GlobalConfig.accent
+                color: ColorConfig.accent
                 height: 8
                 radius: 4
                 visible: BluetoothService.available && BluetoothService.scanning
@@ -92,9 +92,9 @@ WidgetPanel {
 
                 Text {
                     anchors.centerIn: parent
-                    color: GlobalConfig.text
+                    color: ColorConfig.text
                     font.family: Icons.fontFamily
-                    font.pixelSize: 14
+                    font.pixelSize: FontConfig.fontPanelActionIcon
                     text: Icons.close
                 }
                 MouseArea {
@@ -147,8 +147,8 @@ WidgetPanel {
 
                 Text {
                     anchors.centerIn: parent
-                    color: GlobalConfig.textDim
-                    font.family: GlobalConfig.fontFamily
+                    color: ColorConfig.textDim
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize
                     text: "No adapter found"
                 }
@@ -160,8 +160,8 @@ WidgetPanel {
 
                 Text {
                     anchors.centerIn: parent
-                    color: GlobalConfig.textDim
-                    font.family: GlobalConfig.fontFamily
+                    color: ColorConfig.textDim
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize
                     text: "Bluetooth is off"
                 }
@@ -173,8 +173,8 @@ WidgetPanel {
 
                 Text {
                     anchors.centerIn: parent
-                    color: GlobalConfig.textDim
-                    font.family: GlobalConfig.fontFamily
+                    color: ColorConfig.textDim
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize
                     text: "No paired devices"
                 }
@@ -186,9 +186,9 @@ WidgetPanel {
 
                 Text {
                     anchors.verticalCenter: parent.verticalCenter
-                    color: GlobalConfig.textDim
+                    color: ColorConfig.textDim
                     font.bold: true
-                    font.family: GlobalConfig.fontFamily
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize - 1
                     text: "Connected"
                 }
@@ -205,9 +205,9 @@ WidgetPanel {
 
                 Text {
                     anchors.bottom: parent.bottom
-                    color: GlobalConfig.textDim
+                    color: ColorConfig.textDim
                     font.bold: true
-                    font.family: GlobalConfig.fontFamily
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize - 1
                     text: "Paired"
                 }
@@ -224,9 +224,9 @@ WidgetPanel {
 
                 Text {
                     anchors.bottom: parent.bottom
-                    color: GlobalConfig.textDim
+                    color: ColorConfig.textDim
                     font.bold: true
-                    font.family: GlobalConfig.fontFamily
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize - 1
                     text: "Nearby"
                 }
@@ -264,9 +264,9 @@ WidgetPanel {
             anchors.fill: parent
             color: {
                 if (devRow.isConnected)
-                    return GlobalConfig.accentAlpha25;
+                    return ColorConfig.accentAlpha25;
                 if (devRow.isBusy)
-                    return GlobalConfig.accentAlpha12;
+                    return ColorConfig.accentAlpha12;
                 return devHover.containsMouse ? BarConfig.capsuleBgHover : BarConfig.capsuleBg;
             }
             radius: 8
@@ -280,7 +280,7 @@ WidgetPanel {
                 anchors.left: parent.left
                 anchors.leftMargin: 8
                 anchors.verticalCenter: parent.verticalCenter
-                color: GlobalConfig.text
+                color: ColorConfig.text
                 font.family: Icons.fontFamily
                 font.pixelSize: BarConfig.iconSize
                 horizontalAlignment: Text.AlignHCenter
@@ -297,17 +297,17 @@ WidgetPanel {
                 spacing: 1
 
                 Text {
-                    color: devRow.isConnected ? GlobalConfig.accent : GlobalConfig.text
+                    color: devRow.isConnected ? ColorConfig.accent : ColorConfig.text
                     elide: Text.ElideRight
                     font.bold: devRow.isConnected
-                    font.family: GlobalConfig.fontFamily
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize
                     text: BluetoothService.deviceName(devRow.modelData)
                     width: parent.width
                 }
                 Text {
-                    color: GlobalConfig.accent
-                    font.family: GlobalConfig.fontFamily
+                    color: ColorConfig.accent
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize - 2
                     text: {
                         try {
@@ -327,7 +327,7 @@ WidgetPanel {
                     visible: !devRow.isBusy && devRow.modelData.batteryAvailable
 
                     Text {
-                        color: GlobalConfig.textDim
+                        color: ColorConfig.textDim
                         font.family: Icons.fontFamily
                         font.pixelSize: BarConfig.fontSize - 2
                         text: {
@@ -349,8 +349,8 @@ WidgetPanel {
                         }
                     }
                     Text {
-                        color: GlobalConfig.textDim
-                        font.family: GlobalConfig.fontFamily
+                        color: ColorConfig.textDim
+                        font.family: FontConfig.fontFamily
                         font.pixelSize: BarConfig.fontSize - 2
                         text: {
                             try {
@@ -376,8 +376,8 @@ WidgetPanel {
                 Rectangle {
                     color: {
                         if (devRow.isConnected)
-                            return actionMa.containsMouse ? GlobalConfig.textAlpha18 : GlobalConfig.textAlpha10;
-                        return actionMa.containsMouse ? Qt.lighter(GlobalConfig.accent, 1.2) : GlobalConfig.accent;
+                            return actionMa.containsMouse ? ColorConfig.textAlpha18 : ColorConfig.textAlpha10;
+                        return actionMa.containsMouse ? Qt.lighter(ColorConfig.accent, 1.2) : ColorConfig.accent;
                     }
                     height: 22
                     radius: 11
@@ -388,8 +388,8 @@ WidgetPanel {
                         id: actionLabel
 
                         anchors.centerIn: parent
-                        color: devRow.isConnected ? GlobalConfig.text : "white"
-                        font.family: GlobalConfig.fontFamily
+                        color: devRow.isConnected ? ColorConfig.text : "white"
+                        font.family: FontConfig.fontFamily
                         font.pixelSize: BarConfig.fontSize - 1
                         text: devRow.isConnected ? "Disconnect" : "Connect"
                     }
@@ -414,7 +414,7 @@ WidgetPanel {
                         anchors.centerIn: parent
                         color: "#F44747"
                         font.family: Icons.fontFamily
-                        font.pixelSize: 10
+                        font.pixelSize: FontConfig.fontListItemRemove
                         text: Icons.close
                     }
                     MouseArea {

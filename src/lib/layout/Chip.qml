@@ -5,10 +5,10 @@ import QtQuick
 import qs.styles
 
 Rectangle {
-    property color baseColor: GlobalConfig.textAlpha07
+    property color baseColor: ColorConfig.textAlpha07
     property bool hovered: false
 
-    color: hovered ? GlobalConfig.textAlpha12 : baseColor
+    color: hovered ? ColorConfig.textAlpha12 : baseColor
     radius: 8
 
     Behavior on color {

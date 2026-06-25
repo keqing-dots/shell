@@ -125,8 +125,8 @@ Rectangle {
             anchors.left: parent.left
             anchors.leftMargin: 8
             anchors.verticalCenter: parent.verticalCenter
-            color: GlobalConfig.textDim
-            font.family: GlobalConfig.fontFamily
+            color: ColorConfig.textDim
+            font.family: FontConfig.fontFamily
             font.pixelSize: root.fontSize
             text: root.placeholder
             visible: field.text.length === 0 && root.placeholder !== ""
@@ -135,8 +135,8 @@ Rectangle {
         // Fail overlay
         Text {
             anchors.centerIn: parent
-            color: GlobalConfig.text
-            font.family: GlobalConfig.fontFamily
+            color: ColorConfig.text
+            font.family: FontConfig.fontFamily
             font.pixelSize: root.fontSize
             opacity: root.failed ? 1 : 0
             text: root.failText

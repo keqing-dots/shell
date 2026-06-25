@@ -39,8 +39,8 @@ Item {
 
             anchors.centerIn: parent
             color: Qt.rgba(1, 0.4, 0.4, 1)
-            font.family: GlobalConfig.fontFamily
-            font.pixelSize: GlobalConfig.fontPixelSmaller
+            font.family: FontConfig.fontFamily
+            font.pixelSize: FontConfig.fontSettingsBody
             text: "Remove"
         }
         MouseArea {

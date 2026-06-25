@@ -47,9 +47,9 @@ WidgetPanel {
 
             Text {
                 anchors.verticalCenter: parent.verticalCenter
-                color: GlobalConfig.text
+                color: ColorConfig.text
                 font.bold: true
-                font.family: GlobalConfig.fontFamily
+                font.family: FontConfig.fontFamily
                 font.pixelSize: BarConfig.fontSize + 1
                 text: "Battery"
             }
@@ -65,9 +65,9 @@ WidgetPanel {
                 }
                 Text {
                     anchors.centerIn: parent
-                    color: GlobalConfig.text
+                    color: ColorConfig.text
                     font.family: Icons.fontFamily
-                    font.pixelSize: 14
+                    font.pixelSize: FontConfig.fontPanelActionIcon
                     text: Icons.close
                 }
                 MouseArea {
@@ -95,8 +95,8 @@ WidgetPanel {
 
             Text {
                 anchors.centerIn: parent
-                color: GlobalConfig.textDim
-                font.family: GlobalConfig.fontFamily
+                color: ColorConfig.textDim
+                font.family: FontConfig.fontFamily
                 font.pixelSize: BarConfig.fontSize
                 text: "Plugged in"
             }
@@ -109,12 +109,12 @@ WidgetPanel {
 
                 readonly property color barColor: {
                     if (charging || full)
-                        return GlobalConfig.accent;
+                        return ColorConfig.accent;
                     if (pct <= 15)
                         return "#F44747";
                     if (pct <= 30)
                         return "#E0A83A";
-                    return GlobalConfig.textMuted;
+                    return ColorConfig.textMuted;
                 }
                 readonly property bool charging: modelData.state === 1
                 readonly property bool full: modelData.state === 4
@@ -148,23 +148,23 @@ WidgetPanel {
 
                         Text {
                             anchors.verticalCenter: parent.verticalCenter
-                            color: GlobalConfig.text
+                            color: ColorConfig.text
                             font.bold: true
-                            font.family: GlobalConfig.fontFamily
+                            font.family: FontConfig.fontFamily
                             font.pixelSize: BarConfig.fontSize
                             text: batItem.modelData.nativePath || "Battery"
                         }
                         Text {
                             anchors.verticalCenter: parent.verticalCenter
-                            color: batItem.charging ? GlobalConfig.accent : GlobalConfig.textDim
-                            font.family: GlobalConfig.fontFamily
+                            color: batItem.charging ? ColorConfig.accent : ColorConfig.textDim
+                            font.family: FontConfig.fontFamily
                             font.pixelSize: BarConfig.fontSize
                             text: batItem.charging ? "Charging" : batItem.full ? "Full" : batItem.pending ? "Pending" : "Discharging"
                         }
                         Text {
                             anchors.verticalCenter: parent.verticalCenter
-                            color: GlobalConfig.textDim
-                            font.family: GlobalConfig.fontFamily
+                            color: ColorConfig.textDim
+                            font.family: FontConfig.fontFamily
                             font.pixelSize: BarConfig.fontSize
                             text: batItem.timeStr !== "" ? "· " + batItem.timeStr : ""
                         }
@@ -175,7 +175,7 @@ WidgetPanel {
 
                         Rectangle {
                             anchors.verticalCenter: parent.verticalCenter
-                            color: GlobalConfig.textAlpha10
+                            color: ColorConfig.textAlpha10
                             height: 8
                             radius: 4
                             width: parent.width - pctLabel.implicitWidth - 8
@@ -204,7 +204,7 @@ WidgetPanel {
                             anchors.verticalCenter: parent.verticalCenter
                             color: batItem.barColor
                             font.bold: true
-                            font.family: GlobalConfig.fontFamily
+                            font.family: FontConfig.fontFamily
                             font.pixelSize: BarConfig.fontSize
                             text: batItem.pct + "%"
                         }
@@ -228,8 +228,8 @@ WidgetPanel {
 
             Text {
                 anchors.centerIn: parent
-                color: GlobalConfig.textDim
-                font.family: GlobalConfig.fontFamily
+                color: ColorConfig.textDim
+                font.family: FontConfig.fontFamily
                 font.pixelSize: BarConfig.fontSize
                 text: "No battery detected"
             }

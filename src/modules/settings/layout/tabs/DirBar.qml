@@ -18,9 +18,9 @@ Rectangle {
         dirInput.text = dirBar.currentDir;
     }
 
-    border.color: GlobalConfig.accent
+    border.color: ColorConfig.accent
     border.width: dirInput.activeFocus ? GlobalConfig.borderWidthThin : 0
-    color: GlobalConfig.fieldBg
+    color: ColorConfig.fieldBg
     height: WallpaperConfig.dirBarHeight
     radius: GlobalConfig.radiusSm + 3
 
@@ -36,10 +36,10 @@ Rectangle {
         anchors.left: parent.left
         anchors.leftMargin: WallpaperConfig.dirLabelLeftMargin
         anchors.verticalCenter: parent.verticalCenter
-        color: GlobalConfig.accent
+        color: ColorConfig.accent
         font.bold: true
-        font.family: GlobalConfig.fontFamily
-        font.pixelSize: GlobalConfig.fontPixelSmaller
+        font.family: FontConfig.fontFamily
+        font.pixelSize: FontConfig.fontSettingsBody
         text: "Dir"
     }
     TextInput {
@@ -51,9 +51,9 @@ Rectangle {
         anchors.rightMargin: WallpaperConfig.dirEdgeMargin
         anchors.verticalCenter: parent.verticalCenter
         clip: true
-        color: GlobalConfig.text
-        font.family: GlobalConfig.fontFamily
-        font.pixelSize: GlobalConfig.fontPixelSmall
+        color: ColorConfig.text
+        font.family: FontConfig.fontFamily
+        font.pixelSize: FontConfig.fontSettingsBody
         selectByMouse: true
 
         Keys.onEscapePressed: dirBar.escapePressed()
@@ -65,7 +65,7 @@ Rectangle {
         anchors.right: parent.right
         anchors.rightMargin: WallpaperConfig.dirEdgeMargin
         anchors.verticalCenter: parent.verticalCenter
-        color: rescanArea.containsMouse ? GlobalConfig.accent : Qt.rgba(1, 1, 1, 0.08)
+        color: rescanArea.containsMouse ? ColorConfig.accent : Qt.rgba(1, 1, 1, 0.08)
         height: WallpaperConfig.dirBtnHeight
         radius: GlobalConfig.radiusSm
         width: WallpaperConfig.dirBtnWidth
@@ -78,9 +78,9 @@ Rectangle {
 
         Text {
             anchors.centerIn: parent
-            color: GlobalConfig.text
-            font.family: GlobalConfig.fontFamily
-            font.pixelSize: GlobalConfig.fontPixelSmaller
+            color: ColorConfig.text
+            font.family: FontConfig.fontFamily
+            font.pixelSize: FontConfig.fontSettingsBody
             text: dirBar.scanning ? "…" : "Rescan"
         }
         MouseArea {

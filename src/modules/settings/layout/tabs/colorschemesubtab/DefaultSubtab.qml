@@ -14,9 +14,9 @@ ColumnLayout {
 
     Text {
         Layout.alignment: Qt.AlignHCenter
-        color: GlobalConfig.textDim
-        font.family: GlobalConfig.fontFamily
-        font.pixelSize: GlobalConfig.fontPixelSmaller
+        color: ColorConfig.textDim
+        font.family: FontConfig.fontFamily
+        font.pixelSize: FontConfig.fontSettingsBody
         text: "Color Palette"
     }
     Column {

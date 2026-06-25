@@ -74,7 +74,7 @@ Variants {
                             property real swipeX: 0.0
                             property real timeLeft: msTimeout
                             required property var urgency
-                            readonly property color urgencyColor: urgency === 2 ? "#e05555" : urgency === 0 ? GlobalConfig.textMuted : GlobalConfig.accent
+                            readonly property color urgencyColor: urgency === 2 ? "#e05555" : urgency === 0 ? ColorConfig.textMuted : ColorConfig.accent
 
                             Layout.fillWidth: true
                             Layout.preferredHeight: cardBg.implicitHeight
@@ -195,9 +195,9 @@ Variants {
                                             width: 6
                                         }
                                         Text {
-                                            color: GlobalConfig.text
+                                            color: ColorConfig.text
                                             elide: Text.ElideRight
-                                            font.family: GlobalConfig.fontFamily
+                                            font.family: FontConfig.fontFamily
                                             font.pixelSize: NotificationConfig.fontAppName
                                             font.weight: Font.Bold
                                             opacity: 0.65
@@ -206,9 +206,9 @@ Variants {
                                         }
                                     }
                                     Text {
-                                        color: GlobalConfig.text
+                                        color: ColorConfig.text
                                         elide: Text.ElideRight
-                                        font.family: GlobalConfig.fontFamily
+                                        font.family: FontConfig.fontFamily
                                         font.pixelSize: NotificationConfig.fontSummary
                                         font.weight: Font.DemiBold
                                         maximumLineCount: 2
@@ -218,9 +218,9 @@ Variants {
                                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                                     }
                                     Text {
-                                        color: GlobalConfig.text
+                                        color: ColorConfig.text
                                         elide: Text.ElideRight
-                                        font.family: GlobalConfig.fontFamily
+                                        font.family: FontConfig.fontFamily
                                         font.pixelSize: NotificationConfig.fontBody
                                         maximumLineCount: 3
                                         opacity: 0.72
@@ -242,9 +242,9 @@ Variants {
                                         id: closeIcon
 
                                         anchors.centerIn: parent
-                                        color: GlobalConfig.text
+                                        color: ColorConfig.text
                                         font.family: Icons.fontFamily
-                                        font.pixelSize: 10
+                                        font.pixelSize: FontConfig.fontNotificationClose
                                         opacity: closeHover.containsMouse ? 1.0 : 0.4
                                         text: Icons.close
 

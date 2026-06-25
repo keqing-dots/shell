@@ -27,7 +27,7 @@ Rectangle {
 
     signal wallpaperSelected(string path)
 
-    border.color: GlobalConfig.accent
+    border.color: ColorConfig.accent
     border.width: GlobalConfig.borderWidthThin
     clip: true
     color: "transparent"

@@ -45,9 +45,9 @@ WidgetPanel {
 
         Text {
             anchors.centerIn: parent
-            color: GlobalConfig.text
+            color: ColorConfig.text
             font.family: Icons.fontFamily
-            font.pixelSize: 13
+            font.pixelSize: FontConfig.fontSubPanelClose
             text: Icons.close
         }
         MouseArea {
@@ -76,9 +76,9 @@ WidgetPanel {
             width: parent.width
 
             Text {
-                color: GlobalConfig.text
+                color: ColorConfig.text
                 elide: Text.ElideRight
-                font.family: GlobalConfig.fontFamily
+                font.family: FontConfig.fontFamily
                 font.pixelSize: BarConfig.fontSize - 1
                 horizontalAlignment: Text.AlignHCenter
                 text: "Password for \"" + subRoot.ssid + "\""
@@ -87,9 +87,9 @@ WidgetPanel {
             PasswordInput {
                 id: pwdIn
 
-                border.color: pwdIn.fieldActiveFocus ? GlobalConfig.accent : GlobalConfig.textAlpha15
+                border.color: pwdIn.fieldActiveFocus ? ColorConfig.accent : ColorConfig.textAlpha15
                 border.width: 1
-                color: GlobalConfig.textAlpha08
+                color: ColorConfig.textAlpha08
                 fontSize: BarConfig.fontSize
                 height: 28
                 placeholder: "Password…"
@@ -113,7 +113,7 @@ WidgetPanel {
                     id: pwdOk
 
                     anchors.horizontalCenter: parent.horizontalCenter
-                    color: pwdOkMa.containsMouse ? Qt.lighter(GlobalConfig.accent, 1.2) : GlobalConfig.accent
+                    color: pwdOkMa.containsMouse ? Qt.lighter(ColorConfig.accent, 1.2) : ColorConfig.accent
                     height: 28
                     opacity: pwdIn.text.length >= 8 ? 1.0 : 0.4
                     radius: 6
@@ -124,7 +124,7 @@ WidgetPanel {
 
                         anchors.centerIn: parent
                         color: "white"
-                        font.family: GlobalConfig.fontFamily
+                        font.family: FontConfig.fontFamily
                         font.pixelSize: BarConfig.fontSize - 1
                         text: "Connect"
                     }
@@ -156,7 +156,7 @@ WidgetPanel {
             Text {
                 color: "#F44747"
                 elide: Text.ElideRight
-                font.family: GlobalConfig.fontFamily
+                font.family: FontConfig.fontFamily
                 font.pixelSize: BarConfig.fontSize - 1
                 horizontalAlignment: Text.AlignHCenter
                 text: "Forget \"" + subRoot.ssid + "\"?"
@@ -183,7 +183,7 @@ WidgetPanel {
 
                             anchors.centerIn: parent
                             color: "#F44747"
-                            font.family: GlobalConfig.fontFamily
+                            font.family: FontConfig.fontFamily
                             font.pixelSize: BarConfig.fontSize - 1
                             text: "Forget"
                         }
@@ -212,8 +212,8 @@ WidgetPanel {
                             id: fCancelLabel
 
                             anchors.centerIn: parent
-                            color: GlobalConfig.text
-                            font.family: GlobalConfig.fontFamily
+                            color: ColorConfig.text
+                            font.family: FontConfig.fontFamily
                             font.pixelSize: BarConfig.fontSize - 1
                             text: "Cancel"
                         }

@@ -60,11 +60,11 @@ ControlCenterCard {
                 return "#ef4444";
             if (t >= 70)
                 return "#f97316";
-            return GlobalConfig.text;
+            return ColorConfig.text;
         }
         font.bold: true
-        font.family: GlobalConfig.fontFamily
-        font.pixelSize: 22
+        font.family: FontConfig.fontFamily
+        font.pixelSize: FontConfig.fontTempValue
         text: SystemStatService.cpuTempC + " °C"
 
         anchors {
@@ -95,14 +95,14 @@ ControlCenterCard {
                 required property int index
                 required property real temp
 
-                color: GlobalConfig.textAlpha08
+                color: ColorConfig.textAlpha08
                 height: 24
                 radius: 6
                 width: (coreGrid.width - coreGrid.columnSpacing) / 2
 
                 Text {
-                    color: GlobalConfig.textDim
-                    font.family: GlobalConfig.fontFamily
+                    color: ColorConfig.textDim
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize - 1
                     text: "Core " + coreItem.index
 
@@ -118,10 +118,10 @@ ControlCenterCard {
                             return "#ef4444";
                         if (coreItem.temp >= 70)
                             return "#f97316";
-                        return GlobalConfig.text;
+                        return ColorConfig.text;
                     }
                     font.bold: true
-                    font.family: GlobalConfig.fontFamily
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize - 1
                     text: Math.round(coreItem.temp) + " °C"
 

@@ -42,7 +42,7 @@ WidgetCapsule {
 
             Text {
                 anchors.centerIn: parent
-                color: GlobalConfig.text
+                color: ColorConfig.text
                 font.family: Icons.fontFamily
                 font.pixelSize: BarConfig.iconSize
                 text: root.arrowGlyph

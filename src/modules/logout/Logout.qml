@@ -200,8 +200,8 @@ Scope {
                 id: logo
 
                 anchors.centerIn: parent
-                bgColor: GlobalConfig.fieldBg
-                borderColor: GlobalConfig.accent
+                bgColor: ColorConfig.fieldBg
+                borderColor: ColorConfig.accent
                 borderWidth: LogoutConfig.logoBorderWidth
                 height: LogoutConfig.logoSize
                 scale: 0

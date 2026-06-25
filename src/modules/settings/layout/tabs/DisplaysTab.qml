@@ -44,9 +44,9 @@ Item {
                 delegate: Rectangle {
                     required property var modelData
 
-                    border.color: root.selectedScreen === modelData.name ? GlobalConfig.accentAlt : "transparent"
+                    border.color: root.selectedScreen === modelData.name ? ColorConfig.accentAlt : "transparent"
                     border.width: 2
-                    color: GlobalConfig.lavenderAlpha20
+                    color: ColorConfig.lavenderAlpha20
                     height: 35
                     radius: 6
                     width: (screenRow.width - (root.sortedScreens.length - 1) * screenRow.spacing) / Math.max(1, root.sortedScreens.length)
@@ -59,9 +59,9 @@ Item {
 
                     Text {
                         anchors.centerIn: parent
-                        color: GlobalConfig.text
-                        font.family: GlobalConfig.fontFamily
-                        font.pixelSize: GlobalConfig.fontPixelSmaller
+                        color: ColorConfig.text
+                        font.family: FontConfig.fontFamily
+                        font.pixelSize: FontConfig.fontSettingsBody
                         text: modelData.name
                     }
                     MouseArea {
@@ -111,9 +111,9 @@ Item {
                     width: parent.width
 
                     Text {
-                        color: GlobalConfig.text
-                        font.family: GlobalConfig.fontFamily
-                        font.pixelSize: GlobalConfig.fontPixelSmaller
+                        color: ColorConfig.text
+                        font.family: FontConfig.fontFamily
+                        font.pixelSize: FontConfig.fontSettingsBody
                         opacity: 0.75
                         text: toggleRow.modelData.label
                     }

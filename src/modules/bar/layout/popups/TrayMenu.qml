@@ -168,7 +168,7 @@ PopupWindow {
 
                             Text {
                                 anchors.verticalCenter: parent.verticalCenter
-                                color: GlobalConfig.accent
+                                color: ColorConfig.accent
                                 font.family: Icons.fontFamily
                                 font.pixelSize: BarConfig.fontSize
                                 text: Icons.check
@@ -185,9 +185,9 @@ PopupWindow {
                             }
                             Text {
                                 anchors.verticalCenter: parent.verticalCenter
-                                color: (entry.modelData && entry.modelData.enabled === false) ? GlobalConfig.textDim : GlobalConfig.text
+                                color: (entry.modelData && entry.modelData.enabled === false) ? ColorConfig.textDim : ColorConfig.text
                                 elide: Text.ElideRight
-                                font.family: GlobalConfig.fontFamily
+                                font.family: FontConfig.fontFamily
                                 font.pixelSize: BarConfig.fontSize
                                 text: entry.modelData ? (entry.modelData.text !== "" ? entry.modelData.text.replace(/[\n\r]+/g, ' ') : "…") : ""
                                 width: parent.width - 24
@@ -197,7 +197,7 @@ PopupWindow {
                             anchors.right: parent.right
                             anchors.rightMargin: 8
                             anchors.verticalCenter: parent.verticalCenter
-                            color: GlobalConfig.text
+                            color: ColorConfig.text
                             font.family: Icons.fontFamily
                             font.pixelSize: BarConfig.fontSize
                             text: Icons.chevronRight

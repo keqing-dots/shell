@@ -80,9 +80,9 @@ PanelWindow {
             id: card
 
             anchors.centerIn: parent
-            border.color: GlobalConfig.accent
+            border.color: ColorConfig.accent
             border.width: GlobalConfig.borderWidthThick
-            color: GlobalConfig.overlay
+            color: ColorConfig.overlay
             implicitHeight: 680
             implicitWidth: 920
             opacity: root.panelOpen ? 1.0 : 0.0
@@ -107,7 +107,7 @@ PanelWindow {
             }
             Rectangle {
                 anchors.fill: parent
-                color: GlobalConfig.baseAlpha45
+                color: ColorConfig.baseAlpha45
                 opacity: SettingsService.widgetPopupOpen ? 1.0 : 0.0
                 radius: GlobalConfig.radiusMd
                 z: 1
@@ -130,18 +130,18 @@ PanelWindow {
 
                     Text {
                         anchors.centerIn: parent
-                        color: GlobalConfig.text
-                        font.family: GlobalConfig.fontFamily
-                        font.pixelSize: GlobalConfig.fontPixelSmall + 2
+                        color: ColorConfig.text
+                        font.family: FontConfig.fontFamily
+                        font.pixelSize: FontConfig.fontSettingsTitle
                         font.weight: Font.Bold
                         text: " Settings"
                     }
                     Text {
                         anchors.right: parent.right
                         anchors.verticalCenter: parent.verticalCenter
-                        color: GlobalConfig.text
+                        color: ColorConfig.text
                         font.family: Icons.fontFamily
-                        font.pixelSize: GlobalConfig.fontPixelSmall
+                        font.pixelSize: FontConfig.fontSettingsWindowIcon
                         opacity: closeHover.containsMouse ? 1.0 : 0.45
                         text: Icons.close
 
@@ -167,7 +167,7 @@ PanelWindow {
                 }
                 Rectangle {
                     Layout.fillWidth: true
-                    color: GlobalConfig.textAlpha08
+                    color: ColorConfig.textAlpha08
                     height: 1
                 }
                 RowLayout {
@@ -201,7 +201,7 @@ PanelWindow {
                                     anchors.fill: parent
                                     anchors.leftMargin: 2
                                     anchors.rightMargin: 2
-                                    color: tabBar.currentTab === tabItem.index ? GlobalConfig.accentAlpha18 : tabHover.containsMouse ? GlobalConfig.textAlpha06 : "transparent"
+                                    color: tabBar.currentTab === tabItem.index ? ColorConfig.accentAlpha18 : tabHover.containsMouse ? ColorConfig.textAlpha06 : "transparent"
                                     radius: GlobalConfig.radiusSm
 
                                     Behavior on color {
@@ -216,10 +216,10 @@ PanelWindow {
                                     anchors.right: parent.right
                                     anchors.rightMargin: 8
                                     anchors.verticalCenter: parent.verticalCenter
-                                    color: tabBar.currentTab === tabItem.index ? GlobalConfig.accent : GlobalConfig.text
+                                    color: tabBar.currentTab === tabItem.index ? ColorConfig.accent : ColorConfig.text
                                     elide: Text.ElideRight
-                                    font.family: GlobalConfig.fontFamily
-                                    font.pixelSize: GlobalConfig.fontPixelSmaller
+                                    font.family: FontConfig.fontFamily
+                                    font.pixelSize: FontConfig.fontSettingsBody
                                     font.weight: tabBar.currentTab === tabItem.index ? Font.DemiBold : Font.Normal
                                     opacity: tabBar.currentTab === tabItem.index ? 1.0 : 0.6
                                     text: tabItem.modelData
@@ -249,7 +249,7 @@ PanelWindow {
                     Rectangle {
                         Layout.fillHeight: true
                         Layout.topMargin: 12
-                        color: GlobalConfig.textAlpha08
+                        color: ColorConfig.textAlpha08
                         width: 1
                     }
                     StackLayout {

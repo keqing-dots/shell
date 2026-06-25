@@ -101,9 +101,9 @@ Scope {
                         }
                         Rectangle {
                             anchors.fill: parent
-                            border.color: GlobalConfig.electro
+                            border.color: ColorConfig.electro
                             border.width: GlobalConfig.borderWidthThin
-                            color: GlobalConfig.overlay
+                            color: ColorConfig.overlay
                             radius: height / 2
 
                             // Icon
@@ -113,9 +113,9 @@ Scope {
                                 anchors.left: parent.left
                                 anchors.leftMargin: 14
                                 anchors.verticalCenter: parent.verticalCenter
-                                color: VolumeService.sourceMuted ? "#e05555" : GlobalConfig.accent
+                                color: VolumeService.sourceMuted ? "#e05555" : ColorConfig.accent
                                 font.family: Icons.fontFamily
-                                font.pixelSize: 18
+                                font.pixelSize: FontConfig.fontOsdIcon
                                 text: VolumeService.sourceMuted ? Icons.micOff : Icons.micOn
 
                                 Behavior on color {
@@ -132,9 +132,9 @@ Scope {
                                 anchors.right: parent.right
                                 anchors.rightMargin: 14
                                 anchors.verticalCenter: parent.verticalCenter
-                                color: GlobalConfig.text
-                                font.family: GlobalConfig.fontFamily
-                                font.pixelSize: GlobalConfig.fontPixelSmaller
+                                color: ColorConfig.text
+                                font.family: FontConfig.fontFamily
+                                font.pixelSize: FontConfig.fontOsdLabel
                                 horizontalAlignment: Text.AlignRight
                                 text: VolumeService.sourceMuted ? "muted" : Math.round(VolumeService.sourceVolume * 100) + "%"
                                 width: 44
@@ -147,7 +147,7 @@ Scope {
                                 anchors.right: pctLabel.left
                                 anchors.rightMargin: 10
                                 anchors.verticalCenter: parent.verticalCenter
-                                color: GlobalConfig.textAlpha12
+                                color: ColorConfig.textAlpha12
                                 height: 6
                                 radius: 3
 
@@ -155,7 +155,7 @@ Scope {
                                     anchors.bottom: parent.bottom
                                     anchors.left: parent.left
                                     anchors.top: parent.top
-                                    color: VolumeService.sourceMuted ? "#e05555" : GlobalConfig.accent
+                                    color: VolumeService.sourceMuted ? "#e05555" : ColorConfig.accent
                                     radius: parent.radius
                                     width: parent.width * Math.min(1.0, VolumeService.sourceMuted ? 0 : VolumeService.sourceVolume)
 

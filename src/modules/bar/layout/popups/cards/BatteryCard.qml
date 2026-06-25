@@ -41,15 +41,15 @@ ControlCenterCard {
                 anchors.verticalCenter: parent.verticalCenter
                 color: {
                     if (BatteryService.charging || BatteryService.allFull)
-                        return GlobalConfig.accent;
+                        return ColorConfig.accent;
                     if (BatteryService.pct <= 15)
                         return "#F44747";
                     if (BatteryService.pct <= 30)
                         return "#E0A83A";
-                    return GlobalConfig.text;
+                    return ColorConfig.text;
                 }
                 font.family: Icons.fontFamily
-                font.pixelSize: 28
+                font.pixelSize: FontConfig.fontCardIcon
                 text: {
                     if (BatteryService.charging || BatteryService.allFull)
                         return Icons.batteryCharging;
@@ -67,15 +67,15 @@ ControlCenterCard {
                 spacing: 2
 
                 Text {
-                    color: GlobalConfig.text
+                    color: ColorConfig.text
                     font.bold: true
-                    font.family: GlobalConfig.fontFamily
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize + 1
                     text: "Battery " + BatteryService.pct + "%"
                 }
                 Text {
-                    color: GlobalConfig.textDim
-                    font.family: GlobalConfig.fontFamily
+                    color: ColorConfig.textDim
+                    font.family: FontConfig.fontFamily
                     font.pixelSize: BarConfig.fontSize - 1
                     text: {
                         if (BatteryService.allFull)
@@ -94,7 +94,7 @@ ControlCenterCard {
             }
         }
         Rectangle {
-            color: GlobalConfig.textAlpha10
+            color: ColorConfig.textAlpha10
             height: 6
             radius: 3
             width: parent.width
@@ -102,12 +102,12 @@ ControlCenterCard {
             Rectangle {
                 color: {
                     if (BatteryService.charging || BatteryService.allFull)
-                        return GlobalConfig.accent;
+                        return ColorConfig.accent;
                     if (BatteryService.pct <= 15)
                         return "#F44747";
                     if (BatteryService.pct <= 30)
                         return "#E0A83A";
-                    return GlobalConfig.accent;
+                    return ColorConfig.accent;
                 }
                 height: parent.height
                 radius: parent.radius

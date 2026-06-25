@@ -110,9 +110,9 @@ RowLayout {
 
             Rectangle {
                 anchors.fill: parent
-                border.color: hover.containsMouse && !entry.isCurrent ? GlobalConfig.accent : "transparent"
+                border.color: hover.containsMouse && !entry.isCurrent ? ColorConfig.accent : "transparent"
                 border.width: 2
-                color: GlobalConfig.textAlpha03
+                color: ColorConfig.textAlpha03
                 radius: 5
                 z: 0
             }
@@ -149,7 +149,7 @@ RowLayout {
                     }
                     Text {
                         anchors.centerIn: parent
-                        color: GlobalConfig.text
+                        color: ColorConfig.text
                         font.family: Icons.fontFamily
                         font.pointSize: 14
                         horizontalAlignment: Text.AlignHCenter
@@ -171,9 +171,9 @@ RowLayout {
                         anchors.left: parent.left
                         anchors.right: parent.right
                         anchors.verticalCenter: textBox.hasPath ? undefined : parent.verticalCenter
-                        color: GlobalConfig.text
+                        color: ColorConfig.text
                         elide: Text.ElideRight
-                        font.family: GlobalConfig.fontFamily
+                        font.family: FontConfig.fontFamily
                         font.pointSize: 12
                         horizontalAlignment: Text.AlignLeft
                         maximumLineCount: 1
@@ -183,9 +183,9 @@ RowLayout {
                     Text {
                         anchors.left: parent.left
                         anchors.right: parent.right
-                        color: GlobalConfig.text
+                        color: ColorConfig.text
                         elide: Text.ElideMiddle
-                        font.family: GlobalConfig.fontFamily
+                        font.family: FontConfig.fontFamily
                         font.pointSize: 8
                         horizontalAlignment: Text.AlignLeft
                         maximumLineCount: 1
@@ -200,7 +200,7 @@ RowLayout {
         highlight: Rectangle {
             id: passiveHighlight
 
-            border.color: GlobalConfig.accentAlt
+            border.color: ColorConfig.accentAlt
             border.width: LauncherConfig.highlightBorderWidth
             color: "transparent"
             opacity: LauncherConfig.highlightOpacity
