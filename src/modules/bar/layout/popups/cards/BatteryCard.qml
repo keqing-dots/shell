@@ -48,18 +48,18 @@ ControlCenterCard {
                         return "#E0A83A";
                     return ColorConfig.text;
                 }
-                font.family: Icons.fontFamily
+                font.family: IconConfig.fontFamily
                 font.pixelSize: FontConfig.fontCardIcon
                 text: {
                     if (BatteryService.charging || BatteryService.allFull)
-                        return Icons.batteryCharging;
+                        return IconConfig.batteryCharging;
                     if (BatteryService.pct > 75)
-                        return Icons.battery4;
+                        return IconConfig.battery4;
                     if (BatteryService.pct > 50)
-                        return Icons.battery3;
+                        return IconConfig.battery3;
                     if (BatteryService.pct > 25)
-                        return Icons.battery2;
-                    return Icons.battery1;
+                        return IconConfig.battery2;
+                    return IconConfig.battery1;
                 }
             }
             Column {

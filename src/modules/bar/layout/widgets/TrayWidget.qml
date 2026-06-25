@@ -16,7 +16,7 @@ WidgetCapsule {
 
     readonly property string arrowGlyph: {
         var pointRight = (arrowSide === "right") !== collapsed;
-        return pointRight ? Icons.chevronRight : Icons.chevronLeft;
+        return pointRight ? IconConfig.chevronRight : IconConfig.chevronLeft;
     }
     readonly property string arrowSide: config.arrowSide || "right"
     property bool collapsed: !config.startExpanded
@@ -43,7 +43,7 @@ WidgetCapsule {
             Text {
                 anchors.centerIn: parent
                 color: ColorConfig.text
-                font.family: Icons.fontFamily
+                font.family: IconConfig.fontFamily
                 font.pixelSize: BarConfig.iconSize
                 text: root.arrowGlyph
             }

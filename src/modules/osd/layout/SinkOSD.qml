@@ -114,16 +114,16 @@ Scope {
                                 anchors.leftMargin: 14
                                 anchors.verticalCenter: parent.verticalCenter
                                 color: VolumeService.sinkMuted ? "#e05555" : ColorConfig.accent
-                                font.family: Icons.fontFamily
+                                font.family: IconConfig.fontFamily
                                 font.pixelSize: FontConfig.fontOsdIcon
                                 text: {
                                     if (VolumeService.sinkMuted)
-                                        return Icons.volumeMute;
+                                        return IconConfig.volumeMute;
                                     if (VolumeService.sinkVolume === 0)
-                                        return Icons.volumeEmpty;
+                                        return IconConfig.volumeEmpty;
                                     if (VolumeService.sinkVolume < 0.5)
-                                        return Icons.volumeLow;
-                                    return Icons.volumeHigh;
+                                        return IconConfig.volumeLow;
+                                    return IconConfig.volumeHigh;
                                 }
 
                                 Behavior on color {

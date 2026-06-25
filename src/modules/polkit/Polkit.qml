@@ -137,9 +137,9 @@ Scope {
                 anchors.top: parent.top
                 anchors.topMargin: 12
                 color: ColorConfig.textDim
-                font.family: Icons.fontFamily
+                font.family: IconConfig.fontFamily
                 font.pixelSize: FontConfig.fontPolkitClose
-                text: Icons.close
+                text: IconConfig.close
 
                 MouseArea {
                     anchors.fill: parent

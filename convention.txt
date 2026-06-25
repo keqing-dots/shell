@@ -5,8 +5,7 @@ When to run: After editing any .qml file.
 Command: /usr/lib/qt6/bin/qmlformat --normalize --single-line-empty-objects --inplace
 
 Remove --normalize from the following files
-    - Any file matching *Config.qml
-    - Icons.qml
+    - *Config.qml
     - shell.qml
 
 QML code style

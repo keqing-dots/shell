@@ -19,22 +19,22 @@ WidgetCapsule {
 
     iconGlyph: {
         if (root.isPortal)
-            return Icons.lock;
+            return IconConfig.lock;
         if (root.ethernet)
-            return Icons.router;
+            return IconConfig.router;
         if (root.ssid !== "") {
             var sig = NetworkService.connectedSignal;
             if (sig > 75)
-                return Icons.wifi;
+                return IconConfig.wifi;
             if (sig > 50)
-                return Icons.wifi2;
+                return IconConfig.wifi2;
             if (sig > 25)
-                return Icons.wifi1;
-            return Icons.wifi0;
+                return IconConfig.wifi1;
+            return IconConfig.wifi0;
         }
         if (NetworkService.ethernetAvailable && !NetworkService.wifiAvailable)
-            return Icons.router;
-        return Icons.wifiOff;
+            return IconConfig.router;
+        return IconConfig.wifiOff;
     }
     labelText: root.isPortal ? "Sign in" : (root.networkLabel !== "" ? root.networkLabel : "Wi-Fi")
     panelName: "networkPanel"

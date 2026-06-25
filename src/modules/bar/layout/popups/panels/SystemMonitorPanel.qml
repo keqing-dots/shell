@@ -55,9 +55,9 @@ WidgetPanel {
                 Text {
                     anchors.centerIn: parent
                     color: ColorConfig.text
-                    font.family: Icons.fontFamily
+                    font.family: IconConfig.fontFamily
                     font.pixelSize: FontConfig.fontPanelActionIcon
-                    text: Icons.close
+                    text: IconConfig.close
                 }
                 MouseArea {
                     id: closeMa
@@ -137,9 +137,9 @@ WidgetPanel {
 
             Text {
                 color: ColorConfig.textDim
-                font.family: Icons.fontFamily
+                font.family: IconConfig.fontFamily
                 font.pixelSize: BarConfig.fontSize
-                text: Icons.arrowNarrowDown + " "
+                text: IconConfig.arrowNarrowDown + " "
             }
             Text {
                 color: ColorConfig.text
@@ -150,9 +150,9 @@ WidgetPanel {
             }
             Text {
                 color: ColorConfig.textDim
-                font.family: Icons.fontFamily
+                font.family: IconConfig.fontFamily
                 font.pixelSize: BarConfig.fontSize
-                text: Icons.arrowNarrowUp + " "
+                text: IconConfig.arrowNarrowUp + " "
             }
             Text {
                 color: ColorConfig.text

@@ -27,7 +27,7 @@ RowLayout {
         Text {
             anchors.centerIn: parent
             color: ColorConfig.text
-            font.family: Icons.fontFamily
+            font.family: IconConfig.fontFamily
             font.pixelSize: LauncherConfig.searchbarFontPx
             text: LauncherConfig.modeIcons[root.mode] || ""
         }

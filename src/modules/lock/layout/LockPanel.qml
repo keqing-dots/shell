@@ -42,10 +42,10 @@ Rectangle {
 
         anchors.centerIn: parent
         color: ColorConfig.accent
-        font.family: Icons.fontFamily
+        font.family: IconConfig.fontFamily
         font.pixelSize: 200
         opacity: 1
-        text: Icons.lock
+        text: IconConfig.lock
     }
     Column {
         id: mainCol

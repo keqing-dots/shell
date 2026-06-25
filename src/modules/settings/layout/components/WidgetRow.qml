@@ -250,10 +250,10 @@ Column {
                         }
                         Text {
                             color: ColorConfig.text
-                            font.family: Icons.fontFamily
+                            font.family: IconConfig.fontFamily
                             font.pixelSize: FontConfig.fontSettingsBody
                             opacity: settingsBtn.containsMouse ? 1.0 : 0.3
-                            text: Icons.settings
+                            text: IconConfig.settings
                             visible: root.hasSettings(wCard.modelData.id ?? "")
 
                             MouseArea {
@@ -269,10 +269,10 @@ Column {
                         }
                         Text {
                             color: ColorConfig.text
-                            font.family: Icons.fontFamily
+                            font.family: IconConfig.fontFamily
                             font.pixelSize: FontConfig.fontSettingsBody
                             opacity: removeBtn.containsMouse ? 1.0 : 0.3
-                            text: Icons.close
+                            text: IconConfig.close
 
                             MouseArea {
                                 id: removeBtn

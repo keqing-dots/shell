@@ -75,7 +75,7 @@ Item {
             id: iconItem
 
             color: ColorConfig.text
-            font.family: Icons.fontFamily
+            font.family: IconConfig.fontFamily
             font.pixelSize: BarConfig.iconSize
             text: root.iconGlyph
             x: Math.round((parent.width - width) / 2)

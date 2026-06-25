@@ -140,10 +140,10 @@ PanelWindow {
                         anchors.right: parent.right
                         anchors.verticalCenter: parent.verticalCenter
                         color: ColorConfig.text
-                        font.family: Icons.fontFamily
+                        font.family: IconConfig.fontFamily
                         font.pixelSize: FontConfig.fontSettingsWindowIcon
                         opacity: closeHover.containsMouse ? 1.0 : 0.45
-                        text: Icons.close
+                        text: IconConfig.close
 
                         Behavior on opacity {
                             NumberAnimation {

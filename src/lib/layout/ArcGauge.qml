@@ -55,7 +55,7 @@ Item {
         Text {
             anchors.horizontalCenter: parent.horizontalCenter
             color: root.arcColor
-            font.family: Icons.fontFamily
+            font.family: IconConfig.fontFamily
             font.pixelSize: FontConfig.fontGaugeIcon
             text: root.icon
         }

@@ -48,9 +48,9 @@ ControlCenterCard {
             Text {
                 anchors.centerIn: parent
                 color: ColorConfig.textDim
-                font.family: Icons.fontFamily
+                font.family: IconConfig.fontFamily
                 font.pixelSize: FontConfig.fontCardIcon
-                text: Icons.musicNote
+                text: IconConfig.musicNote
                 visible: MediaService.trackArtUrl === ""
             }
         }
@@ -128,9 +128,9 @@ ControlCenterCard {
                 Text {
                     anchors.centerIn: parent
                     color: MediaService.canGoPrevious ? ColorConfig.text : ColorConfig.textDim
-                    font.family: Icons.fontFamily
+                    font.family: IconConfig.fontFamily
                     font.pixelSize: FontConfig.fontMediaControl
-                    text: Icons.playerPrev
+                    text: IconConfig.playerPrev
                 }
                 MouseArea {
                     id: prevMa
@@ -152,9 +152,9 @@ ControlCenterCard {
                 Text {
                     anchors.centerIn: parent
                     color: ColorConfig.text
-                    font.family: Icons.fontFamily
+                    font.family: IconConfig.fontFamily
                     font.pixelSize: FontConfig.fontMediaControl
-                    text: MediaService.isPlaying ? Icons.playerPause : Icons.playerPlay
+                    text: MediaService.isPlaying ? IconConfig.playerPause : IconConfig.playerPlay
                 }
                 MouseArea {
                     id: playMa
@@ -175,9 +175,9 @@ ControlCenterCard {
                 Text {
                     anchors.centerIn: parent
                     color: MediaService.canGoNext ? ColorConfig.text : ColorConfig.textDim
-                    font.family: Icons.fontFamily
+                    font.family: IconConfig.fontFamily
                     font.pixelSize: FontConfig.fontMediaControl
-                    text: Icons.playerNext
+                    text: IconConfig.playerNext
                 }
                 MouseArea {
                     id: nextMa

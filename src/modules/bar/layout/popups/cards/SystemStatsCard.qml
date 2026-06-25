@@ -34,7 +34,7 @@ ControlCenterCard {
                 ArcGauge {
                     anchors.horizontalCenter: parent.horizontalCenter
                     arcColor: "#ef4444"
-                    icon: Icons.cpu
+                    icon: IconConfig.cpu
                     value: SystemStatService.cpuUsage
                 }
                 Text {
@@ -53,7 +53,7 @@ ControlCenterCard {
                 ArcGauge {
                     anchors.horizontalCenter: parent.horizontalCenter
                     arcColor: "#a855f7"
-                    icon: Icons.gpu
+                    icon: IconConfig.gpu
                     value: SystemStatService.gpuUsage
                 }
                 Text {
@@ -70,7 +70,7 @@ ControlCenterCard {
                 ArcGauge {
                     anchors.horizontalCenter: parent.horizontalCenter
                     arcColor: "#3b82f6"
-                    icon: Icons.settings
+                    icon: IconConfig.settings
                     value: SystemStatService.memPercent
                 }
                 Text {
@@ -87,7 +87,7 @@ ControlCenterCard {
                 ArcGauge {
                     anchors.horizontalCenter: parent.horizontalCenter
                     arcColor: "#22c55e"
-                    icon: Icons.folder
+                    icon: IconConfig.folder
                     value: SystemStatService.diskRootPct
                 }
                 Text {

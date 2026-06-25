@@ -17,12 +17,12 @@ WidgetCapsule {
 
     iconGlyph: {
         if (VolumeService.sinkMuted)
-            return Icons.volumeMute;
+            return IconConfig.volumeMute;
         if (VolumeService.sinkVolume === 0)
-            return Icons.volumeEmpty;
+            return IconConfig.volumeEmpty;
         if (VolumeService.sinkVolume < 0.5)
-            return Icons.volumeLow;
-        return Icons.volumeHigh;
+            return IconConfig.volumeLow;
+        return IconConfig.volumeHigh;
     }
     labelText: VolumeService.sinkMuted ? "muted" : Math.round(VolumeService.sinkVolume * 100) + "%"
     panelName: "volumePanel"

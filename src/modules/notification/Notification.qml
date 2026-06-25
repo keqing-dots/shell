@@ -243,10 +243,10 @@ Variants {
 
                                         anchors.centerIn: parent
                                         color: ColorConfig.text
-                                        font.family: Icons.fontFamily
+                                        font.family: IconConfig.fontFamily
                                         font.pixelSize: FontConfig.fontNotificationClose
                                         opacity: closeHover.containsMouse ? 1.0 : 0.4
-                                        text: Icons.close
+                                        text: IconConfig.close
 
                                         Behavior on opacity {
                                             NumberAnimation {

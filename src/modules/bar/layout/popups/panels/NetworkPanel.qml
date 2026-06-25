@@ -21,12 +21,12 @@ WidgetPanel {
 
     function _signalIcon(pct) {
         if (pct > 75)
-            return Icons.wifi;
+            return IconConfig.wifi;
         if (pct > 50)
-            return Icons.wifi2;
+            return IconConfig.wifi2;
         if (pct > 25)
-            return Icons.wifi1;
-        return Icons.wifi0;
+            return IconConfig.wifi1;
+        return IconConfig.wifi0;
     }
 
     clip: true
@@ -73,9 +73,9 @@ WidgetPanel {
                 Text {
                     anchors.centerIn: parent
                     color: NetworkService.scanning ? ColorConfig.accent : ColorConfig.text
-                    font.family: Icons.fontFamily
+                    font.family: IconConfig.fontFamily
                     font.pixelSize: FontConfig.fontPanelActionIcon
-                    text: Icons.refresh
+                    text: IconConfig.refresh
                 }
                 MouseArea {
                     id: scanMa
@@ -103,9 +103,9 @@ WidgetPanel {
                 Text {
                     anchors.centerIn: parent
                     color: ColorConfig.text
-                    font.family: Icons.fontFamily
+                    font.family: IconConfig.fontFamily
                     font.pixelSize: FontConfig.fontPanelActionIcon
-                    text: Icons.close
+                    text: IconConfig.close
                 }
                 MouseArea {
                     id: closeMa
@@ -170,9 +170,9 @@ WidgetPanel {
                     Text {
                         anchors.verticalCenter: parent.verticalCenter
                         color: "#F44747"
-                        font.family: Icons.fontFamily
+                        font.family: IconConfig.fontFamily
                         font.pixelSize: BarConfig.fontSize
-                        text: Icons.alertTriangle + " "
+                        text: IconConfig.alertTriangle + " "
                     }
                     Text {
                         id: errTxt
@@ -195,9 +195,9 @@ WidgetPanel {
                         Text {
                             anchors.centerIn: parent
                             color: "#F44747"
-                            font.family: Icons.fontFamily
+                            font.family: IconConfig.fontFamily
                             font.pixelSize: FontConfig.fontNetworkClose
-                            text: Icons.close
+                            text: IconConfig.close
                         }
                         MouseArea {
                             anchors.fill: parent
@@ -372,7 +372,7 @@ WidgetPanel {
                 anchors.leftMargin: 8
                 anchors.verticalCenter: parent.verticalCenter
                 color: netRow.isCaptive ? "#FFC107" : netRow.isConnected ? ColorConfig.accent : ColorConfig.textDim
-                font.family: Icons.fontFamily
+                font.family: IconConfig.fontFamily
                 font.pixelSize: BarConfig.iconSize
                 text: panelRoot._signalIcon(netRow.modelData.signal)
             }
@@ -466,9 +466,9 @@ WidgetPanel {
                     Text {
                         anchors.centerIn: parent
                         color: "#F44747"
-                        font.family: Icons.fontFamily
+                        font.family: IconConfig.fontFamily
                         font.pixelSize: FontConfig.fontListItemRemove
-                        text: Icons.close
+                        text: IconConfig.close
                     }
                     MouseArea {
                         id: fMa

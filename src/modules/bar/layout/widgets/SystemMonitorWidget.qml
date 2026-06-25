@@ -14,7 +14,7 @@ WidgetCapsule {
     readonly property real temp: SystemStatService.cpuTempC
     readonly property real usage: SystemStatService.cpuUsage
 
-    iconGlyph: Icons.cpu
+    iconGlyph: IconConfig.cpu
     labelText: Math.round(usage).toString().padStart(3) + "%" + (temp > 0 ? " " + temp.toString().padStart(3) + "°" : "")
     panelName: "systemMonitorPanel"
     showLabel: baseShowLabel

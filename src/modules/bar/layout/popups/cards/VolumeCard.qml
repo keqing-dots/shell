@@ -24,7 +24,7 @@ ControlCenterCard {
         }
         VolumeRow {
             device: VolumeService.sink ? (VolumeService.sink.description || VolumeService.sink.name || "") : ""
-            icon: VolumeService.sinkMuted ? Icons.volumeMute : VolumeService.sinkVolume === 0 ? Icons.volumeEmpty : VolumeService.sinkVolume < 0.5 ? Icons.volumeLow : Icons.volumeHigh
+            icon: VolumeService.sinkMuted ? IconConfig.volumeMute : VolumeService.sinkVolume === 0 ? IconConfig.volumeEmpty : VolumeService.sinkVolume < 0.5 ? IconConfig.volumeLow : IconConfig.volumeHigh
             label: "Output"
             muted: VolumeService.sinkMuted
             volume: VolumeService.sinkVolume
@@ -35,7 +35,7 @@ ControlCenterCard {
         }
         VolumeRow {
             device: VolumeService.source ? (VolumeService.source.description || VolumeService.source.name || "") : ""
-            icon: VolumeService.sourceMuted ? Icons.micOff : Icons.micOn
+            icon: VolumeService.sourceMuted ? IconConfig.micOff : IconConfig.micOn
             label: "Input"
             muted: VolumeService.sourceMuted
             volume: VolumeService.sourceVolume
@@ -132,7 +132,7 @@ ControlCenterCard {
                 Text {
                     anchors.centerIn: parent
                     color: ColorConfig.text
-                    font.family: Icons.fontFamily
+                    font.family: IconConfig.fontFamily
                     font.pixelSize: FontConfig.fontPanelActionIcon
                     text: row.icon
                 }

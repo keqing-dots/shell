@@ -63,9 +63,9 @@ WidgetPanel {
                     Text {
                         anchors.centerIn: parent
                         color: ColorConfig.text
-                        font.family: Icons.fontFamily
+                        font.family: IconConfig.fontFamily
                         font.pixelSize: FontConfig.fontPanelActionIcon
-                        text: Icons.close
+                        text: IconConfig.close
                     }
                     MouseArea {
                         id: closeMa
@@ -165,9 +165,9 @@ WidgetPanel {
                     Text {
                         anchors.centerIn: parent
                         color: ColorConfig.text
-                        font.family: Icons.fontFamily
+                        font.family: IconConfig.fontFamily
                         font.pixelSize: FontConfig.fontPanelActionIcon
-                        text: VolumeService.sinkMuted ? Icons.volumeMute : VolumeService.sinkVolume === 0 ? Icons.volumeEmpty : VolumeService.sinkVolume < 0.5 ? Icons.volumeLow : Icons.volumeHigh
+                        text: VolumeService.sinkMuted ? IconConfig.volumeMute : VolumeService.sinkVolume === 0 ? IconConfig.volumeEmpty : VolumeService.sinkVolume < 0.5 ? IconConfig.volumeLow : IconConfig.volumeHigh
                     }
                     MouseArea {
                         id: outMuteMa
@@ -262,9 +262,9 @@ WidgetPanel {
                     Text {
                         anchors.centerIn: parent
                         color: ColorConfig.text
-                        font.family: Icons.fontFamily
+                        font.family: IconConfig.fontFamily
                         font.pixelSize: FontConfig.fontPanelActionIcon
-                        text: VolumeService.sourceMuted ? Icons.volumeMute : VolumeService.sourceVolume === 0 ? Icons.volumeEmpty : VolumeService.sourceVolume < 0.5 ? Icons.volumeLow : Icons.volumeHigh
+                        text: VolumeService.sourceMuted ? IconConfig.volumeMute : VolumeService.sourceVolume === 0 ? IconConfig.volumeEmpty : VolumeService.sourceVolume < 0.5 ? IconConfig.volumeLow : IconConfig.volumeHigh
                     }
                     MouseArea {
                         id: inMuteMa
@@ -387,13 +387,13 @@ WidgetPanel {
                             Text {
                                 anchors.centerIn: parent
                                 color: ColorConfig.text
-                                font.family: Icons.fontFamily
+                                font.family: IconConfig.fontFamily
                                 font.pixelSize: FontConfig.fontPanelActionIcon
                                 text: {
                                     var a = appItem.modelData?.audio;
                                     var m = a?.muted ?? false;
                                     var v = a?.volume ?? 0;
-                                    return m ? Icons.volumeMute : v === 0 ? Icons.volumeEmpty : v < 0.5 ? Icons.volumeLow : Icons.volumeHigh;
+                                    return m ? IconConfig.volumeMute : v === 0 ? IconConfig.volumeEmpty : v < 0.5 ? IconConfig.volumeLow : IconConfig.volumeHigh;
                                 }
                             }
                             MouseArea {

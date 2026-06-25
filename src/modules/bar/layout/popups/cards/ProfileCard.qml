@@ -95,9 +95,9 @@ Rectangle {
                 anchors.right: parent.right
                 anchors.top: parent.top
                 color: settingsHover.containsMouse ? ColorConfig.text : ColorConfig.textDim
-                font.family: Icons.fontFamily
+                font.family: IconConfig.fontFamily
                 font.pixelSize: FontConfig.fontProfileSettings
-                text: Icons.settings
+                text: IconConfig.settings
 
                 Behavior on color {
                     ColorAnimation {

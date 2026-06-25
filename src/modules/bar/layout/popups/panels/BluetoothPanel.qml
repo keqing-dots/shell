@@ -93,9 +93,9 @@ WidgetPanel {
                 Text {
                     anchors.centerIn: parent
                     color: ColorConfig.text
-                    font.family: Icons.fontFamily
+                    font.family: IconConfig.fontFamily
                     font.pixelSize: FontConfig.fontPanelActionIcon
-                    text: Icons.close
+                    text: IconConfig.close
                 }
                 MouseArea {
                     id: closeMa
@@ -281,11 +281,11 @@ WidgetPanel {
                 anchors.leftMargin: 8
                 anchors.verticalCenter: parent.verticalCenter
                 color: ColorConfig.text
-                font.family: Icons.fontFamily
+                font.family: IconConfig.fontFamily
                 font.pixelSize: BarConfig.iconSize
                 horizontalAlignment: Text.AlignHCenter
                 opacity: devRow.isConnected ? 1.0 : 0.6
-                text: Icons.bluetoothDevice
+                text: IconConfig.bluetoothDevice
                 width: BarConfig.iconSize
             }
             Column {
@@ -328,7 +328,7 @@ WidgetPanel {
 
                     Text {
                         color: ColorConfig.textDim
-                        font.family: Icons.fontFamily
+                        font.family: IconConfig.fontFamily
                         font.pixelSize: BarConfig.fontSize - 2
                         text: {
                             try {
@@ -337,12 +337,12 @@ WidgetPanel {
                                     return "";
                                 var pct = Math.round(b * 100);
                                 if (pct <= 20)
-                                    return Icons.battery1;
+                                    return IconConfig.battery1;
                                 if (pct <= 40)
-                                    return Icons.battery2;
+                                    return IconConfig.battery2;
                                 if (pct <= 80)
-                                    return Icons.battery3;
-                                return Icons.battery4;
+                                    return IconConfig.battery3;
+                                return IconConfig.battery4;
                             } catch (e) {
                                 return "";
                             }
@@ -413,9 +413,9 @@ WidgetPanel {
                     Text {
                         anchors.centerIn: parent
                         color: "#F44747"
-                        font.family: Icons.fontFamily
+                        font.family: IconConfig.fontFamily
                         font.pixelSize: FontConfig.fontListItemRemove
-                        text: Icons.close
+                        text: IconConfig.close
                     }
                     MouseArea {
                         id: forgetMa

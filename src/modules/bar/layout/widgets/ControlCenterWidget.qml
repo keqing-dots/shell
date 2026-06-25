@@ -9,7 +9,7 @@ import qs.styles
 WidgetCapsule {
     id: root
 
-    iconGlyph: Icons.controlCenter
+    iconGlyph: IconConfig.controlCenter
     labelText: GlobalConfig.user
     panelName: "controlCenterPanel"
     showLabel: baseShowLabel

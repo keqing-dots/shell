@@ -114,9 +114,9 @@ Scope {
                                 anchors.leftMargin: 14
                                 anchors.verticalCenter: parent.verticalCenter
                                 color: VolumeService.sourceMuted ? "#e05555" : ColorConfig.accent
-                                font.family: Icons.fontFamily
+                                font.family: IconConfig.fontFamily
                                 font.pixelSize: FontConfig.fontOsdIcon
-                                text: VolumeService.sourceMuted ? Icons.micOff : Icons.micOn
+                                text: VolumeService.sourceMuted ? IconConfig.micOff : IconConfig.micOn
 
                                 Behavior on color {
                                     ColorAnimation {

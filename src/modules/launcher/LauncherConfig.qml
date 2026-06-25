@@ -41,12 +41,12 @@ QtObject {
     readonly property string modeDuckDuckGo: "duckduckgo"
     readonly property string modeGoogle: "google"
     readonly property var modeIcons: ({
-            "drun": Icons.apps,
-            "run": Icons.terminal,
-            "google": Icons.brandGoogle,
+            "drun": IconConfig.apps,
+            "run": IconConfig.terminal,
+            "google": IconConfig.brandGoogle,
             "duckduckgo": "D",
-            "youtube": Icons.brandYoutube,
-            "url": Icons.link
+            "youtube": IconConfig.brandYoutube,
+            "url": IconConfig.link
         })
     readonly property string modeRun: "run"
     readonly property string modeUrl: "url"

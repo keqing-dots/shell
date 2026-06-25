@@ -17,10 +17,10 @@ WidgetCapsule {
 
     iconGlyph: {
         if (!root.powered)
-            return Icons.bluetoothOff;
+            return IconConfig.bluetoothOff;
         if (root.connectedDevice !== null)
-            return Icons.bluetoothConnected;
-        return Icons.bluetoothOn;
+            return IconConfig.bluetoothConnected;
+        return IconConfig.bluetoothOn;
     }
     labelText: {
         if (!BluetoothService.available)

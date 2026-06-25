@@ -169,9 +169,9 @@ PopupWindow {
                             Text {
                                 anchors.verticalCenter: parent.verticalCenter
                                 color: ColorConfig.accent
-                                font.family: Icons.fontFamily
+                                font.family: IconConfig.fontFamily
                                 font.pixelSize: BarConfig.fontSize
-                                text: Icons.check
+                                text: IconConfig.check
                                 visible: entry.modelData && (entry.modelData.checkState === Qt.Checked || entry.modelData.checked === true)
                             }
                             Image {
@@ -198,9 +198,9 @@ PopupWindow {
                             anchors.rightMargin: 8
                             anchors.verticalCenter: parent.verticalCenter
                             color: ColorConfig.text
-                            font.family: Icons.fontFamily
+                            font.family: IconConfig.fontFamily
                             font.pixelSize: BarConfig.fontSize
-                            text: Icons.chevronRight
+                            text: IconConfig.chevronRight
                             visible: entry.modelData && entry.modelData.hasChildren
                         }
                         MouseArea {

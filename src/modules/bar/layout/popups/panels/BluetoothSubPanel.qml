@@ -37,9 +37,9 @@ WidgetPanel {
         Text {
             anchors.centerIn: parent
             color: ColorConfig.text
-            font.family: Icons.fontFamily
+            font.family: IconConfig.fontFamily
             font.pixelSize: FontConfig.fontSubPanelClose
-            text: Icons.close
+            text: IconConfig.close
         }
         MouseArea {
             id: closeBtnMa

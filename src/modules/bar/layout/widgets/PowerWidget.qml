@@ -9,7 +9,7 @@ import qs.styles
 WidgetCapsule {
     id: root
 
-    iconGlyph: Icons.power
+    iconGlyph: IconConfig.power
 
     MouseArea {
         anchors.fill: parent

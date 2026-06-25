@@ -23,16 +23,16 @@ WidgetCapsule {
     capsuleVisible: BatteryService.detected
     iconGlyph: {
         if (BatteryService.allFull)
-            return Icons.pluggedIn;
+            return IconConfig.pluggedIn;
         if (BatteryService.anyCharging)
-            return Icons.batteryCharging;
+            return IconConfig.batteryCharging;
         if (BatteryService.pct <= 25)
-            return Icons.battery1;
+            return IconConfig.battery1;
         if (BatteryService.pct <= 50)
-            return Icons.battery2;
+            return IconConfig.battery2;
         if (BatteryService.pct <= 75)
-            return Icons.battery3;
-        return Icons.battery4;
+            return IconConfig.battery3;
+        return IconConfig.battery4;
     }
     implicitHeight: visible ? BarConfig.capsuleHeight : 0
     labelText: BatteryService.allFull ? "Plugged in" : BatteryService.pct.toString().padStart(3) + "%"

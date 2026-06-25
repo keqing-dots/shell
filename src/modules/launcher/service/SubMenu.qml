@@ -106,7 +106,7 @@ Item {
         };
 
         if (isDir)
-            entry.iconGlyph = Icons.folder;
+            entry.iconGlyph = IconConfig.folder;
         else
             entry.icon = "text-x-generic";
 
@@ -128,14 +128,14 @@ Item {
                 name: "Open Directory",
                 path: p,
                 isDir: true,
-                iconGlyph: Icons.arrowRight,
+                iconGlyph: IconConfig.arrowRight,
                 _dirMenuAction: "open_options"
             },
             {
                 name: "Previous Directory",
                 path: p,
                 isDir: true,
-                iconGlyph: Icons.arrowLeft,
+                iconGlyph: IconConfig.arrowLeft,
                 _dirMenuAction: "prev_dir"
             }
         ];
@@ -151,7 +151,7 @@ Item {
                 name: "Open Directory in File Manager",
                 path: p,
                 isDir: true,
-                iconGlyph: Icons.arrowRight,
+                iconGlyph: IconConfig.arrowRight,
                 _dirMenuAction: "dir_open_fm",
                 execute: function () {
                     Quickshell.execDetached(["xdg-open", p]);
@@ -161,7 +161,7 @@ Item {
                 name: "Open Directory in " + root.editor,
                 path: p,
                 isDir: true,
-                iconGlyph: Icons.code,
+                iconGlyph: IconConfig.code,
                 _dirMenuAction: "dir_open_vsc",
                 execute: function () {
                     Quickshell.execDetached([root.editor, p]);
@@ -171,7 +171,7 @@ Item {
                 name: "Open Directory in Terminal",
                 path: p,
                 isDir: true,
-                iconGlyph: Icons.terminal,
+                iconGlyph: IconConfig.terminal,
                 _dirMenuAction: "dir_open_tm",
                 execute: function () {
                     Quickshell.execDetached(["kitty", p]);
@@ -198,7 +198,7 @@ Item {
                 name: "Open File",
                 path: p,
                 isDir: false,
-                iconGlyph: Icons.arrowRight,
+                iconGlyph: IconConfig.arrowRight,
                 _dirMenuAction: "file_open",
                 execute: function () {
                     Quickshell.execDetached(["xdg-open", p]);
@@ -208,7 +208,7 @@ Item {
                 name: "Open Containing Directory",
                 path: dirPath,
                 isDir: true,
-                iconGlyph: Icons.folderOpen,
+                iconGlyph: IconConfig.folderOpen,
                 _dirMenuAction: "open_contain_dir",
                 execute: function () {
                     Quickshell.execDetached(["xdg-open", dirPath]);

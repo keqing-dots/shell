@@ -53,7 +53,7 @@ Item {
             }
         };
         if (isDir)
-            entry.iconGlyph = Icons.folder;
+            entry.iconGlyph = IconConfig.folder;
         else
             entry.icon = "text-x-generic";
         return entry;

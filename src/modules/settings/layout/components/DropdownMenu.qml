@@ -94,9 +94,9 @@ Item {
             Text {
                 anchors.verticalCenter: parent.verticalCenter
                 color: ColorConfig.textDim
-                font.family: Icons.fontFamily
+                font.family: IconConfig.fontFamily
                 font.pixelSize: FontConfig.fontDropdownChevron
-                text: triggerRect.open ? Icons.chevronUp : Icons.chevronDown
+                text: triggerRect.open ? IconConfig.chevronUp : IconConfig.chevronDown
             }
         }
         MouseArea {

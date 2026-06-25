@@ -42,7 +42,7 @@ Flickable {
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
                     model: {
-                        const local = [FontConfig.yujiMaiLoader.name, Icons.fontFamily];
+                        const local = [FontConfig.yujiMaiLoader.name, IconConfig.fontFamily];
                         return Qt.fontFamilies().filter(f => !local.includes(f)).sort();
                     }
                     selfFont: true

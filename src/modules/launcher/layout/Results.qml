@@ -150,7 +150,7 @@ RowLayout {
                     Text {
                         anchors.centerIn: parent
                         color: ColorConfig.text
-                        font.family: Icons.fontFamily
+                        font.family: IconConfig.fontFamily
                         font.pointSize: 14
                         horizontalAlignment: Text.AlignHCenter
                         text: entry.modelData?.iconGlyph ?? ""

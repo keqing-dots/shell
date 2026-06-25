@@ -176,10 +176,10 @@ Flickable {
                     Text {
                         Layout.leftMargin: 4
                         color: ColorConfig.text
-                        font.family: Icons.fontFamily
+                        font.family: IconConfig.fontFamily
                         font.pixelSize: FontConfig.fontSettingsWindowIcon
                         opacity: resetMa.containsMouse ? 0.9 : 0.3
-                        text: Icons.refresh
+                        text: IconConfig.refresh
 
                         Behavior on opacity {
                             NumberAnimation {
