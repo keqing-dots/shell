@@ -48,9 +48,10 @@
       "format": "{$2}{release>20}{$4} │"
     },
     {
-      "type": "os",
+      "type": "command",
       "key": "│ os",
-      "format": "{$2}{name>20}{$4} │"
+      "text": "source /etc/os-release && echo \"$NAME $(uname -m)\"",
+      "format": "{$2}{>20}{$4} │"
     },
     {
       "type": "packages",
