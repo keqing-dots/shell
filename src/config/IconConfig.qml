@@ -94,4 +94,7 @@ QtObject {
     readonly property string wifi1: "\ueba4"
     readonly property string wifi2: "\ueba5"
     readonly property string wifiOff: "\uecfa"
+
+    // Overview
+    readonly property string overview: "\ueef6"
 }

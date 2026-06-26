@@ -7,6 +7,7 @@ import Quickshell.Hyprland
 import qs.modules.bar
 import qs.modules.bar.layout.components
 import qs.modules.bar.service
+import qs.config
 
 WidgetCapsule {
     id: root
@@ -26,77 +27,99 @@ WidgetCapsule {
         });
     }
 
-    implicitWidth: pills.implicitWidth + 16
+    implicitWidth: layout.implicitWidth + 16
 
     Row {
-        id: pills
+        id: layout
 
         anchors.centerIn: parent
-        spacing: 5
+        spacing: 8
 
-        Repeater {
-            model: root.workspaces
+        Row {
+            id: pills
 
-            delegate: Rectangle {
-                id: pill
+            anchors.verticalCenter: parent.verticalCenter
+            spacing: 5
 
-                property bool flashOn: false
-                readonly property bool isActive: modelData.id === root.displayActiveId
-                readonly property bool isFlashing: WorkspaceService.flashingIds[modelData.id] === true
-                readonly property bool isOccupied: WorkspaceService.occupiedIds[modelData.id] === true
-                required property var modelData
+            Repeater {
+                model: root.workspaces
 
-                anchors.verticalCenter: parent.verticalCenter
-                color: flashOn ? BarConfig.workspaceInactive : isActive ? BarConfig.workspaceActive : isOccupied ? BarConfig.workspaceOccupied : BarConfig.workspaceInactive
-                height: 12
-                radius: height / 2
-                width: isActive ? height * 2 : height
+                delegate: Rectangle {
+                    id: pill
 
-                Behavior on color {
-                    ColorAnimation {
-                        duration: 150
+                    property bool flashOn: false
+                    readonly property bool isActive: modelData.id === root.displayActiveId
+                    readonly property bool isFlashing: WorkspaceService.flashingIds[modelData.id] === true
+                    readonly property bool isOccupied: WorkspaceService.occupiedIds[modelData.id] === true
+                    required property var modelData
+
+                    anchors.verticalCenter: parent.verticalCenter
+                    color: flashOn ? BarConfig.workspaceInactive : isActive ? BarConfig.workspaceActive : isOccupied ? BarConfig.workspaceOccupied : BarConfig.workspaceInactive
+                    height: 12
+                    radius: height / 2
+                    width: isActive ? height * 2 : height
+
+                    Behavior on color {
+                        ColorAnimation {
+                            duration: 150
+                        }
+                    }
+                    Behavior on width {
+                        NumberAnimation {
+                            duration: 150
+                            easing.type: Easing.OutQuad
+                        }
+                    }
+
+                    onIsFlashingChanged: if (isFlashing)
+                        flashAnim.restart()
+
+                    SequentialAnimation {
+                        id: flashAnim
+
+                        loops: 3
+
+                        onFinished: WorkspaceService.flashingIds = ({})
+
+                        PropertyAction {
+                            property: "flashOn"
+                            target: pill
+                            value: true
+                        }
+                        PauseAnimation {
+                            duration: 250
+                        }
+                        PropertyAction {
+                            property: "flashOn"
+                            target: pill
+                            value: false
+                        }
+                        PauseAnimation {
+                            duration: 200
+                        }
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+
+                        onClicked: Quickshell.execDetached(["hyprtile", "fw", pill.modelData.id.toString()])
                     }
                 }
-                Behavior on width {
-                    NumberAnimation {
-                        duration: 150
-                        easing.type: Easing.OutQuad
-                    }
-                }
+            }
+        }
 
-                onIsFlashingChanged: if (isFlashing)
-                    flashAnim.restart()
+        Text {
+            anchors.verticalCenter: parent.verticalCenter
+            color: ColorConfig.text
+            font.family: IconConfig.fontFamily
+            font.pixelSize: BarConfig.iconSize
+            text: IconConfig.overview
 
-                SequentialAnimation {
-                    id: flashAnim
+            MouseArea {
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
 
-                    loops: 3
-
-                    onFinished: WorkspaceService.flashingIds = ({})
-
-                    PropertyAction {
-                        property: "flashOn"
-                        target: pill
-                        value: true
-                    }
-                    PauseAnimation {
-                        duration: 250
-                    }
-                    PropertyAction {
-                        property: "flashOn"
-                        target: pill
-                        value: false
-                    }
-                    PauseAnimation {
-                        duration: 200
-                    }
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    cursorShape: Qt.PointingHandCursor
-
-                    onClicked: Quickshell.execDetached(["hyprtile", "fw", pill.modelData.id.toString()])
-                }
+                onClicked: Quickshell.execDetached(["keqing-shell", "overview"])
             }
         }
     }
