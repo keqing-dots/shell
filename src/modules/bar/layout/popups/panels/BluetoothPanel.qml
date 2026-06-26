@@ -400,7 +400,16 @@ WidgetPanel {
                         cursorShape: Qt.PointingHandCursor
                         hoverEnabled: true
 
-                        onClicked: devRow.isConnected ? BluetoothService.disconnectDevice(devRow.modelData) : BluetoothService.connectDevice(devRow.modelData)
+                        onClicked: {
+                            if (devRow.isConnected) {
+                                PanelService.openSubPanelForCurrent("bluetoothSubPanel", {
+                                    "device": devRow.modelData,
+                                    "mode": "disconnect"
+                                });
+                            } else {
+                                BluetoothService.connectDevice(devRow.modelData);
+                            }
+                        }
                     }
                 }
                 Rectangle {
@@ -425,7 +434,8 @@ WidgetPanel {
                         hoverEnabled: true
 
                         onClicked: PanelService.openSubPanelForCurrent("bluetoothSubPanel", {
-                            "device": devRow.modelData
+                            "device": devRow.modelData,
+                            "mode": "forget"
                         })
                     }
                 }

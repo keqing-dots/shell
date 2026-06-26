@@ -12,21 +12,26 @@ Item {
     property bool fontBold: false
     property string fontFamily: FontConfig.fontFamily
     property int fontSize: 12
+    property int horizontalAlignment: Text.AlignLeft
     property int pauseDuration: 1200
     property bool running: true
     property int speed: 35
     property string text: ""
 
     function _restart() {
-        label.x = 0;
         anim.stop();
-        if (root.running && root._overflow > 0)
+        if (root.running && root._overflow > 0) {
+            label.x = 0;
             anim.start();
+        } else {
+            label.x = root.horizontalAlignment === Text.AlignHCenter ? Math.round((root.width - label.implicitWidth) / 2) : 0;
+        }
     }
 
     clip: true
     height: label.implicitHeight
 
+    onHorizontalAlignmentChanged: root._restart()
     onRunningChanged: root._restart()
     onWidthChanged: root._restart()
 

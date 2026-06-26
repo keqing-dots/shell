@@ -62,28 +62,12 @@ PanelWindow {
             }
         }
         Panel {
-            attachTo: networkDrop
-            panelId: "networkSubPanel"
-
-            panelContent: Component {
-                NetworkSubPanel {}
-            }
-        }
-        Panel {
             id: bluetoothDrop
 
             panelId: "bluetoothPanel"
 
             panelContent: Component {
                 BluetoothPanel {}
-            }
-        }
-        Panel {
-            attachTo: bluetoothDrop
-            panelId: "bluetoothSubPanel"
-
-            panelContent: Component {
-                BluetoothSubPanel {}
             }
         }
         Panel {
@@ -114,6 +98,31 @@ PanelWindow {
 
             panelContent: Component {
                 ControlCenterPanel {}
+            }
+        }
+        MouseArea {
+            anchors.fill: parent
+            enabled: PanelService.openedSubPanel !== null
+            visible: PanelService.openedSubPanel !== null
+
+            onClicked: PanelService.closeSubPanel()
+        }
+        Panel {
+            attachTo: networkDrop
+            panelId: "networkSubPanel"
+            z: 1
+
+            panelContent: Component {
+                NetworkSubPanel {}
+            }
+        }
+        Panel {
+            attachTo: bluetoothDrop
+            panelId: "bluetoothSubPanel"
+            z: 1
+
+            panelContent: Component {
+                BluetoothSubPanel {}
             }
         }
     }

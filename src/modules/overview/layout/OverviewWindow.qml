@@ -13,9 +13,9 @@ PanelWindow {
     id: root
 
     readonly property string _screenName: root.screen?.name ?? ""
-    property bool contentReady: false
     readonly property int monitorId: Hyprland.monitorFor(root.screen)?.id ?? -1
 
+    signal closed
     signal requestClose
 
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
@@ -25,15 +25,15 @@ PanelWindow {
     exclusionMode: ExclusionMode.Ignore
     implicitHeight: columnLayout.implicitHeight
     implicitWidth: columnLayout.implicitWidth
-    visible: GlobalStates.overviewOpen || closeTimer.running
+    visible: false
 
     Connections {
         function onOverviewOpenChanged() {
             if (GlobalStates.overviewOpen) {
-                contentReadyTimer.start();
+                closeTimer.stop();
+                root.visible = true;
                 keyboardHandler.forceActiveFocus();
             } else {
-                root.contentReady = false;
                 closeTimer.start();
             }
         }
@@ -45,14 +45,11 @@ PanelWindow {
 
         interval: OverviewConfig.animFastMs
         repeat: false
-    }
-    Timer {
-        id: contentReadyTimer
 
-        interval: 32
-        repeat: false
-
-        onTriggered: root.contentReady = true
+        onTriggered: {
+            root.visible = false;
+            root.closed();
+        }
     }
     anchors {
         bottom: true
@@ -167,7 +164,7 @@ PanelWindow {
         Loader {
             id: overviewLoader
 
-            active: OverviewConfig.enable && root.contentReady
+            active: OverviewConfig.enable
 
             sourceComponent: Widget {
                 monitorId: root.monitorId

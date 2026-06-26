@@ -20,13 +20,13 @@ Scope {
 
         function close() {
             GlobalStates.overviewOpen = false;
-            root.closeRequested();
         }
         function open() {
             GlobalStates.overviewOpen = true;
         }
     }
     OverviewWindow {
+        onClosed: root.closeRequested()
         onRequestClose: root.controller.close()
     }
 }

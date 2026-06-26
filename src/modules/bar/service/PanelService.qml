@@ -21,6 +21,10 @@ QtObject {
             win.close();
     }
     function closePanel() {
+        if (openedSubPanel) {
+            closeSubPanel();
+            return;
+        }
         if (openedPanel && openedPanel.close)
             openedPanel.close();
     }

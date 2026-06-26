@@ -122,9 +122,7 @@ Rectangle {
 
         // Placeholder
         Text {
-            anchors.left: parent.left
-            anchors.leftMargin: 8
-            anchors.verticalCenter: parent.verticalCenter
+            anchors.centerIn: parent
             color: ColorConfig.textDim
             font.family: FontConfig.fontFamily
             font.pixelSize: root.fontSize

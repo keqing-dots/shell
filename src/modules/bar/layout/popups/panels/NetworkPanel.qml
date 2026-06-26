@@ -444,7 +444,10 @@ WidgetPanel {
 
                         onClicked: {
                             if (netRow.isConnected) {
-                                NetworkService.disconnect(netRow.modelData.ssid);
+                                PanelService.openSubPanelForCurrent("networkSubPanel", {
+                                    "ssid": netRow.modelData.ssid,
+                                    "mode": "disconnect"
+                                });
                             } else if (netRow.modelData.existing || !netRow.isSecured) {
                                 NetworkService.connect(netRow.modelData.ssid, "");
                             } else {
