@@ -45,7 +45,7 @@ Rectangle {
         font.family: IconConfig.fontFamily
         font.pixelSize: 200
         opacity: 1
-        text: IconConfig.lock
+        text: root.unlocking ? IconConfig.lockOpen : IconConfig.lock
     }
     Column {
         id: mainCol

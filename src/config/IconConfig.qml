@@ -62,6 +62,7 @@ QtObject {
     readonly property string folderOpen: "\ufaf7"
     readonly property string link: "\ueade"
     readonly property string lock: "\ueae2"
+    readonly property string lockOpen: "\ueae1"
     readonly property string logout: "\uea7b"
     readonly property string moon: "\ueb5a"
     readonly property string pluggedIn: "\uef3b"
