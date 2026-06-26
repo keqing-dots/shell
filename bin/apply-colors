@@ -4,7 +4,6 @@ COLORS_JSON="$HOME/.config/keqing-shell/colors.json"
 TMPL_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/../templates"
 
 # color helpers
-color()      { local v; v=$(jq -r "$1 // empty" "$COLORS_JSON" 2>/dev/null); echo "${v:-$2}"; }
 hex_to_rgb() { local h="${1#'#'}"; printf "%d;%d;%d" $((16#${h:0:2})) $((16#${h:2:2})) $((16#${h:4:2})); }
 lerp_hex()   {
     local c1="${1#'#'}" c2="${2#'#'}" i="$3"
@@ -14,23 +13,42 @@ lerp_hex()   {
         $(( 16#${c1:4:2} + (16#${c2:4:2} - 16#${c1:4:2}) * i / 7 ))
 }
 
-# palette
-export BASE=$(color '.current.base' '#0A0614')
-export SURFACE=$(color '.current.surface' '#120B23')
-export SURFACE_ALT=$(color '.current.surfaceAlt' '#1D113B')
-export OVERLAY=$(color '.current.overlay' '#26164B')
-export OVERLAY_ALT=$(color '.current.overlayAlt' '#2F1C5F')
-export FIELD_BG=$(color '.current.fieldBg' '#170D30')
-export ACCENT=$(color '.current.accent' '#9B57F4')
-export ACCENT_ALT=$(color '.current.accentAlt' '#DBAA24')
-export ACCENT_DIM=$(color '.current.accentDim' '#693DC2')
-export ACCENT_CONTAINER=$(color '.current.accentContainer' '#3C1877')
-export ACCENT_ALT_CONTAINER=$(color '.current.accentAltContainer' '#2A1957')
-export LAVENDER=$(color '.current.lavender' '#806FBE')
-export LAVENDER_LIGHT=$(color '.current.lavenderLight' '#CE8AFF')
-export ROSE=$(color '.current.rose' '#C0547F')
-export TEXT=$(color '.current.text' '#F0ECF9')
-export TEXT_MUTED=$(color '.current.textMuted' '#AB9DC8')
+# palette — single jq call for all 16 values
+mapfile -t _c < <(jq -r '.current | [
+    .base           // "#0A0614",
+    .surface        // "#120B23",
+    .surfaceAlt     // "#1D113B",
+    .overlay        // "#26164B",
+    .overlayAlt     // "#2F1C5F",
+    .fieldBg        // "#170D30",
+    .accent         // "#9B57F4",
+    .accentAlt      // "#DBAA24",
+    .accentDim      // "#693DC2",
+    .accentContainer    // "#3C1877",
+    .accentAltContainer // "#2A1957",
+    .lavender       // "#806FBE",
+    .lavenderLight  // "#CE8AFF",
+    .rose           // "#C0547F",
+    .text           // "#F0ECF9",
+    .textMuted      // "#AB9DC8"
+] | .[]' "$COLORS_JSON" 2>/dev/null)
+
+export BASE="${_c[0]:-#0A0614}"
+export SURFACE="${_c[1]:-#120B23}"
+export SURFACE_ALT="${_c[2]:-#1D113B}"
+export OVERLAY="${_c[3]:-#26164B}"
+export OVERLAY_ALT="${_c[4]:-#2F1C5F}"
+export FIELD_BG="${_c[5]:-#170D30}"
+export ACCENT="${_c[6]:-#9B57F4}"
+export ACCENT_ALT="${_c[7]:-#DBAA24}"
+export ACCENT_DIM="${_c[8]:-#693DC2}"
+export ACCENT_CONTAINER="${_c[9]:-#3C1877}"
+export ACCENT_ALT_CONTAINER="${_c[10]:-#2A1957}"
+export LAVENDER="${_c[11]:-#806FBE}"
+export LAVENDER_LIGHT="${_c[12]:-#CE8AFF}"
+export ROSE="${_c[13]:-#C0547F}"
+export TEXT="${_c[14]:-#F0ECF9}"
+export TEXT_MUTED="${_c[15]:-#AB9DC8}"
 
 # derived
 export ACCENT_RGB=$(hex_to_rgb "$ACCENT")
@@ -72,8 +90,7 @@ ENVSUBST_VARS='
 
 # file/template helpers
 write_file() {
-    local f="$1" d
-    d="$(dirname "$f")"
+    local f="$1" d="${1%/*}"
     [[ -L "$d" ]] && rm -f "$d"
     mkdir -p "$d"
     [[ -L "$f" && ! -e "$f" ]] && rm -f "$f"
