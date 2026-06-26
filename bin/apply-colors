@@ -3,30 +3,15 @@
 COLORS_JSON="$HOME/.config/keqing-shell/colors.json"
 TMPL_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/../templates"
 
+# color helpers
 color()      { local v; v=$(jq -r "$1 // empty" "$COLORS_JSON" 2>/dev/null); echo "${v:-$2}"; }
-
 hex_to_rgb() { local h="${1#'#'}"; printf "%d;%d;%d" $((16#${h:0:2})) $((16#${h:2:2})) $((16#${h:4:2})); }
-
 lerp_hex()   {
     local c1="${1#'#'}" c2="${2#'#'}" i="$3"
     printf '#%02x%02x%02x' \
         $(( 16#${c1:0:2} + (16#${c2:0:2} - 16#${c1:0:2}) * i / 7 )) \
         $(( 16#${c1:2:2} + (16#${c2:2:2} - 16#${c1:2:2}) * i / 7 )) \
         $(( 16#${c1:4:2} + (16#${c2:4:2} - 16#${c1:4:2}) * i / 7 ))
-}
-
-write_file() {
-    local f="$1" d
-    d="$(dirname "$f")"
-    [[ -L "$d" ]] && rm -f "$d"
-    mkdir -p "$d"
-    [[ -L "$f" && ! -e "$f" ]] && rm -f "$f"
-}
-
-render_tmpl() {
-    local tmpl="$1" out="$2"
-    [[ -f "$tmpl" ]] || { echo "${tmpl##*/}: not found, skipping"; return; }
-    envsubst "$ENVSUBST_VARS" < "$tmpl" > "$out"
 }
 
 # palette
@@ -84,6 +69,21 @@ ENVSUBST_VARS='
     $GRADIENT_7
     $GRADIENT_8
 '
+
+# file/template helpers
+write_file() {
+    local f="$1" d
+    d="$(dirname "$f")"
+    [[ -L "$d" ]] && rm -f "$d"
+    mkdir -p "$d"
+    [[ -L "$f" && ! -e "$f" ]] && rm -f "$f"
+}
+
+render_tmpl() {
+    local tmpl="$1" out="$2"
+    [[ -f "$tmpl" ]] || { echo "${tmpl##*/}: not found, skipping"; return; }
+    envsubst "$ENVSUBST_VARS" < "$tmpl" > "$out"
+}
 
 apply() {
     local name="$1" tmpl="$2" out="$3" reload="${4:-}"
