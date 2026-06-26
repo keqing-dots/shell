@@ -25,6 +25,7 @@ Item {
 
     signal closed
     signal opened
+    signal panelPositionChanged
 
     function _finalizeClose() {
         closeWatchdog.stop();
@@ -94,6 +95,7 @@ Item {
         _panelH = h;
         _panelX = x;
         _panelY = panelY;
+        panelPositionChanged();
     }
     function toggle(buttonItem) {
         if (isPanelOpen && !isClosing)
@@ -115,6 +117,10 @@ Item {
         function onIsClosingChanged() {
             if (root.attachTo && root.attachTo.isClosing && root.isPanelOpen && !root.isClosing)
                 root.close();
+        }
+        function onPanelPositionChanged() {
+            if (root.isPanelVisible)
+                root.setPosition();
         }
 
         enabled: root.attachTo !== null && root.isPanelOpen
