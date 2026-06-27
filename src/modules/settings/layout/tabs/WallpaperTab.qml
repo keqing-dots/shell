@@ -13,7 +13,12 @@ import qs.config
 Item {
     id: root
 
-    property string selectedScreen: root.sortedScreens.length > 0 ? root.sortedScreens[0].name : ""
+    property string selectedScreen: {
+        var focusedName = HyprlandService.focusedMonitor?.name ?? "";
+        if (focusedName && root.sortedScreens.some(s => s.name === focusedName))
+            return focusedName;
+        return root.sortedScreens.length > 0 ? root.sortedScreens[0].name : "";
+    }
     readonly property var sortedScreens: {
         var screens = [];
         for (var i = 0; i < Quickshell.screens.length; i++)
