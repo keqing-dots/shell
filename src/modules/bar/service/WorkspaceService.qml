@@ -94,11 +94,14 @@ QtObject {
     property var flashingIds: ({})
     readonly property var occupiedIds: {
         var s = ({});
-        var t = HyprlandService.toplevels;
-        for (var i = 0; i < t.length; i++) {
-            var id = (t[i] && t[i].workspace) ? t[i].workspace.id : undefined;
-            if (id !== undefined && id !== null)
-                s[id] = true;
+        var ws = HyprlandService.workspaces;
+        for (var i = 0; i < ws.length; i++) {
+            var w = ws[i];
+            if (!w || (w.name ?? "").startsWith("special:"))
+                continue;
+            var ipc = w.lastIpcObject;
+            if (ipc && (ipc.windows ?? 0) > 0)
+                s[w.id] = true;
         }
         return s;
     }
