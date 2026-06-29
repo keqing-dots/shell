@@ -15,7 +15,7 @@ PanelWindow {
     readonly property string _screenName: root.screen?.name ?? ""
     readonly property int monitorId: Hyprland.monitorFor(root.screen)?.id ?? -1
 
-    signal closed
+    signal overviewClosed
     signal requestClose
 
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
@@ -48,7 +48,7 @@ PanelWindow {
 
         onTriggered: {
             root.visible = false;
-            root.closed();
+            root.overviewClosed();
         }
     }
     anchors {

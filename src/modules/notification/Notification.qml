@@ -159,13 +159,22 @@ Variants {
                                     anchors.right: parent.right
                                     anchors.top: parent.top
                                     clip: true
-                                    height: 2
+                                    height: 4
 
                                     Rectangle {
+                                        anchors.left: parent.left
+                                        anchors.right: parent.right
                                         color: card.urgencyColor
-                                        height: parent.height
-                                        width: (parent.width - cardBg.radius * 2) * card.progress
-                                        x: cardBg.radius
+                                        height: parent.height + cardBg.radius
+                                        opacity: 0.3
+                                        radius: cardBg.radius
+                                    }
+                                    Rectangle {
+                                        anchors.right: parent.right
+                                        color: card.urgencyColor
+                                        height: parent.height + cardBg.radius
+                                        radius: cardBg.radius
+                                        width: parent.width * card.progress
 
                                         Behavior on width {
                                             NumberAnimation {

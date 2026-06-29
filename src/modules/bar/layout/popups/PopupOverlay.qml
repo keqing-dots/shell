@@ -91,6 +91,13 @@ PanelWindow {
                 SystemMonitorPanel {}
             }
         }
+        Panel {
+            panelId: "trayPanel"
+
+            panelContent: Component {
+                TrayPanel {}
+            }
+        }
         SlidePanel {
             objectName: "controlCenterPanel-" + (root.screen?.name ?? "")
             screen: root.screen

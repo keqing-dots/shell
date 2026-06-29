@@ -26,7 +26,7 @@ Scope {
         }
     }
     OverviewWindow {
-        onClosed: root.closeRequested()
+        onOverviewClosed: root.closeRequested()
         onRequestClose: root.controller.close()
     }
 }

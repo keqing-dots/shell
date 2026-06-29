@@ -67,8 +67,10 @@ PopupWindow {
             return anchorY;
         var g = anchorItem.mapToItem(null, 0, 0);
         var globalY = BarConfig.barMarginTop + g.y;
-        var desiredY = BarConfig.barMarginTop + BarConfig.barHeight + BarConfig.panelGap;
-        return desiredY - globalY;
+        var barBottomY = BarConfig.barMarginTop + BarConfig.barHeight + BarConfig.panelGap;
+        if (globalY >= barBottomY)
+            return anchorItem.height;
+        return barBottomY - globalY;
     }
     color: "transparent"
     implicitHeight: Math.min((screen ? screen.height * 0.9 : 600), col.implicitHeight + 8)

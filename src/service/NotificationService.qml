@@ -13,6 +13,7 @@ QtObject {
         keepOnReload: false
 
         onNotification: notif => {
+            notif.tracked = true;
             for (var i = 0; i < root.popupModel.count; i++) {
                 if (root.popupModel.get(i).notifId === notif.id) {
                     root.popupModel.set(i, root.makeEntry(notif));
@@ -36,8 +37,8 @@ QtObject {
         }
         var n = notifObjs[id];
         if (n) {
-            n.expire();
             delete notifObjs[id];
+            n.dismiss();
         }
     }
     function invokeAction(id, actionId) {
