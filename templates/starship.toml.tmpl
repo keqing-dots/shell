@@ -1,7 +1,7 @@
 format = """
 $time $directory
 [Come on. Enough procrastinating. Let's go.](${ACCENT_ALT})
-$character
+$cmd_duration$character
 """
 
 add_newline = false
@@ -15,6 +15,10 @@ time_format = "%d-%m-%Y %H:%M:%S"
 format = "[$path](${TEXT})"
 truncation_length = 1
 truncate_to_repo = false
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration](${ACCENT_ALT}) "
 
 [character]
 success_symbol = "[>](${TEXT})"
