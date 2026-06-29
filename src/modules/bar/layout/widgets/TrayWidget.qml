@@ -11,7 +11,6 @@ import qs.config
 WidgetCapsule {
     id: root
 
-    capsuleVisible: SystemTray.items.length > 0
     iconGlyph: IconConfig.apps
     labelText: "System Tray"
     panelName: "trayPanel"
@@ -29,7 +28,9 @@ WidgetCapsule {
             if (p.isPanelOpen && !p.isClosing)
                 p.close();
             else
-                p.open(root, {screen: root.screen});
+                p.open(root, {
+                    screen: root.screen
+                });
         }
     }
 }
