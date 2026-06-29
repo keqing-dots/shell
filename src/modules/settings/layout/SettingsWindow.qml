@@ -186,7 +186,7 @@ PanelWindow {
                         topPadding: 12
 
                         Repeater {
-                            model: ["General", "Bar", "Color Scheme", "Control Center", "Displays", "OSD", "Wallpaper"]
+                            model: ["General", "Bar", "Color Scheme", "Control Center", "Displays", "Notifications", "OSD", "Wallpaper"]
 
                             delegate: Item {
                                 id: tabItem
@@ -264,6 +264,7 @@ PanelWindow {
                         ColorSchemeTab {}
                         ControlCenterTab {}
                         DisplaysTab {}
+                        NotificationsTab {}
                         OSDTab {}
                         WallpaperTab {}
                     }

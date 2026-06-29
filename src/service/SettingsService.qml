@@ -67,6 +67,10 @@ QtObject {
             property list<var> cards: ["battery", "systemStats", "cpuTemp", "gpuTemp", "media", "volume"]
         }
         property var displays: ({})
+        property JsonObject notification: JsonObject {
+            property string horizontal: "right"
+            property string vertical: "bottom"
+        }
         property JsonObject osd: JsonObject {
             property list<var> active: ["Sink", "Source"]
         }
@@ -151,6 +155,13 @@ QtObject {
     }
     function setDisplays(obj) {
         adapter.displays = obj;
+        save();
+    }
+    function setNotification(obj) {
+        if (obj.vertical !== undefined)
+            adapter.notification.vertical = obj.vertical;
+        if (obj.horizontal !== undefined)
+            adapter.notification.horizontal = obj.horizontal;
         save();
     }
     function setOsd(arr) {
