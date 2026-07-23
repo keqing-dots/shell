@@ -142,10 +142,6 @@ Item {
                         key: "notifications"
                     },
                     {
-                        label: "Visualizer",
-                        key: "visualizer"
-                    },
-                    {
                         label: "Lock",
                         key: "lock"
                     }

@@ -31,7 +31,6 @@ ShellRoot {
     Notification {}
     OSD {}
     Polkit {}
-    Visualizer {}
     Wallpaper {}
 
     // Lazy-Loaded Modules
@@ -89,6 +88,15 @@ ShellRoot {
             Settings {}
         }
     }
+    ModuleLoader {
+        id: visualizer
+
+        module: "visualizer"
+
+        sourceComp: Component {
+            Visualizer {}
+        }
+    }
 
     // IPC Handlers
     ModuleHandler {
@@ -120,5 +128,10 @@ ShellRoot {
         module: "overview"
 
         onToggle: overview.toggle()
+    }
+    ModuleHandler {
+        module: "visualizer"
+
+        onToggle: visualizer.toggle()
     }
 }

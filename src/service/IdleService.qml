@@ -33,7 +33,6 @@ QtObject {
             root.tick += 1;
         }
     }
-    readonly property int timeoutMs: SettingsService.adapter.idle.autoHideTimeoutSeconds * 1000
 
     function _touch(monitorName) {
         if (!monitorName)
@@ -51,7 +50,7 @@ QtObject {
         var last = root.lastActivity[screen.name];
         if (last === undefined)
             return false;
-        return (Date.now() - last) > (timeoutMs !== undefined ? timeoutMs : root.timeoutMs);
+        return (Date.now() - last) > timeoutMs;
     }
     function reset(screenName) {
         if (!screenName || screenName === "default") {

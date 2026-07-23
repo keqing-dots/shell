@@ -172,15 +172,6 @@ Flickable {
             Repeater {
                 model: [
                     {
-                        label: "UI Auto-Hide",
-                        enableKey: "autoHideEnabled",
-                        timeKey: "autoHideTimeoutSeconds",
-                        min: 5,
-                        max: 300,
-                        step: 1,
-                        defaultVal: 30
-                    },
-                    {
                         label: "Ambient Mode",
                         enableKey: "ambientEnabled",
                         timeKey: "ambientTimeoutSeconds",

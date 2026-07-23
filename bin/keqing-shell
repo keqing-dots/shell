@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 set -euo pipefail
 trap '_die "Script failed unexpectedly"' ERR
 
@@ -35,11 +36,12 @@ cat <<'EOF'
         logout              Toggle logout screen
         overview            Toggle windows overview
         settings            Toggle settings panel
+        visualizer          Toggle visualizer window
 EOF
 }
 _here() { cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd; }
 _qs()  { MALLOC_ARENA_MAX=2 quickshell -c keqing-shell "$@"; }
-_ipc() { _qs ipc call "$1" toggle >/dev/null 2>&1; }
+_ipc() { [[ -n "${1:-}" ]] && _qs ipc call "$1" toggle >/dev/null 2>&1 || _qs ipc show; }
 _check_installed() {
     [[ -e /etc/xdg/quickshell/keqing-shell ]] \
         || _die "keqing-shell not installed (missing /etc/xdg/quickshell/keqing-shell)"
@@ -89,13 +91,14 @@ track() {
     deps heaptrack || _die heaptrack not found 
     heaptrack quickshell -c keqing-shell
 }
-ipc()           { _qs ipc show; }
+ipc()           { _ipc; }
 controlcenter() { _ipc controlcenter; }
 launcher()      { _ipc launcher; }
 lock()          { _ipc lock; }
 logout()        { _ipc logout; }
 overview()      { _ipc overview; }
 settings()      { _ipc settings; }
+visualizer()    { _ipc visualizer; }
 
 [[ $# -eq 0 ]] && {
     _check_installed

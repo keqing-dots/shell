@@ -22,4 +22,5 @@ QtObject {
     readonly property int contentFadeAnimMs: 200
     readonly property real hiddenOpacity: 0
     readonly property real visibleOpacity: 1
+    readonly property color windowBackground: Qt.rgba(0, 0, 0, 0.7)
 }

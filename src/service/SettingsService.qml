@@ -78,8 +78,6 @@ QtObject {
         property JsonObject idle: JsonObject {
             property bool ambientEnabled: true
             property int ambientTimeoutSeconds: 180
-            property bool autoHideEnabled: true
-            property int autoHideTimeoutSeconds: 30
             property bool enabled: true
             property bool screensaverEnabled: true
             property int screensaverTimeoutSeconds: 300

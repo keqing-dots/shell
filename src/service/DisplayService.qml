@@ -32,7 +32,4 @@ QtObject {
     function showOsd(screen) {
         return _cfg(screen).osd !== false;
     }
-    function showVisualizer(screen) {
-        return _cfg(screen).visualizer !== false;
-    }
 }
