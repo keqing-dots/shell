@@ -11,10 +11,11 @@ import qs.modules.visualizer
 FloatingWindow {
     id: window
 
+    readonly property int barCount: Math.max(1, Math.floor((content.width - VisualizerConfig.barSpacing) / (VisualizerConfig.barWidth + VisualizerConfig.barSpacing)))
     required property bool isOpen
 
     color: VisualizerConfig.windowBackground
-    height: VisualizerConfig.barMaxHeight
+    height: VisualizerConfig.defaultWindowHeight
     visible: content.opacity > 0 || window.isOpen
     width: VisualizerConfig.barCount * VisualizerConfig.barWidth + (VisualizerConfig.barCount - 1) * VisualizerConfig.barSpacing
 
@@ -22,7 +23,7 @@ FloatingWindow {
     PwSpectrum {
         id: spectrum
 
-        bars: VisualizerConfig.barCount
+        bars: window.barCount
         targetNodeId: Pipewire.defaultAudioSink ? Pipewire.defaultAudioSink.id : 0
     }
     FrameAnimation {
@@ -52,15 +53,17 @@ FloatingWindow {
             id: bars
 
             anchors.bottom: parent.bottom
-            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.left: parent.left
+            anchors.leftMargin: VisualizerConfig.barSpacing
+            anchors.right: parent.right
+            anchors.rightMargin: VisualizerConfig.barSpacing
             animationDuration: VisualizerConfig.barsAnimDurationMs
             gradientColors: VisualizerConfig.barGradient
-            height: VisualizerConfig.barMaxHeight
+            height: content.height * VisualizerConfig.barHeightRatio
             opacity: VisualizerConfig.barOpacity
             rounding: VisualizerConfig.barRadius
             spacing: VisualizerConfig.barSpacing
             values: spectrum.values
-            width: VisualizerConfig.barCount * VisualizerConfig.barWidth + (VisualizerConfig.barCount - 1) * VisualizerConfig.barSpacing
 
             FrameAnimation {
                 running: !bars.settled
