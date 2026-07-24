@@ -3,9 +3,7 @@
 #include <algorithm>
 #include <cmath>
 
-#include <QSGGeometry>
-#include <QSGGeometryNode>
-#include <QSGTextureMaterial>
+#include <QSGSimpleTextureNode>
 #include <qpainter.h>
 #include <qquickwindow.h>
 #include <qrandom.h>
@@ -19,14 +17,13 @@ MatrixGrid::MatrixGrid(QQuickItem *parent) : QQuickItem(parent) {
     connect(&m_tickTimer, &QTimer::timeout, this, &MatrixGrid::onTick);
 }
 
-MatrixGrid::~MatrixGrid() { delete m_atlasTexture; }
+MatrixGrid::~MatrixGrid() { delete m_bufferTexture; }
 
 void MatrixGrid::setGlyphs(const QString &glyphs) {
     if (m_glyphs == glyphs)
         return;
     m_glyphs = glyphs;
     emit glyphsChanged();
-    markAtlasDirty();
 }
 
 void MatrixGrid::setFont(const QFont &font) {
@@ -34,7 +31,6 @@ void MatrixGrid::setFont(const QFont &font) {
         return;
     m_font = font;
     emit fontChanged();
-    markAtlasDirty();
 }
 
 void MatrixGrid::setCellWidth(qreal width) {
@@ -42,7 +38,6 @@ void MatrixGrid::setCellWidth(qreal width) {
         return;
     m_cellWidth = width;
     emit cellWidthChanged();
-    markAtlasDirty();
     rebuildGrid();
 }
 
@@ -51,8 +46,29 @@ void MatrixGrid::setCellHeight(qreal height) {
         return;
     m_cellHeight = height;
     emit cellHeightChanged();
-    markAtlasDirty();
     rebuildGrid();
+}
+
+void MatrixGrid::setHeadColor(const QColor &color) {
+    if (m_headColor == color)
+        return;
+    m_headColor = color;
+    emit headColorChanged();
+}
+
+void MatrixGrid::setTailColor(const QColor &color) {
+    if (m_tailColor == color)
+        return;
+    m_tailColor = color;
+    emit tailColorChanged();
+}
+
+void MatrixGrid::setFadeAlpha(qreal alpha) {
+    alpha = std::clamp(alpha, 0.0, 1.0);
+    if (qFuzzyCompare(m_fadeAlpha, alpha))
+        return;
+    m_fadeAlpha = alpha;
+    emit fadeAlphaChanged();
 }
 
 void MatrixGrid::setFallIntervalMs(int ms) {
@@ -63,19 +79,11 @@ void MatrixGrid::setFallIntervalMs(int ms) {
     emit fallIntervalMsChanged();
 }
 
-void MatrixGrid::setSpeedVarianceTicks(int ticks) {
-    ticks = std::max(1, ticks);
-    if (m_speedVarianceTicks == ticks)
+void MatrixGrid::setResetChance(qreal chance) {
+    if (qFuzzyCompare(m_resetChance, chance))
         return;
-    m_speedVarianceTicks = ticks;
-    emit speedVarianceTicksChanged();
-}
-
-void MatrixGrid::setGlyphFlickerChance(qreal chance) {
-    if (qFuzzyCompare(m_glyphFlickerChance, chance))
-        return;
-    m_glyphFlickerChance = chance;
-    emit glyphFlickerChanceChanged();
+    m_resetChance = chance;
+    emit resetChanceChanged();
 }
 
 void MatrixGrid::setBoldChance(qreal chance) {
@@ -85,112 +93,6 @@ void MatrixGrid::setBoldChance(qreal chance) {
     emit boldChanceChanged();
 }
 
-void MatrixGrid::setSparkChance(qreal chance) {
-    if (qFuzzyCompare(m_sparkChance, chance))
-        return;
-    m_sparkChance = chance;
-    emit sparkChanceChanged();
-}
-
-void MatrixGrid::setFadeStepsFrac(qreal frac) {
-    if (qFuzzyCompare(m_fadeStepsFrac, frac))
-        return;
-    m_fadeStepsFrac = frac;
-    emit fadeStepsFracChanged();
-    markAtlasDirty();
-}
-
-void MatrixGrid::setEraseDelayMinFrac(qreal frac) {
-    if (qFuzzyCompare(m_eraseDelayMinFrac, frac))
-        return;
-    m_eraseDelayMinFrac = frac;
-    emit eraseDelayMinFracChanged();
-}
-
-void MatrixGrid::setEraseDelayMaxFrac(qreal frac) {
-    if (qFuzzyCompare(m_eraseDelayMaxFrac, frac))
-        return;
-    m_eraseDelayMaxFrac = frac;
-    emit eraseDelayMaxFracChanged();
-}
-
-void MatrixGrid::setRespawnMinFrac(qreal frac) {
-    if (qFuzzyCompare(m_respawnMinFrac, frac))
-        return;
-    m_respawnMinFrac = frac;
-    emit respawnMinFracChanged();
-}
-
-void MatrixGrid::setRespawnMaxFrac(qreal frac) {
-    if (qFuzzyCompare(m_respawnMaxFrac, frac))
-        return;
-    m_respawnMaxFrac = frac;
-    emit respawnMaxFracChanged();
-}
-
-void MatrixGrid::setSweepProgress(qreal progress) {
-    progress = std::clamp(progress, 0.0, 1.0);
-    if (!m_sweeping || qFuzzyCompare(m_sweepProgress, progress))
-        return;
-    m_sweepProgress = progress;
-    emit sweepProgressChanged();
-
-    const int targetRow =
-        std::min(m_rowCount - 1, static_cast<int>(progress * m_rowCount));
-
-    // Age rows the wavefront already lit, faster than the rain so nothing lingers.
-    const int fadeSteps = effectiveFadeSteps();
-    for (auto &column : m_columns) {
-        for (int row = 0; row <= m_sweepRow && row < m_rowCount; row++) {
-            if (!column.visible[row])
-                continue;
-            if (column.spark[row])
-                column.spark[row] = 0;
-            else if (column.age[row] < fadeSteps - 1)
-                column.age[row] = static_cast<uint8_t>(std::min(
-                    fadeSteps - 1, column.age[row] + m_sweepFadeMultiplier));
-        }
-    }
-
-    // Light every column at once per row - a synchronized wavefront.
-    for (int row = m_sweepRow + 1; row <= targetRow; row++) {
-        for (auto &column : m_columns)
-            writeCell(column, row, false);
-    }
-    m_sweepRow = std::max(m_sweepRow, targetRow);
-
-    if (progress >= 1.0) {
-        m_sweeping = false;
-        m_tickTimer.start();
-    }
-
-    update();
-}
-
-void MatrixGrid::setSweepFadeMultiplier(int multiplier) {
-    multiplier = std::max(1, multiplier);
-    if (m_sweepFadeMultiplier == multiplier)
-        return;
-    m_sweepFadeMultiplier = multiplier;
-    emit sweepFadeMultiplierChanged();
-}
-
-void MatrixGrid::setHeadColor(const QColor &color) {
-    if (m_headColor == color)
-        return;
-    m_headColor = color;
-    emit headColorChanged();
-    markAtlasDirty();
-}
-
-void MatrixGrid::setTailColor(const QColor &color) {
-    if (m_tailColor == color)
-        return;
-    m_tailColor = color;
-    emit tailColorChanged();
-    markAtlasDirty();
-}
-
 void MatrixGrid::setRunning(bool running) {
     if (m_running == running)
         return;
@@ -198,16 +100,14 @@ void MatrixGrid::setRunning(bool running) {
     emit runningChanged();
 
     if (m_running) {
-        rebuildGrid(); // also starts the sweep, since m_running is already true
+        rebuildGrid(); // also (re)starts the tick timer
     } else {
         m_tickTimer.stop();
-        m_sweeping = false;
-        update();
     }
 }
 
 void MatrixGrid::geometryChange(const QRectF &newGeometry,
-                                 const QRectF &oldGeometry) {
+                                const QRectF &oldGeometry) {
     QQuickItem::geometryChange(newGeometry, oldGeometry);
 
     if (m_cellWidth <= 0 || m_cellHeight <= 0)
@@ -218,63 +118,21 @@ void MatrixGrid::geometryChange(const QRectF &newGeometry,
     const int newRowCount =
         std::max(1, static_cast<int>(height() / m_cellHeight));
 
-    // Only reset when the cell count actually changes, not on every resize event.
+    // Reset when the cell count changes
     if (newColumnCount != m_columnCount || newRowCount != m_rowCount)
         rebuildGrid();
 }
 
-void MatrixGrid::markAtlasDirty() {
-    m_atlasDirty = true;
-    update();
+qreal MatrixGrid::startDrop() const {
+    // Flat wavefront
+    return -2;
 }
 
-int MatrixGrid::randomGlyphIndex() const {
+QChar MatrixGrid::randomGlyph() const {
     if (m_glyphs.isEmpty())
-        return 0;
-    return static_cast<int>(
-        QRandomGenerator::global()->bounded(m_glyphs.size()));
-}
-
-int MatrixGrid::randomSpeed() const {
-    return 1 + static_cast<int>(
-                   QRandomGenerator::global()->bounded(m_speedVarianceTicks));
-}
-
-int MatrixGrid::randomInRowFraction(qreal minFrac, qreal maxFrac) const {
-    const qreal frac =
-        minFrac +
-        QRandomGenerator::global()->generateDouble() * (maxFrac - minFrac);
-    return std::max(1, static_cast<int>(m_rowCount * frac));
-}
-
-void MatrixGrid::writeCell(Column &column, int row, bool spark) const {
-    if (row < 0 || row >= static_cast<int>(column.glyphIndex.size()))
-        return;
-    column.glyphIndex[row] = randomGlyphIndex();
-    column.bold[row] =
-        QRandomGenerator::global()->generateDouble() < m_boldChance;
-    column.age[row] = 0;
-    column.spark[row] = spark ? 1 : 0;
-    column.visible[row] = 1;
-}
-
-void MatrixGrid::eraseCell(Column &column, int row) const {
-    if (row < 0 || row >= static_cast<int>(column.visible.size()))
-        return;
-    column.visible[row] = 0;
-}
-
-int MatrixGrid::effectiveFadeSteps() const {
-    // Scale with rowCount so long trails don't all fade out at the same length.
-    return std::max(2, static_cast<int>(std::round(m_rowCount * m_fadeStepsFrac)));
-}
-
-int MatrixGrid::atlasRowFor(bool spark, bool bold, int age) const {
-    const int fadeSteps = effectiveFadeSteps();
-    if (spark)
-        return 2 * fadeSteps;
-    const int clampedAge = std::clamp(age, 0, fadeSteps - 1);
-    return (bold ? fadeSteps : 0) + clampedAge;
+        return QChar(' ');
+    return m_glyphs.at(
+        static_cast<int>(QRandomGenerator::global()->bounded(m_glyphs.size())));
 }
 
 void MatrixGrid::rebuildGrid() {
@@ -282,289 +140,113 @@ void MatrixGrid::rebuildGrid() {
         return;
 
     // Leave a gap between streams; filling every cell reads as too dense.
-    m_columnCount =
-        std::max(1, static_cast<int>(width() / (m_cellWidth * 2)));
+    m_columnCount = std::max(1, static_cast<int>(width() / (m_cellWidth * 2)));
     m_rowCount = std::max(1, static_cast<int>(height() / m_cellHeight));
 
-    m_nodes.clear();
     m_columns.assign(m_columnCount, Column{});
-    for (auto &column : m_columns) {
-        column.glyphIndex.assign(m_rowCount, 0);
-        column.age.assign(m_rowCount, 0);
-        column.bold.assign(m_rowCount, 0);
-        column.spark.assign(m_rowCount, 0);
-        column.visible.assign(m_rowCount, 0);
-        column.drawingState = -1;
-        column.speed = randomSpeed();
-        column.wait = 0;
-        // Stagger initial wake-up so columns don't all start in lockstep.
-        column.timer =
-            static_cast<int>(QRandomGenerator::global()->bounded(m_rowCount));
-    }
+    for (auto &column : m_columns)
+        column.drop = startDrop();
 
-    if (m_running) {
-        // Rain waits for the sweep; QML animates sweepProgress smoothly.
-        m_tickTimer.stop();
-        m_sweeping = true;
-        m_sweepRow = -1;
-        if (!qFuzzyCompare(m_sweepProgress, 0.0)) {
-            m_sweepProgress = 0.0;
-            emit sweepProgressChanged();
-        }
-        emit sweepStarted();
-    }
+    // Center the grid; content width excludes the gap after the last column.
+    const qreal contentWidth = m_columnCount * m_cellWidth * 2 - m_cellWidth;
+    m_offsetX = (width() - contentWidth) / 2.0;
+    m_offsetY = (height() - m_rowCount * m_cellHeight) / 2.0;
+
+    const int pixelWidth = std::max(1, static_cast<int>(std::ceil(width())));
+    const int pixelHeight = std::max(1, static_cast<int>(std::ceil(height())));
+    m_buffer =
+        QImage(pixelWidth, pixelHeight, QImage::Format_ARGB32_Premultiplied);
+    m_buffer.fill(Qt::transparent);
+
+    if (m_running)
+        m_tickTimer.start();
 
     update();
 }
 
 void MatrixGrid::onTick() {
-    // Shared per-column throttle keeps that column's nodes in lockstep.
-    for (auto &column : m_columns) {
-        if (column.wait > 0) {
-            column.wait -= 1;
-            column.stepNodes = false;
-        } else {
-            column.wait = column.speed;
-            column.stepNodes = true;
-        }
-    }
-
-    // Age before fresh writes, so a new cell gets one full tick at brightest.
-    const int fadeSteps = effectiveFadeSteps();
-    for (auto &column : m_columns) {
-        if (!column.stepNodes)
-            continue;
-        for (int row = 0; row < m_rowCount; row++) {
-            if (!column.visible[row])
-                continue;
-            if (column.spark[row]) {
-                column.spark[row] = 0;
-            } else if (column.age[row] < fadeSteps - 1) {
-                column.age[row] += 1;
-            }
-        }
-    }
-
-    // Spawns run independent of already-running nodes, so sweeps can overlap.
-    for (int c = 0; c < static_cast<int>(m_columns.size()); c++) {
-        Column &column = m_columns[c];
-        if (column.timer > 0) {
-            column.timer -= 1;
-            continue;
-        }
-
-        const bool nowDrawing = column.drawingState != 1;
-        column.drawingState = nowDrawing ? 1 : 0;
-
-        Node node;
-        node.column = c;
-        node.row = 0;
-        node.isWriter = nowDrawing;
-
-        if (nowDrawing) {
-            column.timer =
-                randomInRowFraction(m_eraseDelayMinFrac, m_eraseDelayMaxFrac);
-            const bool spark =
-                QRandomGenerator::global()->generateDouble() < m_sparkChance;
-            writeCell(column, 0, spark);
-        } else {
-            column.timer =
-                randomInRowFraction(m_respawnMinFrac, m_respawnMaxFrac);
-            eraseCell(column, 0);
-        }
-
-        m_nodes.push_back(node);
-    }
-
-    for (auto &node : m_nodes) {
-        if (node.expired)
-            continue;
-        Column &column = m_columns[node.column];
-        if (!column.stepNodes)
-            continue;
-
-        node.row += 1;
-
-        if (node.row >= m_rowCount) {
-            node.expired = true;
-        } else if (node.isWriter) {
-            writeCell(column, node.row, false);
-        } else {
-            eraseCell(column, node.row);
-        }
-    }
-
-    m_nodes.erase(std::remove_if(m_nodes.begin(), m_nodes.end(),
-                                  [](const Node &n) { return n.expired; }),
-                  m_nodes.end());
-
-    // Occasionally re-roll a visible glyph so the rain looks alive.
-    if (m_glyphFlickerChance > 0 && m_rowCount > 0) {
-        for (auto &column : m_columns) {
-            if (QRandomGenerator::global()->generateDouble() >=
-                m_glyphFlickerChance)
-                continue;
-            const int row = static_cast<int>(
-                QRandomGenerator::global()->bounded(m_rowCount));
-            if (column.visible[row])
-                column.glyphIndex[row] = randomGlyphIndex();
-        }
-    }
-
-    update();
-}
-
-void MatrixGrid::rebuildAtlasIfNeeded() {
-    const int glyphCount = std::max(1, static_cast<int>(m_glyphs.size()));
-    const int fadeSteps = effectiveFadeSteps();
-
-    if (!m_atlasDirty && m_atlasTexture &&
-        qFuzzyCompare(m_atlasCellWidth, m_cellWidth) &&
-        qFuzzyCompare(m_atlasCellHeight, m_cellHeight) &&
-        m_atlasGlyphCount == glyphCount && m_atlasFadeSteps == fadeSteps)
+    if (m_buffer.isNull() || m_columns.empty())
         return;
 
-    const int cellW = static_cast<int>(std::ceil(m_cellWidth));
-    const int cellH = static_cast<int>(std::ceil(m_cellHeight));
-    const int atlasRows = 2 * fadeSteps + 1;
+    QPainter painter(&m_buffer);
+    painter.setRenderHint(QPainter::TextAntialiasing, false);
 
-    QImage atlas(cellW * glyphCount, cellH * atlasRows,
-                 QImage::Format_ARGB32_Premultiplied);
-    atlas.fill(Qt::transparent);
-
-    QPainter painter(&atlas);
-    painter.setRenderHint(QPainter::Antialiasing);
-    painter.setRenderHint(QPainter::TextAntialiasing);
+    // DestinationIn decays existing alpha
+    painter.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+    const int residualAlpha =
+        static_cast<int>(255 * std::clamp(1.0 - m_fadeAlpha, 0.0, 1.0));
+    painter.fillRect(m_buffer.rect(), QColor(0, 0, 0, residualAlpha));
+    painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
 
     QFont regularFont = m_font;
     regularFont.setBold(false);
     QFont boldFont = m_font;
     boldFont.setBold(true);
 
-    for (int g = 0; g < glyphCount; g++) {
-        const QString glyph =
-            m_glyphs.isEmpty() ? QString() : QString(m_glyphs.at(g));
+    for (int c = 0; c < m_columnCount; c++) {
+        Column &column = m_columns[c];
+        const qreal x = m_offsetX + c * m_cellWidth * 2;
 
-        const auto drawCell = [&](int atlasRow, const QFont &font,
-                                   const QColor &color) {
-            painter.setFont(font);
-            painter.setPen(color);
-            const QRectF cellRect(g * cellW, atlasRow * cellH, cellW, cellH);
-            painter.drawText(cellRect, Qt::AlignCenter, glyph);
-        };
-
-        for (int age = 0; age < fadeSteps; age++) {
-            QColor color = m_tailColor;
-            if (age == 0) {
-                color = m_headColor;
-            } else {
-                const qreal fade =
-                    1.0 - static_cast<qreal>(age) / static_cast<qreal>(fadeSteps - 1);
-                color.setAlpha(static_cast<int>(m_tailColor.alpha() * fade));
-            }
-            drawCell(age, regularFont, color);
-            drawCell(fadeSteps + age, boldFont, color);
+        if (column.lastHeadValid) {
+            const qreal lastY = m_offsetY + column.lastHeadDrop * m_cellHeight;
+            painter.setFont(regularFont);
+            painter.setPen(m_tailColor);
+            painter.drawText(
+                QRectF(std::round(x), std::round(lastY), m_cellWidth,
+                       m_cellHeight),
+                Qt::AlignCenter, QString(column.lastGlyph));
         }
-        drawCell(2 * fadeSteps, regularFont, Qt::white);
+
+        if (column.drop >= 0) {
+            const qreal y = m_offsetY + column.drop * m_cellHeight;
+            const bool bold =
+                QRandomGenerator::global()->generateDouble() < m_boldChance;
+            const QChar glyph = randomGlyph();
+            painter.setFont(bold ? boldFont : regularFont);
+            painter.setPen(m_headColor);
+            painter.drawText(QRectF(std::round(x), std::round(y), m_cellWidth,
+                                    m_cellHeight),
+                             Qt::AlignCenter, QString(glyph));
+
+            column.lastGlyph = glyph;
+            column.lastHeadDrop = column.drop;
+            column.lastHeadValid = true;
+        } else {
+            column.lastHeadValid = false;
+        }
+
+        column.drop += 1;
+
+        if (column.drop * m_cellHeight > height() &&
+            QRandomGenerator::global()->generateDouble() < m_resetChance) {
+            column.drop = column.everReset
+                              ? -QRandomGenerator::global()->bounded(m_rowCount)
+                              : startDrop();
+            column.everReset = true;
+            column.lastHeadValid = false;
+        }
     }
+
     painter.end();
 
-    delete m_atlasTexture;
-    m_atlasTexture = window()->createTextureFromImage(atlas);
+    delete m_bufferTexture;
+    m_bufferTexture = window()->createTextureFromImage(m_buffer);
 
-    m_atlasCellWidth = m_cellWidth;
-    m_atlasCellHeight = m_cellHeight;
-    m_atlasGlyphCount = glyphCount;
-    m_atlasFadeSteps = fadeSteps;
-    m_atlasDirty = false;
-}
-
-void MatrixGrid::updateRainNode(QSGGeometryNode *node) {
-    if (!node->material()) {
-        auto *material = new QSGTextureMaterial;
-        material->setTexture(m_atlasTexture);
-        material->setFiltering(QSGTexture::Linear);
-        node->setMaterial(material);
-        node->setFlag(QSGNode::OwnsMaterial);
-    } else {
-        static_cast<QSGTextureMaterial *>(node->material())
-            ->setTexture(m_atlasTexture);
-    }
-
-    auto *geometry = node->geometry();
-    if (!geometry) {
-        geometry = new QSGGeometry(QSGGeometry::defaultAttributes_TexturedPoint2D(),
-                                    0);
-        geometry->setDrawingMode(QSGGeometry::DrawTriangles);
-        node->setGeometry(geometry);
-        node->setFlag(QSGNode::OwnsGeometry);
-    }
-
-    const qreal atlasWidth = m_atlasCellWidth * m_atlasGlyphCount;
-    const qreal atlasHeight = m_atlasCellHeight * (2 * m_atlasFadeSteps + 1);
-
-    // Center the grid; content width excludes the gap after the last column.
-    const qreal contentWidth = m_columnCount * m_cellWidth * 2 - m_cellWidth;
-    const qreal offsetX = (width() - contentWidth) / 2.0;
-    const qreal offsetY = (height() - m_rowCount * m_cellHeight) / 2.0;
-
-    std::vector<QSGGeometry::TexturedPoint2D> built;
-    built.reserve(m_columns.size() * m_rowCount * 6);
-
-    for (int c = 0; c < static_cast<int>(m_columns.size()); c++) {
-        const auto &column = m_columns[c];
-
-        for (int row = 0; row < m_rowCount; row++) {
-            if (!column.visible[row])
-                continue;
-
-            const int glyphIndex = column.glyphIndex[row];
-            const int atlasRow = atlasRowFor(column.spark[row], column.bold[row],
-                                              column.age[row]);
-
-            const qreal tx1 = (glyphIndex * m_atlasCellWidth) / atlasWidth;
-            const qreal tx2 =
-                ((glyphIndex + 1) * m_atlasCellWidth) / atlasWidth;
-            const qreal ty1 = (atlasRow * m_atlasCellHeight) / atlasHeight;
-            const qreal ty2 = ((atlasRow + 1) * m_atlasCellHeight) / atlasHeight;
-
-            const qreal x1 = offsetX + c * m_cellWidth * 2;
-            const qreal x2 = x1 + m_cellWidth;
-            const qreal y1 = offsetY + row * m_cellHeight;
-            const qreal y2 = y1 + m_cellHeight;
-
-            QSGGeometry::TexturedPoint2D v;
-            v.set(x1, y1, tx1, ty1);
-            built.push_back(v);
-            v.set(x1, y2, tx1, ty2);
-            built.push_back(v);
-            v.set(x2, y1, tx2, ty1);
-            built.push_back(v);
-            v.set(x1, y2, tx1, ty2);
-            built.push_back(v);
-            v.set(x2, y2, tx2, ty2);
-            built.push_back(v);
-            v.set(x2, y1, tx2, ty1);
-            built.push_back(v);
-        }
-    }
-
-    geometry->allocate(static_cast<int>(built.size()));
-    if (!built.empty())
-        std::copy(built.begin(), built.end(),
-                   geometry->vertexDataAsTexturedPoint2D());
-
-    node->markDirty(QSGNode::DirtyGeometry | QSGNode::DirtyMaterial);
+    update();
 }
 
 QSGNode *MatrixGrid::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *) {
-    rebuildAtlasIfNeeded();
+    auto *node = static_cast<QSGSimpleTextureNode *>(oldNode);
+    if (!node) {
+        node = new QSGSimpleTextureNode;
+        node->setFiltering(QSGTexture::Linear);
+    }
 
-    auto *node = static_cast<QSGGeometryNode *>(oldNode);
-    if (!node)
-        node = new QSGGeometryNode;
-
-    updateRainNode(node);
+    // MatrixGrid owns the texture and replaces it every tick
+    if (m_bufferTexture) {
+        node->setTexture(m_bufferTexture);
+        node->setRect(0, 0, width(), height());
+    }
 
     return node;
 }

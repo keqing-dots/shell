@@ -19,10 +19,7 @@ QtObject {
 
     // Rain
     readonly property real boldChance: 0.5
-    readonly property real eraseDelayMaxFrac: 1.0
-    readonly property real eraseDelayMinFrac: 0.3
-    readonly property real fadeStepsFrac: 0.2
-    readonly property real glyphFlickerChance: 0.05
+    readonly property real fadeAlpha: 0.08
     readonly property int fallIntervalMs: 45
     readonly property string glyphPool: {
         var katakana = "";
@@ -32,14 +29,7 @@ QtObject {
         var symbols = "-=*_+|:<>\"";
         return katakana + numbers.repeat(2) + symbols.repeat(4);
     }
-    readonly property real respawnMaxFrac: 0.5
-    readonly property real respawnMinFrac: 0.05
-    readonly property real sparkChance: 0.33
-    readonly property int speedVarianceTicks: 3
-
-    // Sweep
-    readonly property int sweepDurationMs: 1000
-    readonly property int sweepFadeMultiplier: 5
+    readonly property real resetChance: 0.025
 
     // Window
     readonly property int contentFadeAnimMs: 200

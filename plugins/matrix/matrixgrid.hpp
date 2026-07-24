@@ -4,6 +4,7 @@
 
 #include <qcolor.h>
 #include <qfont.h>
+#include <qimage.h>
 #include <qqmlintegration.h>
 #include <qquickitem.h>
 #include <qsgtexture.h>
@@ -22,34 +23,18 @@ class MatrixGrid : public QQuickItem {
                    cellWidthChanged)
     Q_PROPERTY(qreal cellHeight READ cellHeight WRITE setCellHeight NOTIFY
                    cellHeightChanged)
-    Q_PROPERTY(int fallIntervalMs READ fallIntervalMs WRITE setFallIntervalMs
-                   NOTIFY fallIntervalMsChanged)
-    Q_PROPERTY(int speedVarianceTicks READ speedVarianceTicks WRITE
-                   setSpeedVarianceTicks NOTIFY speedVarianceTicksChanged)
-    Q_PROPERTY(qreal glyphFlickerChance READ glyphFlickerChance WRITE
-                   setGlyphFlickerChance NOTIFY glyphFlickerChanceChanged)
-    Q_PROPERTY(qreal boldChance READ boldChance WRITE setBoldChance NOTIFY
-                   boldChanceChanged)
-    Q_PROPERTY(qreal sparkChance READ sparkChance WRITE setSparkChance NOTIFY
-                   sparkChanceChanged)
-    Q_PROPERTY(qreal fadeStepsFrac READ fadeStepsFrac WRITE setFadeStepsFrac
-                   NOTIFY fadeStepsFracChanged)
-    Q_PROPERTY(qreal eraseDelayMinFrac READ eraseDelayMinFrac WRITE
-                   setEraseDelayMinFrac NOTIFY eraseDelayMinFracChanged)
-    Q_PROPERTY(qreal eraseDelayMaxFrac READ eraseDelayMaxFrac WRITE
-                   setEraseDelayMaxFrac NOTIFY eraseDelayMaxFracChanged)
-    Q_PROPERTY(qreal respawnMinFrac READ respawnMinFrac WRITE setRespawnMinFrac
-                   NOTIFY respawnMinFracChanged)
-    Q_PROPERTY(qreal respawnMaxFrac READ respawnMaxFrac WRITE setRespawnMaxFrac
-                   NOTIFY respawnMaxFracChanged)
-    Q_PROPERTY(qreal sweepProgress READ sweepProgress WRITE setSweepProgress
-                   NOTIFY sweepProgressChanged)
-    Q_PROPERTY(int sweepFadeMultiplier READ sweepFadeMultiplier WRITE
-                   setSweepFadeMultiplier NOTIFY sweepFadeMultiplierChanged)
     Q_PROPERTY(QColor headColor READ headColor WRITE setHeadColor NOTIFY
                    headColorChanged)
     Q_PROPERTY(QColor tailColor READ tailColor WRITE setTailColor NOTIFY
                    tailColorChanged)
+    Q_PROPERTY(qreal fadeAlpha READ fadeAlpha WRITE setFadeAlpha NOTIFY
+                   fadeAlphaChanged)
+    Q_PROPERTY(int fallIntervalMs READ fallIntervalMs WRITE setFallIntervalMs
+                   NOTIFY fallIntervalMsChanged)
+    Q_PROPERTY(qreal resetChance READ resetChance WRITE setResetChance NOTIFY
+                   resetChanceChanged)
+    Q_PROPERTY(qreal boldChance READ boldChance WRITE setBoldChance NOTIFY
+                   boldChanceChanged)
     Q_PROPERTY(
         bool running READ isRunning WRITE setRunning NOTIFY runningChanged)
 
@@ -69,57 +54,23 @@ class MatrixGrid : public QQuickItem {
     [[nodiscard]] qreal cellHeight() const { return m_cellHeight; }
     void setCellHeight(qreal height);
 
-    [[nodiscard]] int fallIntervalMs() const { return m_fallIntervalMs; }
-    void setFallIntervalMs(int ms);
-
-    [[nodiscard]] int speedVarianceTicks() const {
-        return m_speedVarianceTicks;
-    }
-    void setSpeedVarianceTicks(int ticks);
-
-    [[nodiscard]] qreal glyphFlickerChance() const {
-        return m_glyphFlickerChance;
-    }
-    void setGlyphFlickerChance(qreal chance);
-
-    [[nodiscard]] qreal boldChance() const { return m_boldChance; }
-    void setBoldChance(qreal chance);
-
-    [[nodiscard]] qreal sparkChance() const { return m_sparkChance; }
-    void setSparkChance(qreal chance);
-
-    [[nodiscard]] qreal fadeStepsFrac() const { return m_fadeStepsFrac; }
-    void setFadeStepsFrac(qreal frac);
-
-    [[nodiscard]] qreal eraseDelayMinFrac() const {
-        return m_eraseDelayMinFrac;
-    }
-    void setEraseDelayMinFrac(qreal frac);
-
-    [[nodiscard]] qreal eraseDelayMaxFrac() const {
-        return m_eraseDelayMaxFrac;
-    }
-    void setEraseDelayMaxFrac(qreal frac);
-
-    [[nodiscard]] qreal respawnMinFrac() const { return m_respawnMinFrac; }
-    void setRespawnMinFrac(qreal frac);
-
-    [[nodiscard]] qreal respawnMaxFrac() const { return m_respawnMaxFrac; }
-    void setRespawnMaxFrac(qreal frac);
-
-    [[nodiscard]] qreal sweepProgress() const { return m_sweepProgress; }
-    void setSweepProgress(qreal progress);
-
-    [[nodiscard]] int sweepFadeMultiplier() const {
-        return m_sweepFadeMultiplier;
-    }
-    void setSweepFadeMultiplier(int multiplier);
-
     [[nodiscard]] QColor headColor() const { return m_headColor; }
     void setHeadColor(const QColor &color);
 
     [[nodiscard]] QColor tailColor() const { return m_tailColor; }
     void setTailColor(const QColor &color);
+
+    [[nodiscard]] qreal fadeAlpha() const { return m_fadeAlpha; }
+    void setFadeAlpha(qreal alpha);
+
+    [[nodiscard]] int fallIntervalMs() const { return m_fallIntervalMs; }
+    void setFallIntervalMs(int ms);
+
+    [[nodiscard]] qreal resetChance() const { return m_resetChance; }
+    void setResetChance(qreal chance);
+
+    [[nodiscard]] qreal boldChance() const { return m_boldChance; }
+    void setBoldChance(qreal chance);
 
     [[nodiscard]] bool isRunning() const { return m_running; }
     void setRunning(bool running);
@@ -129,21 +80,12 @@ class MatrixGrid : public QQuickItem {
     void fontChanged();
     void cellWidthChanged();
     void cellHeightChanged();
-    void fallIntervalMsChanged();
-    void speedVarianceTicksChanged();
-    void glyphFlickerChanceChanged();
-    void boldChanceChanged();
-    void sparkChanceChanged();
-    void fadeStepsFracChanged();
-    void eraseDelayMinFracChanged();
-    void eraseDelayMaxFracChanged();
-    void respawnMinFracChanged();
-    void respawnMaxFracChanged();
-    void sweepProgressChanged();
-    void sweepFadeMultiplierChanged();
-    void sweepStarted();
     void headColorChanged();
     void tailColorChanged();
+    void fadeAlphaChanged();
+    void fallIntervalMsChanged();
+    void resetChanceChanged();
+    void boldChanceChanged();
     void runningChanged();
 
   protected:
@@ -156,78 +98,40 @@ class MatrixGrid : public QQuickItem {
     void onTick();
 
   private:
-    // Spawn scheduler only, so overlapping sweeps stay possible.
+    // Per-column state for the accumulation-buffer rain effect.
     struct Column {
-        int drawingState = -1; // -1 = not yet started
-        int timer = 0;
-
-        int speed = 1; // shared by this column's nodes so they stay in lockstep
-        int wait = 0;
-        bool stepNodes = false; // computed once per tick in onTick
-
-        // Persists like curses' screen buffer - cells stay until overwritten.
-        std::vector<int> glyphIndex;
-        std::vector<uint8_t> age;    // 0 = just written, caps at fadeSteps - 1
-        std::vector<uint8_t> bold;
-        std::vector<uint8_t> spark;  // one-tick flash, consumed next step
-        std::vector<uint8_t> visible;
-    };
-
-    // A moving point (writer draws, eraser clears); several can share a column.
-    struct Node {
-        int column = 0;
-        int row = 0;
-        bool isWriter = true;
-        bool expired = false;
+        qreal drop = 0;
+        bool everReset = false;
+        qreal lastHeadDrop = 0;
+        QChar lastGlyph;
+        bool lastHeadValid = false;
     };
 
     void rebuildGrid();
-    void writeCell(Column &column, int row, bool spark) const;
-    void eraseCell(Column &column, int row) const;
-    int atlasRowFor(bool spark, bool bold, int age) const;
-    int effectiveFadeSteps() const;
-    int randomGlyphIndex() const;
-    int randomSpeed() const;
-    int randomInRowFraction(qreal minFrac, qreal maxFrac) const;
-    void markAtlasDirty();
-    void rebuildAtlasIfNeeded();
-    void updateRainNode(QSGGeometryNode *node);
+    qreal startDrop() const;
+    QChar randomGlyph() const;
 
     QString m_glyphs;
     QFont m_font;
     qreal m_cellWidth = 16;
     qreal m_cellHeight = 18;
-    int m_fallIntervalMs = 45;
-    int m_speedVarianceTicks = 3;
-    qreal m_glyphFlickerChance = 0.05;
-    qreal m_boldChance = 0.5;
-    qreal m_sparkChance = 0.33;
-    qreal m_fadeStepsFrac = 0.6;
-    qreal m_eraseDelayMinFrac = 0.3;
-    qreal m_eraseDelayMaxFrac = 1.0;
-    qreal m_respawnMinFrac = 0.05;
-    qreal m_respawnMaxFrac = 0.5;
-    int m_sweepFadeMultiplier = 5;
     QColor m_headColor = Qt::white;
-    QColor m_tailColor = Qt::transparent;
+    QColor m_tailColor = Qt::gray;
+    qreal m_fadeAlpha = 0.05;
+    int m_fallIntervalMs = 33;
+    qreal m_resetChance = 0.025;
+    qreal m_boldChance = 0.5;
     bool m_running = false;
 
     QTimer m_tickTimer;
     std::vector<Column> m_columns;
-    std::vector<Node> m_nodes;
     int m_columnCount = 0;
     int m_rowCount = 0;
+    qreal m_offsetX = 0;
+    qreal m_offsetY = 0;
 
-    bool m_sweeping = false;
-    int m_sweepRow = -1; // last row lit across every column, -1 = none yet
-    qreal m_sweepProgress = 0;
-
-    bool m_atlasDirty = true;
-    QSGTexture *m_atlasTexture = nullptr;
-    qreal m_atlasCellWidth = 0;
-    qreal m_atlasCellHeight = 0;
-    int m_atlasGlyphCount = 0;
-    int m_atlasFadeSteps = 0;
+    QImage m_buffer;
+    QSGTexture *m_bufferTexture = nullptr;
 };
 
 } // namespace keqingshell

@@ -43,35 +43,15 @@ FloatingWindow {
             boldChance: MatrixConfig.boldChance
             cellHeight: MatrixConfig.cellHeight
             cellWidth: MatrixConfig.cellWidth
-            eraseDelayMaxFrac: MatrixConfig.eraseDelayMaxFrac
-            eraseDelayMinFrac: MatrixConfig.eraseDelayMinFrac
-            fadeStepsFrac: MatrixConfig.fadeStepsFrac
+            fadeAlpha: MatrixConfig.fadeAlpha
             fallIntervalMs: MatrixConfig.fallIntervalMs
             font.family: FontConfig.fontFamily
             font.pixelSize: MatrixConfig.fontPixelSize
-            glyphFlickerChance: MatrixConfig.glyphFlickerChance
             glyphs: MatrixConfig.glyphPool
             headColor: ColorConfig.text
-            respawnMaxFrac: MatrixConfig.respawnMaxFrac
-            respawnMinFrac: MatrixConfig.respawnMinFrac
+            resetChance: MatrixConfig.resetChance
             running: window.isOpen
-            sparkChance: MatrixConfig.sparkChance
-            speedVarianceTicks: MatrixConfig.speedVarianceTicks
-            sweepFadeMultiplier: MatrixConfig.sweepFadeMultiplier
             tailColor: ColorConfig.accent
-
-            onSweepStarted: sweepAnimation.restart()
-
-            NumberAnimation {
-                id: sweepAnimation
-
-                duration: MatrixConfig.sweepDurationMs
-                easing.type: Easing.Linear
-                from: 0
-                property: "sweepProgress"
-                target: grid
-                to: 1
-            }
         }
     }
 }
