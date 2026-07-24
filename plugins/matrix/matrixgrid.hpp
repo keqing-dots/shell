@@ -3,7 +3,6 @@
 #include <vector>
 
 #include <qcolor.h>
-#include <qelapsedtimer.h>
 #include <qfont.h>
 #include <qqmlintegration.h>
 #include <qquickitem.h>
@@ -43,8 +42,10 @@ class MatrixGrid : public QQuickItem {
                    NOTIFY respawnMinFracChanged)
     Q_PROPERTY(qreal respawnMaxFrac READ respawnMaxFrac WRITE setRespawnMaxFrac
                    NOTIFY respawnMaxFracChanged)
-    Q_PROPERTY(int sweepDurationMs READ sweepDurationMs WRITE
-                   setSweepDurationMs NOTIFY sweepDurationMsChanged)
+    Q_PROPERTY(qreal sweepProgress READ sweepProgress WRITE setSweepProgress
+                   NOTIFY sweepProgressChanged)
+    Q_PROPERTY(int sweepFadeMultiplier READ sweepFadeMultiplier WRITE
+                   setSweepFadeMultiplier NOTIFY sweepFadeMultiplierChanged)
     Q_PROPERTY(QColor headColor READ headColor WRITE setHeadColor NOTIFY
                    headColorChanged)
     Q_PROPERTY(QColor tailColor READ tailColor WRITE setTailColor NOTIFY
@@ -106,8 +107,13 @@ class MatrixGrid : public QQuickItem {
     [[nodiscard]] qreal respawnMaxFrac() const { return m_respawnMaxFrac; }
     void setRespawnMaxFrac(qreal frac);
 
-    [[nodiscard]] int sweepDurationMs() const { return m_sweepDurationMs; }
-    void setSweepDurationMs(int ms);
+    [[nodiscard]] qreal sweepProgress() const { return m_sweepProgress; }
+    void setSweepProgress(qreal progress);
+
+    [[nodiscard]] int sweepFadeMultiplier() const {
+        return m_sweepFadeMultiplier;
+    }
+    void setSweepFadeMultiplier(int multiplier);
 
     [[nodiscard]] QColor headColor() const { return m_headColor; }
     void setHeadColor(const QColor &color);
@@ -133,7 +139,9 @@ class MatrixGrid : public QQuickItem {
     void eraseDelayMaxFracChanged();
     void respawnMinFracChanged();
     void respawnMaxFracChanged();
-    void sweepDurationMsChanged();
+    void sweepProgressChanged();
+    void sweepFadeMultiplierChanged();
+    void sweepStarted();
     void headColorChanged();
     void tailColorChanged();
     void runningChanged();
@@ -146,7 +154,6 @@ class MatrixGrid : public QQuickItem {
 
   private slots:
     void onTick();
-    void onSweepTick();
 
   private:
     // Spawn scheduler only, so overlapping sweeps stay possible.
@@ -200,7 +207,7 @@ class MatrixGrid : public QQuickItem {
     qreal m_eraseDelayMaxFrac = 1.0;
     qreal m_respawnMinFrac = 0.05;
     qreal m_respawnMaxFrac = 0.5;
-    int m_sweepDurationMs = 500;
+    int m_sweepFadeMultiplier = 5;
     QColor m_headColor = Qt::white;
     QColor m_tailColor = Qt::transparent;
     bool m_running = false;
@@ -213,8 +220,7 @@ class MatrixGrid : public QQuickItem {
 
     bool m_sweeping = false;
     int m_sweepRow = -1; // last row lit across every column, -1 = none yet
-    QElapsedTimer m_sweepClock;
-    QTimer m_sweepTimer;
+    qreal m_sweepProgress = 0;
 
     bool m_atlasDirty = true;
     QSGTexture *m_atlasTexture = nullptr;

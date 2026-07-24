@@ -37,6 +37,8 @@ FloatingWindow {
         }
 
         MatrixGrid {
+            id: grid
+
             anchors.fill: parent
             boldChance: MatrixConfig.boldChance
             cellHeight: MatrixConfig.cellHeight
@@ -55,8 +57,21 @@ FloatingWindow {
             running: window.isOpen
             sparkChance: MatrixConfig.sparkChance
             speedVarianceTicks: MatrixConfig.speedVarianceTicks
-            sweepDurationMs: MatrixConfig.sweepDurationMs
+            sweepFadeMultiplier: MatrixConfig.sweepFadeMultiplier
             tailColor: ColorConfig.accent
+
+            onSweepStarted: sweepAnimation.restart()
+
+            NumberAnimation {
+                id: sweepAnimation
+
+                duration: MatrixConfig.sweepDurationMs
+                easing.type: Easing.Linear
+                from: 0
+                property: "sweepProgress"
+                target: grid
+                to: 1
+            }
         }
     }
 }

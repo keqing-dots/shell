@@ -21,7 +21,7 @@ QtObject {
     readonly property real boldChance: 0.5
     readonly property real eraseDelayMaxFrac: 1.0
     readonly property real eraseDelayMinFrac: 0.3
-    readonly property real fadeStepsFrac: 0.6
+    readonly property real fadeStepsFrac: 0.2
     readonly property real glyphFlickerChance: 0.05
     readonly property int fallIntervalMs: 45
     readonly property string glyphPool: {
@@ -39,6 +39,7 @@ QtObject {
 
     // Sweep
     readonly property int sweepDurationMs: 1000
+    readonly property int sweepFadeMultiplier: 5
 
     // Window
     readonly property int contentFadeAnimMs: 200

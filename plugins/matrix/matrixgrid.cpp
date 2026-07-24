@@ -17,9 +17,6 @@ MatrixGrid::MatrixGrid(QQuickItem *parent) : QQuickItem(parent) {
 
     m_tickTimer.setInterval(m_fallIntervalMs);
     connect(&m_tickTimer, &QTimer::timeout, this, &MatrixGrid::onTick);
-
-    m_sweepTimer.setInterval(16);
-    connect(&m_sweepTimer, &QTimer::timeout, this, &MatrixGrid::onSweepTick);
 }
 
 MatrixGrid::~MatrixGrid() { delete m_atlasTexture; }
@@ -131,12 +128,51 @@ void MatrixGrid::setRespawnMaxFrac(qreal frac) {
     emit respawnMaxFracChanged();
 }
 
-void MatrixGrid::setSweepDurationMs(int ms) {
-    ms = std::max(1, ms);
-    if (m_sweepDurationMs == ms)
+void MatrixGrid::setSweepProgress(qreal progress) {
+    progress = std::clamp(progress, 0.0, 1.0);
+    if (!m_sweeping || qFuzzyCompare(m_sweepProgress, progress))
         return;
-    m_sweepDurationMs = ms;
-    emit sweepDurationMsChanged();
+    m_sweepProgress = progress;
+    emit sweepProgressChanged();
+
+    const int targetRow =
+        std::min(m_rowCount - 1, static_cast<int>(progress * m_rowCount));
+
+    // Age rows the wavefront already lit, faster than the rain so nothing lingers.
+    const int fadeSteps = effectiveFadeSteps();
+    for (auto &column : m_columns) {
+        for (int row = 0; row <= m_sweepRow && row < m_rowCount; row++) {
+            if (!column.visible[row])
+                continue;
+            if (column.spark[row])
+                column.spark[row] = 0;
+            else if (column.age[row] < fadeSteps - 1)
+                column.age[row] = static_cast<uint8_t>(std::min(
+                    fadeSteps - 1, column.age[row] + m_sweepFadeMultiplier));
+        }
+    }
+
+    // Light every column at once per row - a synchronized wavefront.
+    for (int row = m_sweepRow + 1; row <= targetRow; row++) {
+        for (auto &column : m_columns)
+            writeCell(column, row, false);
+    }
+    m_sweepRow = std::max(m_sweepRow, targetRow);
+
+    if (progress >= 1.0) {
+        m_sweeping = false;
+        m_tickTimer.start();
+    }
+
+    update();
+}
+
+void MatrixGrid::setSweepFadeMultiplier(int multiplier) {
+    multiplier = std::max(1, multiplier);
+    if (m_sweepFadeMultiplier == multiplier)
+        return;
+    m_sweepFadeMultiplier = multiplier;
+    emit sweepFadeMultiplierChanged();
 }
 
 void MatrixGrid::setHeadColor(const QColor &color) {
@@ -165,7 +201,6 @@ void MatrixGrid::setRunning(bool running) {
         rebuildGrid(); // also starts the sweep, since m_running is already true
     } else {
         m_tickTimer.stop();
-        m_sweepTimer.stop();
         m_sweeping = false;
         update();
     }
@@ -268,12 +303,15 @@ void MatrixGrid::rebuildGrid() {
     }
 
     if (m_running) {
-        // Rain waits for the intro sweep to finish before it starts.
+        // Rain waits for the sweep; QML animates sweepProgress smoothly.
         m_tickTimer.stop();
         m_sweeping = true;
         m_sweepRow = -1;
-        m_sweepClock.restart();
-        m_sweepTimer.start();
+        if (!qFuzzyCompare(m_sweepProgress, 0.0)) {
+            m_sweepProgress = 0.0;
+            emit sweepProgressChanged();
+        }
+        emit sweepStarted();
     }
 
     update();
@@ -376,42 +414,6 @@ void MatrixGrid::onTick() {
     update();
 }
 
-void MatrixGrid::onSweepTick() {
-    const qreal elapsed = static_cast<qreal>(m_sweepClock.elapsed());
-    const qreal progress =
-        std::clamp(elapsed / static_cast<qreal>(std::max(1, m_sweepDurationMs)),
-                   0.0, 1.0);
-    const int targetRow =
-        std::min(m_rowCount - 1, static_cast<int>(progress * m_rowCount));
-
-    // Age rows the wavefront already lit, same rule as the rain uses.
-    const int fadeSteps = effectiveFadeSteps();
-    for (auto &column : m_columns) {
-        for (int row = 0; row <= m_sweepRow && row < m_rowCount; row++) {
-            if (!column.visible[row])
-                continue;
-            if (column.spark[row])
-                column.spark[row] = 0;
-            else if (column.age[row] < fadeSteps - 1)
-                column.age[row] += 1;
-        }
-    }
-
-    // Light every column at once per row - a synchronized wavefront.
-    for (int row = m_sweepRow + 1; row <= targetRow; row++) {
-        for (auto &column : m_columns)
-            writeCell(column, row, false);
-    }
-    m_sweepRow = std::max(m_sweepRow, targetRow);
-
-    if (elapsed >= m_sweepDurationMs) {
-        m_sweeping = false;
-        m_sweepTimer.stop();
-        m_tickTimer.start();
-    }
-    update();
-}
-
 void MatrixGrid::rebuildAtlasIfNeeded() {
     const int glyphCount = std::max(1, static_cast<int>(m_glyphs.size()));
     const int fadeSteps = effectiveFadeSteps();
@@ -501,8 +503,9 @@ void MatrixGrid::updateRainNode(QSGGeometryNode *node) {
     const qreal atlasWidth = m_atlasCellWidth * m_atlasGlyphCount;
     const qreal atlasHeight = m_atlasCellHeight * (2 * m_atlasFadeSteps + 1);
 
-    // Center the grid so leftover space splits evenly, not just bottom-right.
-    const qreal offsetX = (width() - m_columnCount * m_cellWidth * 2) / 2.0;
+    // Center the grid; content width excludes the gap after the last column.
+    const qreal contentWidth = m_columnCount * m_cellWidth * 2 - m_cellWidth;
+    const qreal offsetX = (width() - contentWidth) / 2.0;
     const qreal offsetY = (height() - m_rowCount * m_cellHeight) / 2.0;
 
     std::vector<QSGGeometry::TexturedPoint2D> built;
