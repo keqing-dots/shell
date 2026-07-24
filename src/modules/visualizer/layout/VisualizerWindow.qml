@@ -15,9 +15,9 @@ FloatingWindow {
     required property bool isOpen
 
     color: VisualizerConfig.windowBackground
-    height: VisualizerConfig.defaultWindowHeight
+    implicitHeight: VisualizerConfig.defaultWindowHeight
+    implicitWidth: VisualizerConfig.barCount * VisualizerConfig.barWidth + (VisualizerConfig.barCount - 1) * VisualizerConfig.barSpacing
     visible: content.opacity > 0 || window.isOpen
-    width: VisualizerConfig.barCount * VisualizerConfig.barWidth + (VisualizerConfig.barCount - 1) * VisualizerConfig.barSpacing
 
     // Spectrum
     PwSpectrum {

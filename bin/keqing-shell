@@ -34,6 +34,7 @@ cat <<'EOF'
         launcher            Toggle launcher
         lock                Toggle lock screen
         logout              Toggle logout screen
+        matrix              Toggle matrix rain window
         overview            Toggle windows overview
         settings            Toggle settings panel
         visualizer          Toggle visualizer window
@@ -57,9 +58,9 @@ restart() {
             rebuild) _rebuild=1 ;;
         esac
     done
-    [[ $_rebuild -eq 1 ]] && build
     _qs kill >/dev/null 2>&1 || true
     sleep 1
+    [[ $_rebuild -eq 1 ]] && build
     [[ $_debug -eq 1 ]] && _qs || _qs -d >/dev/null 2>&1
 }
 reset() {
@@ -96,6 +97,7 @@ controlcenter() { _ipc controlcenter; }
 launcher()      { _ipc launcher; }
 lock()          { _ipc lock; }
 logout()        { _ipc logout; }
+matrix()        { _ipc matrix; }
 overview()      { _ipc overview; }
 settings()      { _ipc settings; }
 visualizer()    { _ipc visualizer; }

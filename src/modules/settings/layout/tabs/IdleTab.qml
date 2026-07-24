@@ -178,7 +178,7 @@ Flickable {
                         min: 10,
                         max: 1800,
                         step: 1,
-                        defaultVal: 180
+                        defaultVal: 150
                     },
                     {
                         label: "Screensaver",

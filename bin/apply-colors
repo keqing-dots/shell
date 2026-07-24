@@ -116,7 +116,6 @@ apply() {
 C="$HOME/.config"
 
 apply btop       btop.theme.tmpl            "$C/btop/themes/keqing.theme"
-apply cava       cava.conf.tmpl             "$C/cava/config"                              "pkill -USR1 cava"
 apply fastfetch  fastfetch.jsonc.tmpl       "$C/fastfetch/config.jsonc"
 apply kitty      kitty.conf.tmpl            "$C/kitty/current-theme.conf"                 "pkill -USR1 kitty"
 apply starship   starship.toml.tmpl         "$C/starship.toml"

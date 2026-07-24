@@ -23,6 +23,9 @@ Command: `/usr/lib/qt6/bin/qmlformat --normalize --single-line-empty-objects --i
 - `**Config.qml`: grouping comments required to separate sections.
 - Non-config files: no comments unless the WHY is non-obvious.
 
+## CPP commenting style
+- Add one-line short comments to explain the "why", not the "how"
+
 ## Tooling rules
 - Never use awk to deduplicate imports or lines, it silently drops identical closing braces and corrupts file structure.
 - Use targeted find-and-replace to remove specific lines.

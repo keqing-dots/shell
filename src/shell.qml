@@ -13,6 +13,7 @@ import qs.modules.idle
 import qs.modules.launcher
 import qs.modules.lock
 import qs.modules.logout
+import qs.modules.matrix
 import qs.modules.notification
 import qs.modules.osd
 import qs.modules.settings
@@ -71,6 +72,15 @@ ShellRoot {
         }
     }
     ModuleLoader {
+        id: matrix
+
+        module: "matrix"
+
+        sourceComp: Component {
+            Matrix {}
+        }
+    }
+    ModuleLoader {
         id: overview
 
         module: "overview"
@@ -123,6 +133,11 @@ ShellRoot {
         module: "settings"
 
         onToggle: settings.toggle()
+    }
+    ModuleHandler {
+        module: "matrix"
+
+        onToggle: matrix.toggle()
     }
     ModuleHandler {
         module: "overview"

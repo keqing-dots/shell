@@ -324,7 +324,7 @@ void PwSpectrum::processFrame() {
     for (int i = 0; i < m_bars; i++) {
         float maxMagSq = 0.0f;
         for (int bin = m_binLow[i]; bin <= m_binHigh[i]; bin++) {
-            // std::norm calculates magnitude squared for complex numbers
+            // Compare squared magnitudes; sqrt once below avoids doing it per bin.
             float magSq = std::norm(m_fftOut[bin]);
             if (magSq > maxMagSq)
                 maxMagSq = magSq;

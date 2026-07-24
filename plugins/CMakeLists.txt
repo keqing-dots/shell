@@ -8,4 +8,5 @@ if(NOT DEFINED INSTALL_QMLDIR)
     set(INSTALL_QMLDIR "lib/qt6/qml")
 endif()
 
+add_subdirectory(matrix)
 add_subdirectory(visualizer)
